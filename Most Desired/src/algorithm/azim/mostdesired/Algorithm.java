@@ -56,14 +56,10 @@ public abstract class Algorithm {
 		maxUselessIterations = error;
 		DataReader dr = new DataReader(fileName);
 		
-		
-	
 		//get the full graph as it was read form the input file
 		nodesList_Out = dr.getNodesList_Out();
 		nodesList_In  = dr.getNodesList_In(); 
 		System.out.println("\n\n nodesList.size():" + nodesList_Out.size());
-		
-		
 		
 		ArrayList<Integer> s = new ArrayList<Integer>();
 		
@@ -74,8 +70,6 @@ public abstract class Algorithm {
 		for(int i = 0 ; i < s.size(); i++){
 			System.out.println(i + ": " + s.get(i));
 		}
-		
-		
 		
 		return s;
 	}
@@ -205,7 +199,8 @@ public abstract class Algorithm {
 		
 		int progress = 0;
 		Random random = new Random();
-		progressMonitor.progressUpdated(progress);
+		if(progressMonitor != null)
+			progressMonitor.progressUpdated(progress);
 		
 		
 		ArrayList<Integer> indices = new ArrayList<Integer>(nodes_In.size());//indices of elements in sssCloned
@@ -289,7 +284,8 @@ public abstract class Algorithm {
 				
 			}//ENF of inner loop
 			progress += random.nextInt(10);
-			progressMonitor.progressUpdated(Math.min(progress, 100));
+			if(progressMonitor != null)
+				progressMonitor.progressUpdated(Math.min(progress, 100));
 		}//END of outer loop
 		
 		

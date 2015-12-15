@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import InputData.azim.mostdesired.DataReader;
-import model.mostWanted.sVertex;
+import model.mostDesired.sVertex;
 import supplementaryClasses.azim.mostdesired.NodeAndWeight;
 
 public class ViewGraphFrame extends JFrame {

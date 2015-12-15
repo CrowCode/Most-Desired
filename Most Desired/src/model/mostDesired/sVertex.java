@@ -1,4 +1,4 @@
-package model.mostWanted;
+package model.mostDesired;
 
 import java.util.ArrayList;
 
