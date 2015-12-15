@@ -47,13 +47,11 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 
 	public ViewGraphPanel(Dimension d, ArrayList<sVertex> sVertices) {
 
-		// int w = (int) d.getWidth();
-		// int h = (int) d.getHeight();
 		this.sVertices = sVertices;
 
 		mouseStartPoint = new Point();
-		setPreferredSize(new Dimension(1200, 1200));
-
+		// setPreferredSize(new Dimension(1200, 1200));
+		setPreferredSize(d);
 		prepareVertices(sVertices);
 
 		for (final Vertex v : vertices) {
@@ -132,7 +130,7 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 			popup(g2, (int) v.getX(), (int) v.getY());
 			g2.setStroke(new BasicStroke(5));
 			g2.setColor(Color.GREEN);
-			for (Integer svid: sv.getNeibors()) {
+			for (Integer svid : sv.getNeibors()) {
 				g2.draw(vertices.get(svid));
 			}
 		}
@@ -208,11 +206,11 @@ class PopUpDemo extends JPopupMenu {
 	public PopUpDemo() {
 		anItem = new JMenuItem("Run the ALGORITHM ...");
 		anItem.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("I am CLICKED ...");
-				
+
 			}
 		});
 		add(anItem);
@@ -223,17 +221,17 @@ class PopClickListener extends MouseAdapter {
 	public void mousePressed(MouseEvent e) {
 		if (e.isPopupTrigger()) {
 			doPop(e);
-			
+
 		}
-			
+
 	}
 
 	public void mouseReleased(MouseEvent e) {
-		if (e.isPopupTrigger()){
+		if (e.isPopupTrigger()) {
 			doPop(e);
-			
+
 		}
-		
+
 	}
 
 	private void doPop(MouseEvent e) {
@@ -241,4 +239,3 @@ class PopClickListener extends MouseAdapter {
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
 }
-

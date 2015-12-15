@@ -285,18 +285,18 @@ public class MainFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			SwingUtilities.invokeLater(new Runnable() {
-
 				@Override
 				public void run() {
 
-					new ViewGraphFrame(filenameTxtfield.getText(), new CloseListener() {
+					if (!filenameTxtfield.getText().equals("")) {
+						new ViewGraphFrame(filenameTxtfield.getText(), new CloseListener() {
+							@Override
+							public void doClose(JFrame frame) {
 
-						@Override
-						public void doClose(JFrame frame) {
-
-							frame.dispose();
-						}
-					});
+								frame.dispose();
+							}
+						});
+					}
 
 				}
 			});

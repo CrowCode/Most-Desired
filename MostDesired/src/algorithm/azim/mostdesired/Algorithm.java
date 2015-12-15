@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.Random;
 
 import InputData.azim.mostdesired.DataReader;
 import sortingClasses.azim.mostdesired.InsertionSort;
@@ -63,6 +62,14 @@ public abstract class Algorithm {
 		
 		ArrayList<Integer> s = new ArrayList<Integer>();
 		
+		if (progressMonitor!=null)
+			progressMonitor.progressUpdated(0);
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		s = rankedReplace(nodesList_In, k, progressMonitor);
 		sssResult[0] = steadyStateSpread(s, nodesList_In);
 		
@@ -198,7 +205,7 @@ public abstract class Algorithm {
 		 */
 		
 		int progress = 0;
-		Random random = new Random();
+		
 		if(progressMonitor != null)
 			progressMonitor.progressUpdated(progress);
 		
@@ -251,6 +258,9 @@ public abstract class Algorithm {
 		Double lastValueForS = 0.0;
 		for(int i = 0; ((i < u_s_indices.size()) && ((i - lastAccepted_i) < maxUselessIterations)); i++){
 			
+			progress += (100 / u_s_indices.size()+1);
+			if(progressMonitor != null)
+				progressMonitor.progressUpdated(Math.min(progress, 100));
 			//sort s if any of its nodes was replaces in previous iterations
 			if(anyChangesOnS)
 				InsertionSort.sort(s_values, s_indices);
@@ -283,9 +293,7 @@ public abstract class Algorithm {
 				}
 				
 			}//ENF of inner loop
-			progress += random.nextInt(10);
-			if(progressMonitor != null)
-				progressMonitor.progressUpdated(Math.min(progress, 100));
+			
 		}//END of outer loop
 		
 		

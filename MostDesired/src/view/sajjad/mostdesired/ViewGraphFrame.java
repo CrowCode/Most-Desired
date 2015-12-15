@@ -53,12 +53,10 @@ public class ViewGraphFrame extends JFrame {
 		}
 
 		ArrayList<sVertex> sVs = new ArrayList<>();
-
 		for (int i = 0; i < graph.size(); i++) {
 			LinkedList<NodeAndWeight> tmp = graph.get(i);
-			int d = (tmp.size() * 500) / graph.size();
+			int d = (tmp.size() * 200) / graph.size();
 			sVertex sv = new sVertex(i, new Random().nextInt(1000) + 100, new Random().nextInt((1000)) + 100, (d));
-
 			Iterator<NodeAndWeight> iterator = tmp.iterator();
 			while (iterator.hasNext()) {
 				sv.addNeighbor((int) iterator.next().getAdjacentVertex());
