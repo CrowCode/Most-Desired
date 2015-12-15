@@ -21,7 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JViewport;
 
-import model.mostDesired.sVertex;
+import model.sajjad.mostDesired.sVertex;
 
 public class ViewGraphPanel extends JPanel implements VertexClickListener {
 
