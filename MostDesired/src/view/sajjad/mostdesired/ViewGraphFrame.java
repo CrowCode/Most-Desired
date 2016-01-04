@@ -1,6 +1,7 @@
 package view.sajjad.mostdesired;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
@@ -12,6 +13,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
@@ -20,58 +22,81 @@ import InputData.azim.mostdesired.DataReader;
 import model.sajjad.mostDesired.sVertex;
 import supplementaryClasses.azim.mostdesired.NodeAndWeight;
 
-public class ViewGraphFrame extends JFrame {
-
 	/**
+	 * 
+	 * @author sajjad
+	 * 
 	 * The JFrame which is main frame for graph representation. This class
 	 * simply contains ViewGraphPanel which does all graph visualization.
+	 *
 	 */
+
+public class ViewGraphFrame extends JFrame {
+
 	private static final long serialVersionUID = -7496390669979535394L;
+	
+	
 
-	ArrayList<LinkedList<NodeAndWeight>> graph;
-	CloseListener closeListener;
+	private ArrayList<LinkedList<NodeAndWeight>> graph;
+	private ArrayList<sVertex> verticesProp;
+	private CloseListener closeListener;
+	private Dimension scrSize;
+	private DataReader dataReader;
 
-	public ViewGraphFrame(String filename, CloseListener closeListener) {
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(1000, 700);
-		// setDefaultCloseOperation(EXIT_ON_CLOSE);
+	public ViewGraphFrame(String filename, CloseListener closeListener) throws IOException {
+		
+		this.scrSize = Toolkit.getDefaultToolkit().getScreenSize();
 		this.closeListener = closeListener;
+		this.dataReader = new DataReader(filename);
+		this.verticesProp = new ArrayList<>();
+		this.graph = dataReader.getNodesList_In();
+		
+		initf();
+		initVertices();
+		initializationComp();
+		
+		setVisible(true);
+	}
+	
+	private void initf() {
+		
+		
+		setSize(1000, 700);
 		addWindowListener(exitListener);
 		setLocationRelativeTo(null);
-
-		// setExtendedState(JFrame.MAXIMIZED_BOTH);
-		// setUndecorated(true);
-
-		setLayout(new BorderLayout());
-
-		try {
-			DataReader rd = new DataReader(filename);
-			graph = rd.getNodesList_In();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		ArrayList<sVertex> sVs = new ArrayList<>();
-		for (int i = 0; i < graph.size(); i++) {
-			LinkedList<NodeAndWeight> tmp = graph.get(i);
-			int d = (tmp.size() * 200) / graph.size();
-			sVertex sv = new sVertex(i, new Random().nextInt(1000) + 100, new Random().nextInt((1000)) + 100, (d));
-			Iterator<NodeAndWeight> iterator = tmp.iterator();
-			while (iterator.hasNext()) {
-				sv.addNeighbor((int) iterator.next().getAdjacentVertex());
-			}
-			sVs.add(sv);
-		}
-
-		ViewGraphPanel panel = new ViewGraphPanel(screenSize, sVs);
+		setBackground(Color.BLACK);
+		getRootPane().setBorder(BorderFactory.createMatteBorder(4, 4, 4, 4, Color.BLACK));
+		setLayout(new BorderLayout(100, 100));
+		
+	}
+	
+	private void initializationComp() {
+		
+		ViewGraphPanel panel = new ViewGraphPanel(scrSize, verticesProp);
 		JScrollPane spanel = new JScrollPane(panel);
-
 		spanel.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
 		spanel.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
-
 		add(spanel, BorderLayout.CENTER);
-		setVisible(true);
+		
+	}
+	
+	private void initVertices() {
+		
+		for (int i = 0; i < graph.size(); i++) {
+			
+			LinkedList<NodeAndWeight> vertexTmp = graph.get(i);
+			
+			int d = (vertexTmp.size() * 200) / graph.size();
+			sVertex sv = new sVertex(i, new Random().nextInt(1000) + 100, new Random().nextInt((1000)) + 100, (d));
+			Iterator<NodeAndWeight> iterator = vertexTmp.iterator();
+			
+			while (iterator.hasNext()) {
+				
+				sv.addNeighbor((int) iterator.next().getAdjacentVertex());
+			}
+			verticesProp.add(sv);
+		}
+		
 	}
 
 	WindowListener exitListener = new WindowAdapter() {
@@ -81,6 +106,7 @@ public class ViewGraphFrame extends JFrame {
 			int confirm = JOptionPane.showOptionDialog(null, "Are You Sure to Close Application?", "Exit Confirmation",
 					JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 			if (confirm == 0) {
+				
 				closeListener.doClose(ViewGraphFrame.this);
 
 			}

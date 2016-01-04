@@ -40,6 +40,10 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 	private Graphics2D g2;
 	private ArrayList<Vertex> vertices = new ArrayList<>();
 	private ArrayList<sVertex> sVertices = new ArrayList<>();
+	
+	private Color myOrange = new Color(240, 127, 7);
+	private Color myCyan = new Color(60, 109, 130);
+	private Color darkGray = new Color(55, 55, 55);
 
 	// private float scale = 1;
 
@@ -106,19 +110,19 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 		g2 = (Graphics2D) bimg.getGraphics();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		g2.setColor(Color.BLACK);
+		g2.setColor(darkGray);
 		g2.fill(new Rectangle(0, 0, getWidth(), getHeight()));
 
 		for (Vertex v : vertices) {
 
-			g2.setColor(Color.GRAY);
+			g2.setColor(Color.WHITE);
 			g2.fill(v);
 			if (HOVERED && v.getId() == VERTEX_HOVERED) {
-				g2.setStroke(new BasicStroke(5));
-				g2.setColor(Color.RED);
+				g2.setStroke(new BasicStroke((float) ((v.getHeight()*20)/100)));
+				g2.setColor(myCyan);
 			} else {
-				g2.setStroke(new BasicStroke(2));
-				g2.setColor(Color.ORANGE);
+				g2.setStroke(new BasicStroke((float) ((v.getHeight()*15)/100)));
+				g2.setColor(myOrange);
 			}
 
 			g2.draw(v);
@@ -128,14 +132,14 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 			Vertex v = vertices.get(VERTEX_CLICKED);
 			sVertex sv = sVertices.get(VERTEX_CLICKED);
 			popup(g2, (int) v.getX(), (int) v.getY());
-			g2.setStroke(new BasicStroke(5));
+			
 			g2.setColor(Color.GREEN);
 			for (Integer svid : sv.getNeibors()) {
+				g2.setStroke(new BasicStroke((float) ((vertices.get(svid).getHeight()*25)/100)));
 				g2.draw(vertices.get(svid));
 			}
 		}
-		// AffineTransform at = new AffineTransform();
-		// at.scale(scale, scale);
+		
 
 		g2.dispose();
 		g.drawImage(bimg, 0, 0, null);
@@ -144,13 +148,6 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 
 	private void popup(Graphics2D g, int x, int y) {
 
-		/*
-		 * BufferedImage image; try { image = ImageIO.read(new File("img.svg"));
-		 * g.drawImage(image, x - 65, y - 97, 100, 100, null);
-		 * g.setColor(Color.WHITE); g.setFont(new Font("Dialog", Font.PLAIN,
-		 * 20)); g.drawString(VERTEX_CLICKED + "", x - 25, y - 48); } catch
-		 * (IOException e) { e.printStackTrace(); }
-		 */
 
 		g.setColor(Color.YELLOW);
 		g.fill(new Rectangle(x - 50, y - 30, 50, 30));

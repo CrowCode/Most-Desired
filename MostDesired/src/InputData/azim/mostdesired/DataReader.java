@@ -268,5 +268,9 @@ public class DataReader {
 		return nodesList_In;
 	}
 	
+	public int getnNodes() {
+		return nodesList_In.size();
+	}
+	
 	
 }
