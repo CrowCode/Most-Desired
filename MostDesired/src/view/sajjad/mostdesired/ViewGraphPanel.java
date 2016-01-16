@@ -120,6 +120,9 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 			if (HOVERED && v.getId() == VERTEX_HOVERED) {
 				g2.setStroke(new BasicStroke((float) ((v.getHeight()*20)/100)));
 				g2.setColor(myCyan);
+			} else if (v.isInK()){
+				g2.setStroke(new BasicStroke((float) ((v.getHeight()*20)/100)));
+				g2.setColor(Color.BLUE);
 			} else {
 				g2.setStroke(new BasicStroke((float) ((v.getHeight()*15)/100)));
 				g2.setColor(myOrange);

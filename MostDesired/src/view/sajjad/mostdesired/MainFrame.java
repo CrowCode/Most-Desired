@@ -22,6 +22,7 @@ import java.io.PipedInputStream;
 import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -110,6 +111,10 @@ public class MainFrame extends JFrame implements Runnable {
 
 	private JFileChooser fc;
 	private File file;
+	private JFrame VisualGraph;
+	
+	//private ArrayList<Integer> solution = new ArrayList<>();
+	
 	/*
 	 * Necessary fields in order to convert a text area to console
 	 */
@@ -446,7 +451,7 @@ public class MainFrame extends JFrame implements Runnable {
 
 						if (!fileNameLabel.getText().equals("") && !fileNameLabel.getText().equals("[...]")) {
 							try {
-								new ViewGraphFrame(fileNameLabel.getText(), new CloseListener() {
+									VisualGraph = new ViewGraphFrame(fileNameLabel.getText(), new CloseListener() {
 									@Override
 									public void doClose(JFrame frame) {
 
@@ -588,6 +593,7 @@ public class MainFrame extends JFrame implements Runnable {
 		public synchronized void windowClosing(WindowEvent evt) {
 			setVisible(false); // default behavior of JFrame
 			dispose();
+			
 		}
 
 	};
@@ -639,10 +645,29 @@ public class MainFrame extends JFrame implements Runnable {
 
 	AlgorithmFinish af = new AlgorithmFinish() {
 
+		
 		@Override
-		public void finish() {
+		public void finish(ArrayList<Integer> solution) {
 
 			setCursor(Cursor.getDefaultCursor());
+			if (VisualGraph == null) {
+				try {
+					ArrayList<Integer> k = solution;
+					
+					VisualGraph = new ViewGraphFrame(fileNameLabel.getText(), new CloseListener() {
+						@Override
+						public void doClose(JFrame frame) {
+
+							//frame.dispose();
+							//dispose();
+							VisualGraph = null;
+						}
+					}, k);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 
 		}
 	};

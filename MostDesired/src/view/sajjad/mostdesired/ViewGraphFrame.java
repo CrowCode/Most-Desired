@@ -42,6 +42,7 @@ public class ViewGraphFrame extends JFrame {
 	private CloseListener closeListener;
 	private Dimension scrSize;
 	private DataReader dataReader;
+	private ArrayList<Integer> k;
 
 	public ViewGraphFrame(String filename, CloseListener closeListener) throws IOException {
 		
@@ -57,6 +58,23 @@ public class ViewGraphFrame extends JFrame {
 		
 		setVisible(true);
 	}
+	
+	public ViewGraphFrame(String filename, CloseListener closeListener, ArrayList<Integer> k) throws IOException {
+		
+		this.scrSize = Toolkit.getDefaultToolkit().getScreenSize();
+		this.closeListener = closeListener;
+		this.dataReader = new DataReader(filename);
+		this.verticesProp = new ArrayList<>();
+		this.graph = dataReader.getNodesList_In();
+		this.k = k;
+		
+		initf();
+		initVertices();
+		initializationComp();
+		
+		setVisible(true);
+	}
+	
 	
 	private void initf() {
 		
@@ -85,9 +103,14 @@ public class ViewGraphFrame extends JFrame {
 		for (int i = 0; i < graph.size(); i++) {
 			
 			LinkedList<NodeAndWeight> vertexTmp = graph.get(i);
-			
 			int d = (vertexTmp.size() * 200) / graph.size();
-			sVertex sv = new sVertex(i, new Random().nextInt(1000) + 100, new Random().nextInt((1000)) + 100, (d));
+			
+			sVertex sv = new sVertex(i, new Random().nextInt(1000) + 100, new Random().nextInt((1000)) + 100, (d), false);
+			
+			if (k != null && k.contains(i)) {
+				sv.setInK(true);
+			}
+			
 			Iterator<NodeAndWeight> iterator = vertexTmp.iterator();
 			
 			while (iterator.hasNext()) {
