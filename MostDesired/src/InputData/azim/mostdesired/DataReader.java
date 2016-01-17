@@ -40,12 +40,12 @@ import supplementaryClasses.azim.mostdesired.NodeAndWeight;
  * <br>
  * 		<b>DATA STRUCTURE:</b>
  * 	<br>
- * To Store the input file which represent the graph of data we employ the following<br>
+ * To Store the input file which represents the graph of data we employ the following<br>
  * data structure: <br>
  * 			[ [NW, NW, ..., NW], [NW, NW, ..., NW] ,... ,[NW, NW, ..., NW] ]<br>
  * where:<br>
  * 	-the outer brackets represent an ArrayList named 'nodesList'<br>
- * 	-each pair of inner brackets represents a LinkedList names 'neighborsList'<br>
+ * 	-each pair of inner brackets represents a LinkedList named 'neighborsList'<br>
  * <br>
  * 
  * 
@@ -53,7 +53,8 @@ import supplementaryClasses.azim.mostdesired.NodeAndWeight;
  *		- It contains lists of objects of type 'NodeAndWeight'.<br>
  *		- Its i-th element is a set of outgoing neighbors of i.<br>
  *		- Its size is equal to the number of vertices (= maxIndex + 1).<br>
- *		- We do not leave any of these lists to be empty, even though i-th node may have no outgoing neighbor.<br>
+ *		- We do not let any of these lists to be empty: They always contain a special instance of class 'NodeAndWeight'
+ * no matter if they have any outgoing neighbor or not.<br>
  *<br>
  *	<b>nodesList_In:</b><br> 
  *		- It is the same as 'nodesList_Out' but regarding incoming neighbors instead of outgoing ones.<br>
@@ -120,7 +121,7 @@ public class DataReader {
 			nodesList_In.add(neighborsList_In);
 		}
 		
-		System.out.println("Initialization is done. Ready to copy!");
+//		System.out.println("Initialization is done. Ready to copy data to memory!");
 
 		
 		try {
@@ -140,7 +141,7 @@ public class DataReader {
 		        //add 'nAdnW' to a list which is located in nodesList[temp[0]]
 //		        if(nodesList.get(temp[0].intValue()).getLast().getAdjacentVertex() == -1.0)
 //		        	nodesList.get(temp[0].intValue()).set(0, nAndW);
-//		        else
+		        
 		        nodesList_Out.get(temp[0].intValue()).add(nAndW_Out);
 		        nodesList_In .get(temp[1].intValue()).add(nAndW_In);
 		    }
@@ -156,35 +157,30 @@ public class DataReader {
 		    }
 		}
 		
-		System.out.println("DONE!");
-		System.out.println("nodesList(I/O) --> size = " + nodesList_Out.size());
-//		neighborsList = nodesList.get(2);
-//		
-//		
-//		for(int i = 0; i < neighborsList.size(); i++)
-//			System.out.println("Neighbor: " + neighborsList.get(i).getAdjacentVertex() +
-//							   "\tWeight: " + neighborsList.get(i).getWeight());
+		System.out.println("Graph Storing: DONE");
+		System.out.println("Graph Size: " + nodesList_Out.size() + " nodes");
+
 		
-		System.out.println("================NODESLIST=====OUT=======");
-		for(int i = 0; i < nodesList_Out.size(); i++){
+//		System.out.println("================NODESLIST=====OUT=======");
+//		for(int i = 0; i < nodesList_Out.size(); i++){
 //			System.out.println("node " + i + " ->");
-			neighborsList_Out = nodesList_Out.get(i);
+//			neighborsList_Out = nodesList_Out.get(i);
 //			System.out.print("\t");
 //			for(int j = 0; j < neighborsList_Out.size(); j++){
 //				System.out.print(":" + neighborsList_Out.get(j).getAdjacentVertex());
 //			}
 //			System.out.println();
-		}
-		System.out.println("================NODESLIST=====IN========");
-		for(int i = 0; i < nodesList_In.size(); i++){
+//		}
+//		System.out.println("================NODESLIST=====IN========");
+//		for(int i = 0; i < nodesList_In.size(); i++){
 //			System.out.println("node " + i + " <-");
-			neighborsList_In = nodesList_In.get(i);
+//			neighborsList_In = nodesList_In.get(i);
 //			System.out.print("\t");
 //			for(int j = 0; j < neighborsList_In.size(); j++){
 //				System.out.print(":" + neighborsList_In.get(j).getAdjacentVertex());
 //			}
 //			System.out.println();
-		}
+//		}
 	}
 	
 	
