@@ -256,7 +256,7 @@ public class MainFrame extends JFrame implements Runnable {
 		addCompToLeftPanel(fileNodesLabel, 2, 6, 4, 1);
 
 		/** Row 7 **/
-		runAlgorithmBtn = new JButton("FIND MOSTWANTED");
+		runAlgorithmBtn = new JButton("FIND MOST-DESIRED");
 		runAlgorithmBtn.setFont(new Font("Arial", Font.BOLD, 10));
 		runAlgorithmBtn.setBackground(myOrange);
 		runAlgorithmBtn.setForeground(Color.white);

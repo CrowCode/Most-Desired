@@ -19,7 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import InputData.azim.mostdesired.DataReader;
-import model.sajjad.mostDesired.sVertex;
+import model.sajjad.mostdesired.sVertex;
 import supplementaryClasses.azim.mostdesired.NodeAndWeight;
 
 	/**
