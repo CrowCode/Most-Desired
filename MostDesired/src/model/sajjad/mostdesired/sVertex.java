@@ -8,16 +8,18 @@ public class sVertex {
 	private int x;
 	private int y;
 	private int d;
+	private boolean isInK;
 	private ArrayList<Integer> neibors;
 	
 	
-	public sVertex(int id, int x, int y, int d) {
+	public sVertex(int id, int x, int y, int d, boolean isInK) {
 		super();
 		this.id = id;
 		this.x = x;
 		this.y = y;
 		this.d = d;
-		neibors = new ArrayList<>();
+		this.neibors = new ArrayList<>();
+		this.isInK = isInK;
 		
 	}
 
@@ -70,6 +72,18 @@ public class sVertex {
 	public ArrayList<Integer> getNeibors() {
 		return neibors;
 	}
+
+
+	public boolean isInK() {
+		return isInK;
+	}
+
+
+	public void setInK(boolean isInK) {
+		this.isInK = isInK;
+	}
+	
+	
 	
 	
 	

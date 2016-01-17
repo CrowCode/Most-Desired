@@ -1,6 +1,7 @@
 package task.sajjad.mostdesired;
 
 import java.awt.Toolkit;
+import java.util.ArrayList;
 
 import javax.swing.SwingWorker;
 
@@ -19,6 +20,7 @@ public class AlgorithmTask extends SwingWorker<Void, Void> {
 	private int error;
 	private Double[] sssResult;
 	private AlgorithmFinish finish;
+	private ArrayList<Integer> solution;
 	
 
 
@@ -33,7 +35,7 @@ public class AlgorithmTask extends SwingWorker<Void, Void> {
 	@Override
 	protected Void doInBackground() throws Exception {
 
-		Algorithm.runAlgorithm(filename, k, error, sssResult, new ProgressMonitor() {
+		solution = Algorithm.runAlgorithm(filename, k, error, sssResult, new ProgressMonitor() {
 
 			@Override
 			public void progressUpdated(int progress) {
@@ -50,7 +52,7 @@ public class AlgorithmTask extends SwingWorker<Void, Void> {
 	public void done() {
 		
 		Toolkit.getDefaultToolkit().beep();
-		finish.finish();
+		finish.finish(solution);
 		
 		
 	}
