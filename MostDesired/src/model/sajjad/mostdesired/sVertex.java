@@ -9,7 +9,15 @@ public class sVertex {
 	private int y;
 	private int d;
 	private boolean isInK;
+	private boolean isInMax;
 	private ArrayList<Integer> neibors;
+	private boolean isInfectedA;		//True if this node is infected in the experiment in 
+										//regard with the most influential nodes
+	private boolean isInfectedB;		//True if this node is infected in the experiment in 
+										//regard with the max-degree nodes
+	
+	private boolean isVaccinatedA;		//True if this node is vaccinated (is a most influential node)
+	private boolean isVaccinatedB;		//True if this node is vaccinated (is a max degree node)
 	
 	
 	public sVertex(int id, int x, int y, int d, boolean isInK) {
@@ -20,6 +28,8 @@ public class sVertex {
 		this.d = d;
 		this.neibors = new ArrayList<>();
 		this.isInK = isInK;
+		this.isInfectedA = false;
+		this.isInfectedB = false;
 		
 	}
 
@@ -83,7 +93,40 @@ public class sVertex {
 		this.isInK = isInK;
 	}
 	
+	public void setIsInfcetedA(boolean isInfected){
+		this.isInfectedA = isInfected;
+	}
 	
+	public void setIsInfcetedB(boolean isInfected){
+		this.isInfectedB = isInfected;
+	}
+
+	public void setVaccinatedA(boolean isVaccinatedA) {
+		this.isVaccinatedA = isVaccinatedA;
+	}
+
+	public void setVaccinatedB(boolean isVaccinatedB) {
+		this.isVaccinatedB = isVaccinatedB;
+	}
+
+	public boolean isVaccinatedA() {
+		return isVaccinatedA;
+	}
+	
+	public boolean isVaccinatedB() {
+		return isVaccinatedB;
+	}
+
+
+	public boolean isInMax() {
+		return isInMax;
+	}
+
+	public void setInMax(boolean isInMax) {
+		this.isInMax = isInMax;
+	}
+
+
 	
 	
 	
