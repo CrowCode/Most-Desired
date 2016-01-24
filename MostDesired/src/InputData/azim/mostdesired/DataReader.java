@@ -6,9 +6,13 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.LineNumberReader;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Scanner;
 
+import org.w3c.dom.NodeList;
+
+import sortingClasses.azim.mostdesired.SyncHeapsort;
 import supplementaryClasses.azim.mostdesired.NodeAndWeight;
 
 /**
@@ -266,6 +270,32 @@ public class DataReader {
 	
 	public int getnNodes() {
 		return nodesList_In.size();
+	}
+	
+	public int[] findKMaxDegree(int k) {
+		
+		Double [] degrees = new Double [nodesList_Out.size()];
+		int [] ids = new int [nodesList_Out.size()];
+		int [] kMasIds = new int [k];
+		
+		int i = 0;
+		for (LinkedList<NodeAndWeight> node: nodesList_Out){
+			
+			degrees[i] = (double)node.size() - 1;
+			ids [i] = i;
+			i++;
+			
+		}
+		SyncHeapsort.sort(degrees, ids);
+		
+		for (i=0; i<k; i++) {
+			
+			kMasIds[i] = ids[ids.length-i-1];
+		}
+		
+		
+		return kMasIds;
+		
 	}
 	
 	

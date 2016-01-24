@@ -23,6 +23,7 @@ import java.io.PipedOutputStream;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -621,6 +622,18 @@ public class MainFrame extends JFrame implements Runnable {
 			fileLineLabel.setText(rd.getNumberOfLines() + "");
 			fileIdLabel.setText(rd.getMaxIndex() + "");
 			fileNodesLabel.setText(rd.getnNodes() + "");
+			
+			
+			//============================test max degrees =============================
+			
+			int [] maxDegrees = rd.findKMaxDegree(Integer.parseInt(kSpinner.getValue().toString()));
+			
+			System.out.println("=============== Test max degree ===============");
+			
+			System.out.println(Arrays.toString(maxDegrees));
+			
+			//==========================================================================
+			
 
 		} catch (IOException e1) {
 
