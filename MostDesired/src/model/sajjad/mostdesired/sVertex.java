@@ -10,7 +10,7 @@ public class sVertex {
 	private int d;
 	private boolean isInK;
 	private boolean isInMax;
-	private ArrayList<Integer> neibors;
+	private ArrayList<Integer> neighbors;
 	private boolean isInfectedA;		//True if this node is infected in the experiment in 
 										//regard with the most influential nodes
 	private boolean isInfectedB;		//True if this node is infected in the experiment in 
@@ -26,7 +26,7 @@ public class sVertex {
 		this.x = x;
 		this.y = y;
 		this.d = d;
-		this.neibors = new ArrayList<>();
+		this.neighbors = new ArrayList<>();
 		this.isInK = isInK;
 		this.isInfectedA = false;
 		this.isInfectedB = false;
@@ -75,12 +75,12 @@ public class sVertex {
 	
 	public void addNeighbor(int neighbor) {
 		if (neighbor!=-1)
-			neibors.add(neighbor);
+			neighbors.add(neighbor);
 	}
 
 
 	public ArrayList<Integer> getNeibors() {
-		return neibors;
+		return neighbors;
 	}
 
 
@@ -107,6 +107,14 @@ public class sVertex {
 
 	public void setVaccinatedB(boolean isVaccinatedB) {
 		this.isVaccinatedB = isVaccinatedB;
+	}
+	
+	public boolean isInfecredA(){
+		return isInfectedA;
+	}
+	
+	public boolean isInfectedB(){
+		return isInfectedB;
 	}
 
 	public boolean isVaccinatedA() {
