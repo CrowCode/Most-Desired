@@ -109,7 +109,7 @@ public class sVertex {
 		this.isVaccinatedB = isVaccinatedB;
 	}
 	
-	public boolean isInfecredA(){
+	public boolean isInfectedA(){
 		return isInfectedA;
 	}
 	
