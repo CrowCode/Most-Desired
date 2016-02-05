@@ -132,6 +132,8 @@ public abstract class VirusSpread {
 		for(NodeAndWeight n : neighbors){
 			
 			i = (int) n.getAdjacentVertex();						//id of a neighbor of  'sourceVertex'
+			if (i == -1)
+				continue;
 			nSVertex = verticesProp.get(i);
 			//if this neighbor ('nSVertex') is vaccinated or infected we just move on to the next neighbor
 			if(nSVertex.isVaccinatedA() || nSVertex.isInfectedA()){

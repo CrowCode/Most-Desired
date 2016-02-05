@@ -18,9 +18,6 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.io.PrintStream;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +42,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
 import InputData.azim.mostdesired.DataReader;
+import newview.sajjad.mostdesired.GraphFrame;
 import task.sajjad.mostdesired.AlgorithmFinish;
 import task.sajjad.mostdesired.AlgorithmTask;
 
@@ -54,7 +52,7 @@ import task.sajjad.mostdesired.AlgorithmTask;
  * 
  *         This is the main frame of the application where user has access to
  *         choose different input file, control the error of algorithm, change
- *         the number of influential nodes and ...
+ *         the number of influential nodes and ...<br>
  *         =====================================================================
  *         ==============================Features :=============================
  *         =====================================================================
@@ -70,7 +68,7 @@ import task.sajjad.mostdesired.AlgorithmTask;
  *         </ul>
  */
 
-public class MainFrame extends JFrame implements Runnable {
+public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	// private JPanel mainPanel;
@@ -119,16 +117,11 @@ public class MainFrame extends JFrame implements Runnable {
 	/*
 	 * Necessary fields in order to convert a text area to console
 	 */
-	private Thread reader;
-	private Thread reader2;
-	private boolean quit;
-	private final PipedInputStream pin = new PipedInputStream();
-	private final PipedInputStream pin2 = new PipedInputStream();
+
 
 	public MainFrame() {
 		initializeBasics();
 		init();
-		consInit();
 	}
 
 	void init() {
@@ -332,7 +325,7 @@ public class MainFrame extends JFrame implements Runnable {
 		pBar.setString("PROGRESS");
 		pBar.setBackground(myCyan);
 		pBar.setForeground(myOrange);
-		pBar.setPreferredSize(new Dimension(getContentPane().getWidth(), 20));
+		pBar.setPreferredSize(new Dimension(getContentPane().getWidth()-50, 20));
 		UIManager.put("pBar.selectionBackground", myOrange);
 		UIManager.put("pBar.selectionBackground", Color.white);
 		addCompToBottomPanel(pBar, 0, 0, 1, 1);
@@ -424,11 +417,11 @@ public class MainFrame extends JFrame implements Runnable {
 
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 
-				consoleTextArea.setText("\n\tOUTPUT:\n\t");
+				consoleTextArea.setText("\n\tOUTPUT:\n");
 				int k = Integer.parseInt(kSpinner.getValue().toString());
 				int error = Integer.parseInt(errorSpinner.getValue().toString());
 				if (!fileNameLabel.getText().equals("") && !fileNameLabel.getText().equals("[...]")) {
-					AlgorithmTask task = new AlgorithmTask(af, fileInputField.getText(), k, error);
+					AlgorithmTask task = new AlgorithmTask(af, fileInputField.getText(), k, error, consoleTextArea);
 
 					task.addPropertyChangeListener(PropertyChangeListener);
 					task.execute();
@@ -451,19 +444,29 @@ public class MainFrame extends JFrame implements Runnable {
 					public void run() {
 
 						if (!fileNameLabel.getText().equals("") && !fileNameLabel.getText().equals("[...]")) {
-							try {
-									VisualGraph = new ViewGraphFrame(fileNameLabel.getText(), new CloseListener() {
-									@Override
-									public void doClose(JFrame frame) {
-
-										frame.dispose();
-										dispose();
-									}
-								});
-							} catch (IOException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
+							
+							
+							
+							/**
+							 *  in case of testing uncomment this and comment line below (splitepane)
+							 */
+//							try {
+//									VisualGraph = new ViewGraphFrame(fileNameLabel.getText(), new CloseListener() {
+//									@Override
+//									public void doClose(JFrame frame) {
+//
+//										frame.dispose();
+//										dispose();
+//									}
+//								});
+//							} catch (IOException e) {
+//								// TODO Auto-generated catch block
+//								e.printStackTrace();
+//							}
+							/**
+							 *  comment the line below if you want test virus
+							 */
+							VisualGraph = new GraphFrame();
 						} else {
 							JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "Dialog",
 									JOptionPane.ERROR_MESSAGE);
@@ -489,107 +492,8 @@ public class MainFrame extends JFrame implements Runnable {
 		}
 	};
 
-	@Override
-	public synchronized void run() {
-
-		try {
-			while (Thread.currentThread() == reader) {
-				try {
-					this.wait(100);
-				} catch (InterruptedException ie) {
-				}
-				if (pin.available() != 0) {
-					String input = this.readLine(pin);
-					consoleTextArea.append(input);
-				}
-				if (quit)
-					return;
-			}
-
-			while (Thread.currentThread() == reader2) {
-				try {
-					this.wait(100);
-				} catch (InterruptedException ie) {
-				}
-				if (pin2.available() != 0) {
-					String input = this.readLine(pin2);
-					consoleTextArea.append(input);
-				}
-				if (quit)
-					return;
-			}
-		} catch (Exception e) {
-			consoleTextArea.append("\nConsole reports an Internal error.");
-			consoleTextArea.append("The error is: " + e);
-		}
-
-	}
-
-	public synchronized String readLine(PipedInputStream in) throws IOException {
-		String input = "";
-		do {
-			int available = in.available();
-			if (available == 0)
-				break;
-			byte b[] = new byte[available];
-			in.read(b);
-			input = input + new String(b, 0, b.length);
-		} while (!input.endsWith("\n") && !input.endsWith("\r\n") && !quit);
-		return input;
-	}
-
-	/**
-	 * The method for convert textArea to console initialization.
-	 */
-	private void consInit() {
-		try {
-			PipedOutputStream pout = new PipedOutputStream(this.pin);
-			System.setOut(new PrintStream(pout, true));
-		} catch (java.io.IOException io) {
-			consoleTextArea.append("Couldn't redirect STDOUT to this console\n" + io.getMessage());
-		} catch (SecurityException se) {
-			consoleTextArea.append("Couldn't redirect STDOUT to this console\n" + se.getMessage());
-		}
-
-		try {
-			PipedOutputStream pout2 = new PipedOutputStream(this.pin2);
-			System.setErr(new PrintStream(pout2, true));
-		} catch (java.io.IOException io) {
-			consoleTextArea.append("Couldn't redirect STDERR to this console\n" + io.getMessage());
-		} catch (SecurityException se) {
-			consoleTextArea.append("Couldn't redirect STDERR to this console\n" + se.getMessage());
-		}
-
-		quit = false; // signals the Threads that they should exit
-
-		// Starting two separate threads to read from the PipedInputStreams
-		//
-		reader = new Thread(this);
-		reader.setDaemon(true);
-		reader.start();
-
-		reader2 = new Thread(this);
-		reader2.setDaemon(true);
-		reader2.start();
-	}
-
+	
 	WindowListener exitListener = new WindowAdapter() {
-
-		public synchronized void windowClosed(WindowEvent evt) {
-			quit = true;
-			this.notifyAll(); // stop all threads
-			try {
-				reader.join(1000);
-				pin.close();
-			} catch (Exception e) {
-			}
-			try {
-				reader2.join(1000);
-				pin2.close();
-			} catch (Exception e) {
-			}
-			System.exit(0);
-		}
 
 		public synchronized void windowClosing(WindowEvent evt) {
 			setVisible(false); // default behavior of JFrame
@@ -599,6 +503,10 @@ public class MainFrame extends JFrame implements Runnable {
 
 	};
 
+	/**
+	 *  This is function in order to get input file size for showing in GUI
+	 * @param file
+	 */
 	private void getFileSize(File file) {
 
 		Double bytes = (double) file.length();
@@ -615,6 +523,10 @@ public class MainFrame extends JFrame implements Runnable {
 			fileSizeLabel.setText(df.format(megabytes) + "  MB");
 	}
 
+	/**
+	 *  This function set file information into GUI labels 
+	 * @param file 
+	 */
 	private void setFileInfo(File file) {
 
 		try {
@@ -641,6 +553,8 @@ public class MainFrame extends JFrame implements Runnable {
 		}
 
 	}
+	
+	
 
 	FilePropertyGetter fp = new FilePropertyGetter() {
 
@@ -652,9 +566,16 @@ public class MainFrame extends JFrame implements Runnable {
 			 */
 			setFileInfo(file);
 			setCursor(Cursor.getDefaultCursor());
-
+			consoleTextArea.setCursor(Cursor.getDefaultCursor());
 		}
 	};
+	
+	/**
+	 *  	Since we are using SwingWorker in order to run algorithm in background. We need to some changes in GUI 
+	 *  get cursor back from waiting state get answer of algorithm to problem and show to user ... . 
+	 *  	
+	 *  The AlgorithmFfinish interface will do abstraction of all we need to do in GUI when algorithm finish. 
+	 */
 
 	AlgorithmFinish af = new AlgorithmFinish() {
 
@@ -663,26 +584,9 @@ public class MainFrame extends JFrame implements Runnable {
 		public void finish(ArrayList<Integer> solution) {
 
 			setCursor(Cursor.getDefaultCursor());
-			if (VisualGraph == null) {
-				try {
-					ArrayList<Integer> k = solution;
-					
-					VisualGraph = new ViewGraphFrame(fileNameLabel.getText(), new CloseListener() {
-						@Override
-						public void doClose(JFrame frame) {
-
-							//frame.dispose();
-							//dispose();
-							VisualGraph = null;
-						}
-					}, k);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
 
 		}
 	};
+	
 
 }

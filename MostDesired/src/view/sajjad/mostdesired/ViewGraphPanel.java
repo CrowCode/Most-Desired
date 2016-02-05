@@ -32,6 +32,7 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 
 	private boolean HOVERED = false;
 	private boolean CLICKED = false;
+	// private boolean CLICKED_OUT = false;
 
 	private int VERTEX_CLICKED;
 	private int VERTEX_HOVERED;
@@ -40,12 +41,12 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 	private Graphics2D g2;
 	private ArrayList<Vertex> vertices = new ArrayList<>();
 	private ArrayList<sVertex> sVertices = new ArrayList<>();
-	
+
 	private Color myOrange = new Color(240, 127, 7);
 	private Color myCyan = new Color(60, 109, 130);
 	private Color darkGray = new Color(55, 55, 55);
 
-	// private float scale = 1;
+//	private int scale = 5;
 
 	private Point mouseStartPoint;
 
@@ -58,9 +59,13 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 		setPreferredSize(d);
 		prepareVertices(sVertices);
 
+		/**
+		 * To have sensitive vertices to mouse action we need handler for
+		 * hovering and clicking.
+		 * 
+		 */
 		for (final Vertex v : vertices) {
 			addMouseListener(new MouseAdapter() {
-
 				@Override
 				public void mouseClicked(MouseEvent e) {
 					VertexClickEvent vertexClickEvent = new VertexClickEvent(e, 0);
@@ -96,6 +101,10 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 			@Override
 			public void mousePressed(MouseEvent e) {
 				mouseStartPoint.setLocation(e.getX(), e.getY());
+				CLICKED = false;
+				HOVERED = false;
+				repaint();
+
 			}
 		});
 		addMouseListener(new PopClickListener());
@@ -110,39 +119,35 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 		g2 = (Graphics2D) bimg.getGraphics();
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		g2.setColor(darkGray);
-		g2.fill(new Rectangle(0, 0, getWidth(), getHeight()));
+		drawFrame();
 
 		for (Vertex v : vertices) {
 
-			g2.setColor(Color.WHITE);
-			g2.fill(v);
 			if (HOVERED && v.getId() == VERTEX_HOVERED) {
-				g2.setStroke(new BasicStroke((float) ((v.getHeight()*20)/100)));
-				g2.setColor(myCyan);
-			} else if (v.isInK()){
-				g2.setStroke(new BasicStroke((float) ((v.getHeight()*20)/100)));
-				g2.setColor(Color.BLUE);
+				drawHovered(v);
+			} else if (v.getSv().isInK()) {
+				;
+			} else if (v.getSv().isVaccinatedA()) {
+				drawInfected(v);
+			} else if (v.getSv().isVaccinatedA()) {
+				drawVaccinated(v);
 			} else {
-				g2.setStroke(new BasicStroke((float) ((v.getHeight()*15)/100)));
-				g2.setColor(myOrange);
+				drawNormal(v);
 			}
 
-			g2.draw(v);
-
 		}
+
 		if (CLICKED) {
 			Vertex v = vertices.get(VERTEX_CLICKED);
 			sVertex sv = sVertices.get(VERTEX_CLICKED);
+			drawClicked(v);
 			popup(g2, (int) v.getX(), (int) v.getY());
-			
+
 			g2.setColor(Color.GREEN);
 			for (Integer svid : sv.getNeibors()) {
-				g2.setStroke(new BasicStroke((float) ((vertices.get(svid).getHeight()*25)/100)));
-				g2.draw(vertices.get(svid));
+				drawNeighbor(vertices.get(svid));
 			}
 		}
-		
 
 		g2.dispose();
 		g.drawImage(bimg, 0, 0, null);
@@ -150,7 +155,6 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 	}
 
 	private void popup(Graphics2D g, int x, int y) {
-
 
 		g.setColor(Color.YELLOW);
 		g.fill(new Rectangle(x - 50, y - 30, 50, 30));
@@ -165,6 +169,7 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 	private int prepareVertices(ArrayList<sVertex> sVertices) {
 
 		for (sVertex sv : sVertices) {
+			
 			Vertex v = new Vertex(sv);
 			v.setVertexClickListener(this);
 			vertices.add(v);
@@ -194,6 +199,70 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 		VERTEX_HOVERED = vertexClickEvent.getVertexId();
 		repaint();
 	}
+
+	private void drawFrame() {
+
+		g2.setColor(darkGray);
+		g2.fill(new Rectangle(0, 0, getWidth(), getHeight()));
+
+	}
+
+	private void drawNormal(Vertex v) {
+
+		g2.setColor(Color.WHITE);
+		g2.fill(v);
+		g2.setStroke(new BasicStroke((float) ((v.getHeight() * 15) / 100)));
+		g2.setColor(myOrange);
+		g2.draw(v);
+
+	}
+
+	private void drawInfected(Vertex v) {
+
+		g2.setColor(Color.WHITE);
+		g2.fill(v);
+		g2.setStroke(new BasicStroke((float) ((v.getHeight() * 20) / 100)));
+		g2.setColor(Color.RED);
+		g2.draw(v);
+	}
+
+	private void drawVaccinated(Vertex v) {
+
+		g2.setColor(Color.WHITE);
+		g2.fill(v);
+		g2.setStroke(new BasicStroke((float) ((v.getHeight() * 20) / 100)));
+		g2.setColor(Color.RED);
+		g2.draw(v);
+	}
+
+	private void drawHovered(Vertex v) {
+
+		g2.setColor(Color.WHITE);
+		g2.fill(v);
+		g2.setStroke(new BasicStroke((float) ((v.getHeight() * 20) / 100)));
+		g2.setColor(myCyan);
+		g2.draw(v);
+	}
+
+	private void drawClicked(Vertex v) {
+
+		g2.setColor(Color.WHITE);
+		g2.fill(v);
+		g2.setStroke(new BasicStroke((float) (v.getHeight() * 25) / 100));
+		g2.setColor(Color.BLACK);
+		g2.draw(v);
+
+	}
+
+	private void drawNeighbor(Vertex v) {
+
+		g2.setColor(Color.WHITE);
+		g2.fill(v);
+		g2.setStroke(new BasicStroke((float) (v.getHeight() * 25) / 100));
+		g2.setColor(Color.GREEN);
+		g2.draw(v);
+	}
+
 }
 
 class PopUpDemo extends JPopupMenu {
@@ -210,6 +279,7 @@ class PopUpDemo extends JPopupMenu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("I am CLICKED ...");
+				
 
 			}
 		});

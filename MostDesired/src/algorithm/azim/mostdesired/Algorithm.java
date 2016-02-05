@@ -43,6 +43,8 @@ public abstract class Algorithm {
 	private static ArrayList<LinkedList<NodeAndWeight>> nodesList_Out;
 	private static ArrayList<LinkedList<NodeAndWeight>> nodesList_In;
 	
+	
+	
 	/**
 	 * 
 	 * @param fileName is the input file with the required format (Look at the documentations).
@@ -52,6 +54,8 @@ public abstract class Algorithm {
 	 */
 	public static ArrayList<Integer> runAlgorithm(String fileName, int k, int error, Double[] sssResult, ProgressMonitor progressMonitor) throws IOException{
 		
+		
+		progressMonitor.logUpdate("Start ...");
 		maxUselessIterations = error;
 		DataReader dr = new DataReader(fileName);
 		
@@ -60,10 +64,10 @@ public abstract class Algorithm {
 		nodesList_In  = dr.getNodesList_In(); 
 		System.out.println("\n\n nodesList.size():" + nodesList_Out.size());
 		
+		
 		ArrayList<Integer> s = new ArrayList<Integer>();
 		
-		if (progressMonitor!=null)
-			progressMonitor.progressUpdated(0);
+		
 		try {
 			Thread.sleep(2000);
 		} catch (InterruptedException e) {
@@ -78,6 +82,7 @@ public abstract class Algorithm {
 			System.out.println(i + ": " + s.get(i));
 		}
 		
+		progressMonitor.logUpdate("End ...");
 		return s;
 	}
 	
@@ -206,8 +211,7 @@ public abstract class Algorithm {
 		
 		int progress = 0;
 		
-		if(progressMonitor != null)
-			progressMonitor.progressUpdated(progress);
+		
 		
 		
 		ArrayList<Integer> indices = new ArrayList<Integer>(nodes_In.size());//indices of elements in sssCloned
@@ -258,9 +262,7 @@ public abstract class Algorithm {
 		Double lastValueForS = 0.0;
 		for(int i = 0; ((i < u_s_indices.size()) && ((i - lastAccepted_i) < maxUselessIterations)); i++){
 			
-			progress += (100 / u_s_indices.size()+1);
-			if(progressMonitor != null)
-				progressMonitor.progressUpdated(Math.min(progress, 100));
+			
 			//sort s if any of its nodes was replaces in previous iterations
 			if(anyChangesOnS)
 				InsertionSort.sort(s_values, s_indices);
@@ -271,6 +273,7 @@ public abstract class Algorithm {
 			lastValueForS = steadyStateSpread(s_indices, nodes_In);
 			
 			System.out.print("\n\n|||||Proposed s:|||||");
+			
 			for(int p = 0; p < s_indices.size(); p++)
 				System.out.print(s_indices.get(p) + ",");
 			System.out.println();
@@ -278,6 +281,9 @@ public abstract class Algorithm {
 			
 			
 			for(int j = 0; j < s_indices.size(); j++){
+				
+				progress += (100 / u_s_indices.size()*s_indices.size());
+				
 				
 				candidateFromS = s_indices.get(j);
 				s_indices.set(j, candidateFromU_S);//replacement

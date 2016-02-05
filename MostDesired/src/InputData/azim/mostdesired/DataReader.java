@@ -276,7 +276,7 @@ public class DataReader {
 		
 		Double [] degrees = new Double [nodesList_Out.size()];
 		int [] ids = new int [nodesList_Out.size()];
-		int [] kMasIds = new int [k];
+		int [] kMaxIds = new int [k];
 		
 		int i = 0;
 		for (LinkedList<NodeAndWeight> node: nodesList_Out){
@@ -290,11 +290,11 @@ public class DataReader {
 		
 		for (i=0; i<k; i++) {
 			
-			kMasIds[i] = ids[ids.length-i-1];
+			kMaxIds[i] = ids[ids.length-i-1];
 		}
 		
 		
-		return kMasIds;
+		return kMaxIds;
 		
 	}
 	

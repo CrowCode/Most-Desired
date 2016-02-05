@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
 import InputData.azim.mostdesired.DataReader;
+import VirusSpread.azim.mostdesired.VirusSpread;
 import model.sajjad.mostdesired.sVertex;
 import supplementaryClasses.azim.mostdesired.NodeAndWeight;
 
@@ -37,12 +38,15 @@ public class ViewGraphFrame extends JFrame {
 	
 	
 
-	private ArrayList<LinkedList<NodeAndWeight>> graph;
+	private ArrayList<LinkedList<NodeAndWeight>> graphIn;
+	private ArrayList<LinkedList<NodeAndWeight>> graphOut;
 	private ArrayList<sVertex> verticesProp;
 	private CloseListener closeListener;
 	private Dimension scrSize;
 	private DataReader dataReader;
 	private ArrayList<Integer> k;
+	
+	ViewGraphPanel panel;
 
 	public ViewGraphFrame(String filename, CloseListener closeListener) throws IOException {
 		
@@ -50,7 +54,8 @@ public class ViewGraphFrame extends JFrame {
 		this.closeListener = closeListener;
 		this.dataReader = new DataReader(filename);
 		this.verticesProp = new ArrayList<>();
-		this.graph = dataReader.getNodesList_In();
+		this.graphIn = dataReader.getNodesList_In();
+		this.graphOut = dataReader.getNodesList_Out();
 		
 		initf();
 		initVertices();
@@ -65,7 +70,8 @@ public class ViewGraphFrame extends JFrame {
 		this.closeListener = closeListener;
 		this.dataReader = new DataReader(filename);
 		this.verticesProp = new ArrayList<>();
-		this.graph = dataReader.getNodesList_In();
+		this.graphIn = dataReader.getNodesList_In();
+		this.graphOut = dataReader.getNodesList_Out();
 		this.k = k;
 		
 		initf();
@@ -90,7 +96,7 @@ public class ViewGraphFrame extends JFrame {
 	
 	private void initializationComp() {
 		
-		ViewGraphPanel panel = new ViewGraphPanel(scrSize, verticesProp);
+		panel = new ViewGraphPanel(scrSize, verticesProp);
 		JScrollPane spanel = new JScrollPane(panel);
 		spanel.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
 		spanel.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
@@ -100,10 +106,10 @@ public class ViewGraphFrame extends JFrame {
 	
 	private void initVertices() {
 		
-		for (int i = 0; i < graph.size(); i++) {
+		for (int i = 0; i < graphIn.size(); i++) {
 			
-			LinkedList<NodeAndWeight> vertexTmp = graph.get(i);
-			int d = (vertexTmp.size() * 200) / graph.size();
+			LinkedList<NodeAndWeight> vertexTmp = graphIn.get(i);
+			int d = (vertexTmp.size() * 200) / graphIn.size();
 			
 			sVertex sv = new sVertex(i, new Random().nextInt(1000) + 100, new Random().nextInt((1000)) + 100, (d), false);
 			
@@ -119,6 +125,12 @@ public class ViewGraphFrame extends JFrame {
 			}
 			verticesProp.add(sv);
 		}
+		
+		ArrayList<Integer> seeds = new ArrayList<>();
+		seeds.add(1);
+		seeds.add(3);
+		seeds.add(4);
+		VirusSpread.spread("A", seeds, graphOut, verticesProp, 4);
 		
 	}
 

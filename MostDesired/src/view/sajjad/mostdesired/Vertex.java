@@ -15,12 +15,13 @@ public class Vertex extends Ellipse2D.Double {
 	private VertexClickListener vertexClickListener;
 	private int id;
 	private boolean isInK;
+	private sVertex sv;
 	
 	
 	public Vertex(sVertex svertex) {
 		super(svertex.getX(), svertex.getY(), svertex.getD(), svertex.getD());
 		this.id = svertex.getId();
-		this.isInK = svertex.isInK();
+		this.sv = svertex;
 	}
 
 	public void Clicked(VertexClickEvent mouseEvent) {
@@ -32,7 +33,6 @@ public class Vertex extends Ellipse2D.Double {
 				}
 			}
 		}
-
 	}
 
 	public void Hovered(VertexClickEvent mouseEvent) {
@@ -44,7 +44,6 @@ public class Vertex extends Ellipse2D.Double {
 				}
 			}
 		}
-
 	}
 
 	public int getId() {
@@ -55,14 +54,21 @@ public class Vertex extends Ellipse2D.Double {
 		this.id = id;
 	}
 
-	public VertexClickListener getVertexClickListener() {
-		return vertexClickListener;
-	}
-
 	public void setVertexClickListener(VertexClickListener vertexClickListener) {
 		this.vertexClickListener = vertexClickListener;
 	}
+	
+	
 
+	public sVertex getSv() {
+		return sv;
+	}
+
+	public void setSv(sVertex sv) {
+		this.sv = sv;
+	}
+
+	
 	public boolean isInK() {
 		return isInK;
 	}
@@ -70,7 +76,4 @@ public class Vertex extends Ellipse2D.Double {
 	public void setInK(boolean isInK) {
 		this.isInK = isInK;
 	}
-	
-	
-
 }
