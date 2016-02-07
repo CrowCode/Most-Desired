@@ -112,6 +112,8 @@ public class MainFrame extends JFrame {
 	private File file;
 	private JFrame VisualGraph;
 	
+	private DataReader rd;
+	
 	//private ArrayList<Integer> solution = new ArrayList<>();
 	
 	/*
@@ -466,7 +468,7 @@ public class MainFrame extends JFrame {
 							/**
 							 *  comment the line below if you want test virus
 							 */
-							VisualGraph = new GraphFrame();
+							VisualGraph = new GraphFrame(rd);
 						} else {
 							JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "Dialog",
 									JOptionPane.ERROR_MESSAGE);
@@ -530,7 +532,7 @@ public class MainFrame extends JFrame {
 	private void setFileInfo(File file) {
 
 		try {
-			DataReader rd = new DataReader(file.getPath());
+			rd = new DataReader(file.getPath());
 			fileLineLabel.setText(rd.getNumberOfLines() + "");
 			fileIdLabel.setText(rd.getMaxIndex() + "");
 			fileNodesLabel.setText(rd.getnNodes() + "");

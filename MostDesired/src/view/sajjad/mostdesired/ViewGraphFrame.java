@@ -127,6 +127,7 @@ public class ViewGraphFrame extends JFrame {
 		}
 		
 		ArrayList<Integer> seeds = new ArrayList<>();
+		
 		seeds.add(1);
 		seeds.add(3);
 		seeds.add(4);
