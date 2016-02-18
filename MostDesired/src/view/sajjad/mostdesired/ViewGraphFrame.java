@@ -46,7 +46,7 @@ public class ViewGraphFrame extends JFrame {
 	private DataReader dataReader;
 	private ArrayList<Integer> k;
 	
-	ViewGraphPanel panel;
+	ViewGraphPanelA panel;
 
 	public ViewGraphFrame(String filename, CloseListener closeListener) throws IOException {
 		
@@ -96,7 +96,7 @@ public class ViewGraphFrame extends JFrame {
 	
 	private void initializationComp() {
 		
-		panel = new ViewGraphPanel(scrSize, verticesProp);
+		panel = new ViewGraphPanelA(scrSize, verticesProp);
 		JScrollPane spanel = new JScrollPane(panel);
 		spanel.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
 		spanel.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));

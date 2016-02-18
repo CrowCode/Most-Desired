@@ -44,7 +44,7 @@ public abstract class VirusSpread {
 								ArrayList<Integer> seedsId,
 								ArrayList<LinkedList<NodeAndWeight>> nodesList_Out,
 								ArrayList<sVertex> verticesProp,
-								double scale){						
+								double scale){
 		
 		if(!AorB.equalsIgnoreCase("A") && !AorB.equalsIgnoreCase("B")){
 			throw new IllegalArgumentException("AZIM: 'AorB' is neither 'A' nor 'B'!");
@@ -86,6 +86,14 @@ public abstract class VirusSpread {
 						System.out.println("Error in VirusSpread>>spread()>>if(B)>>While()!");
 				}
 			}
+		}
+		
+		for (sVertex s1: verticesProp){
+			if(s1.isInfectedA()) {
+				System.out.println("Infected Id:"+s1.getId());
+			}
+			
+			
 		}
 		
 	}
@@ -198,6 +206,8 @@ public abstract class VirusSpread {
 		for(NodeAndWeight n : neighbors){
 			
 			i = (int) n.getAdjacentVertex();						//id of a neighbor of  'sourceVertex'
+			if (i == -1)
+				continue;
 			nSVertex = verticesProp.get(i);
 			//if this neighbor ('nSVertex') is vaccinated or infected we just move on to the next neighbor
 			if(nSVertex.isVaccinatedB() || nSVertex.isInfectedB()){
