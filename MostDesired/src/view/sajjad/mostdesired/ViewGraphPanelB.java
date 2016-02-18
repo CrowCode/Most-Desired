@@ -23,7 +23,7 @@ import javax.swing.JViewport;
 
 import model.sajjad.mostdesired.sVertex;
 
-public class ViewGraphPanel extends JPanel implements VertexClickListener {
+public class ViewGraphPanelB extends JPanel implements VertexClickListener {
 
 	/**
 	 * This class is customized JPanel in order to visualize the graph.
@@ -50,7 +50,7 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 
 	private Point mouseStartPoint;
 
-	public ViewGraphPanel(Dimension d, ArrayList<sVertex> sVertices) {
+	public ViewGraphPanelB(Dimension d, ArrayList<sVertex> sVertices) {
 
 		this.sVertices = sVertices;
 
@@ -107,7 +107,7 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 
 			}
 		});
-		addMouseListener(new PopClickListener());
+		//addMouseListener(new PopClickListener());
 	}
 
 	@Override
@@ -125,11 +125,9 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 
 			if (HOVERED && v.getId() == VERTEX_HOVERED) {
 				drawHovered(v);
-			} else if (v.getSv().isInK()) {
-				;
-			} else if (v.getSv().isVaccinatedA()) {
+			} else if (v.getSv().isInfectedB()) {
 				drawInfected(v);
-			} else if (v.getSv().isVaccinatedA()) {
+			} else if (v.getSv().isVaccinatedB()) {
 				drawVaccinated(v);
 			} else {
 				drawNormal(v);
@@ -222,7 +220,7 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 		g2.setColor(Color.WHITE);
 		g2.fill(v);
 		g2.setStroke(new BasicStroke((float) ((v.getHeight() * 20) / 100)));
-		g2.setColor(Color.RED);
+		g2.setColor(Color.YELLOW);
 		g2.draw(v);
 	}
 
@@ -265,47 +263,6 @@ public class ViewGraphPanel extends JPanel implements VertexClickListener {
 
 }
 
-class PopUpDemo extends JPopupMenu {
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	JMenuItem anItem;
 
-	public PopUpDemo() {
-		anItem = new JMenuItem("Run the ALGORITHM ...");
-		anItem.addActionListener(new ActionListener() {
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.out.println("I am CLICKED ...");
-				
 
-			}
-		});
-		add(anItem);
-	}
-}
-
-class PopClickListener extends MouseAdapter {
-	public void mousePressed(MouseEvent e) {
-		if (e.isPopupTrigger()) {
-			doPop(e);
-
-		}
-
-	}
-
-	public void mouseReleased(MouseEvent e) {
-		if (e.isPopupTrigger()) {
-			doPop(e);
-
-		}
-
-	}
-
-	private void doPop(MouseEvent e) {
-		PopUpDemo menu = new PopUpDemo();
-		menu.show(e.getComponent(), e.getX(), e.getY());
-	}
-}

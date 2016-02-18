@@ -16,13 +16,13 @@ import model.sajjad.mostdesired.sVertex;
  * </ul> 
  *
  */
-public abstract class Vaccinate {
+public class Vaccinate {
 	/**
 	 * This method vaccinates the most influential nodes of the graph. It sets the boolean field 
 	 * (<i>isVaccinatedA</i>) of the class <b>sVertex<b> to True.
 	 * @param nodes is a list of vertices of type <b>sVertex</b>
 	 */
-	public void vaccinateMostInfluentials(ArrayList<sVertex> nodes){
+	public static void vaccinateMostInfluentials(ArrayList<sVertex> nodes){
 		
 		for(sVertex node: nodes){
 			if(node.isInK())
@@ -35,7 +35,7 @@ public abstract class Vaccinate {
 	 * of the class <b>sVertex<b> to True.
 	 * @param nodes is a list of vertices of type <b>sVertex</b>
 	 */
-	public void vaccinateMaxDegrees(ArrayList<sVertex> nodes){
+	public static void vaccinateMaxDegrees(ArrayList<sVertex> nodes){
 		
 		for(sVertex node: nodes){
 			if(node.isInMax())

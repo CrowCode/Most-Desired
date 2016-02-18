@@ -21,6 +21,9 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
@@ -42,7 +45,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
 import InputData.azim.mostdesired.DataReader;
+import VirusSpread.azim.mostdesired.Vaccinate;
+import model.sajjad.mostdesired.sVertex;
 import newview.sajjad.mostdesired.GraphFrame;
+import supplementaryClasses.azim.mostdesired.NodeAndWeight;
 import task.sajjad.mostdesired.AlgorithmFinish;
 import task.sajjad.mostdesired.AlgorithmTask;
 
@@ -114,7 +120,14 @@ public class MainFrame extends JFrame {
 	
 	private DataReader rd;
 	
-	//private ArrayList<Integer> solution = new ArrayList<>();
+	public static ArrayList<Integer> solution;
+	private ArrayList<sVertex> sVertices;
+	private ArrayList<Integer> maxDegrees;
+	
+	public static ArrayList<LinkedList<NodeAndWeight>> graphIn;
+	public static ArrayList<LinkedList<NodeAndWeight>> graphOut;
+	
+	
 	
 	/*
 	 * Necessary fields in order to convert a text area to console
@@ -124,6 +137,8 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 		initializeBasics();
 		init();
+		
+		
 	}
 
 	void init() {
@@ -407,6 +422,7 @@ public class MainFrame extends JFrame {
 
 				}
 			}
+			
 
 		}
 	};
@@ -468,7 +484,8 @@ public class MainFrame extends JFrame {
 							/**
 							 *  comment the line below if you want test virus
 							 */
-							VisualGraph = new GraphFrame(rd);
+							
+							VisualGraph = new GraphFrame(sVertices);
 						} else {
 							JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "Dialog",
 									JOptionPane.ERROR_MESSAGE);
@@ -536,24 +553,81 @@ public class MainFrame extends JFrame {
 			fileLineLabel.setText(rd.getNumberOfLines() + "");
 			fileIdLabel.setText(rd.getMaxIndex() + "");
 			fileNodesLabel.setText(rd.getnNodes() + "");
-			
-			
-			//============================test max degrees =============================
-			
-			int [] maxDegrees = rd.findKMaxDegree(Integer.parseInt(kSpinner.getValue().toString()));
-			
-			System.out.println("=============== Test max degree ===============");
-			
-			System.out.println(Arrays.toString(maxDegrees));
-			
-			//==========================================================================
-			
+			this.graphIn = rd.getNodesList_In();
+			this.graphOut = rd.getNodesList_Out();
 
 		} catch (IOException e1) {
 
 			e1.printStackTrace();
 		}
+		
+		
 
+	}
+	
+	/**
+	 * The method to create sVertices from rd of type dataReader.
+	 */
+	private void createSvertexArray() {
+
+		sVertices = new ArrayList<>();
+		int k = Integer.parseInt(kSpinner.getValue().toString());
+
+		for (int i = 0; i < graphIn.size(); i++) {
+
+			LinkedList<NodeAndWeight> vertexTmp = graphOut.get(i);
+			int d = ((vertexTmp.size() * 200) / graphOut.size())+5;
+
+			sVertex sv = new sVertex(i, new Random().nextInt(1000) + 100, new Random().nextInt((1000)) + 100, (d),
+					false);
+
+			
+			
+			
+			
+			
+
+			Iterator<NodeAndWeight> iterator = vertexTmp.iterator();
+			while (iterator.hasNext()) {
+
+				sv.addNeighbor((int) iterator.next().getAdjacentVertex());
+			}
+			sVertices.add(sv);
+		}
+		
+		maxDegrees = rd.findKMaxDegree(k);
+	
+//		System.out.println(">>>>"+solution.toString());
+//		
+//		for (sVertex s: sVertices) {
+//			if (maxDegrees!=null && maxDegrees.contains(s.getId())) {
+//				s.setInMax(true);
+//			}
+//			if ( solution != null && solution.contains(s.getId())) {
+//				s.setInK(true);
+//			}
+//		}
+//		
+//		Vaccinate.vaccinateMaxDegrees(sVertices);
+//		Vaccinate.vaccinateMostInfluentials(sVertices);
+	}
+	
+	private void vaccinateSvertexArray() {
+		for (sVertex s: sVertices) {
+			
+			if (maxDegrees!=null)
+			if (maxDegrees.contains(s.getId())) {
+				s.setInMax(true);
+			}
+			if (solution != null)
+			if (solution.contains(s.getId())) {
+				s.setInK(true);
+			}
+		}
+		System.out.println(">>>>"+solution.toString());
+		System.out.println(">>>>"+maxDegrees.toString());
+		Vaccinate.vaccinateMaxDegrees(sVertices);
+		Vaccinate.vaccinateMostInfluentials(sVertices);
 	}
 	
 	
@@ -567,6 +641,10 @@ public class MainFrame extends JFrame {
 			 * Get the input file properties and set the labels
 			 */
 			setFileInfo(file);
+			
+			createSvertexArray();
+			
+			
 			setCursor(Cursor.getDefaultCursor());
 			consoleTextArea.setCursor(Cursor.getDefaultCursor());
 		}
@@ -580,11 +658,13 @@ public class MainFrame extends JFrame {
 	 */
 
 	AlgorithmFinish af = new AlgorithmFinish() {
-
 		
 		@Override
-		public void finish(ArrayList<Integer> solution) {
-
+		public void finish(ArrayList<Integer> s) {
+			
+			solution = s;
+			vaccinateSvertexArray();
+			
 			setCursor(Cursor.getDefaultCursor());
 
 		}
