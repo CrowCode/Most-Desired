@@ -12,7 +12,7 @@ import supplementaryClasses.azim.mostdesired.NodeAndWeight;
  * 
  * @author azim<br>
  * 
- * This is an abstract class which spread a virus to a graph, through the initially infected nodes which are called <b>seeds</b>.
+ * This is an abstract class which spreads a virus throughout a graph, starting from initially infected nodes which are called <b>seeds</b>.
  * To run the spread of virus, these pieces of information are needed:
  * <ul>
  * 	<li>seedsId:</li> an ArrayList of Integers containing the IDs of the initially infected nodes.
@@ -126,7 +126,7 @@ public abstract class VirusSpread {
 		int sourceId;												//id of the node which contains the virus
 		
 		sourceId = sourceVertex.getId();
-		neighbors = nodesList_Out.get(sourceId);				//nodes in touch with the source node
+		neighbors = nodesList_Out.get(sourceId);					//nodes in touch with the source node
 		Random rn = new Random();
 		//iterate over all neighbors of 'sourceVertex'
 		for(NodeAndWeight n : neighbors){

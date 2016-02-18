@@ -9,15 +9,17 @@ public class sVertex {
 	private int y;
 	private int d;
 	private boolean isInK;
-	private boolean isInMax;
-	private ArrayList<Integer> neighbors;
+	private boolean isInMax; 
 	private boolean isInfectedA;		//True if this node is infected in the experiment in 
 										//regard with the most influential nodes
 	private boolean isInfectedB;		//True if this node is infected in the experiment in 
 										//regard with the max-degree nodes
-	
 	private boolean isVaccinatedA;		//True if this node is vaccinated (is a most influential node)
 	private boolean isVaccinatedB;		//True if this node is vaccinated (is a max degree node)
+	
+	/** This field is not used!!*/
+	private ArrayList<Integer> neighbors;
+	
 	
 	
 	public sVertex(int id, int x, int y, int d, boolean isInK) {
