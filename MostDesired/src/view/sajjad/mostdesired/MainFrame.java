@@ -137,8 +137,6 @@ public class MainFrame extends JFrame {
 	public MainFrame() {
 		initializeBasics();
 		init();
-		
-		
 	}
 
 	void init() {
@@ -462,9 +460,7 @@ public class MainFrame extends JFrame {
 					public void run() {
 
 						if (!fileNameLabel.getText().equals("") && !fileNameLabel.getText().equals("[...]")) {
-							
-							
-							
+												
 							/**
 							 *  in case of testing uncomment this and comment line below (splitepane)
 							 */
@@ -560,9 +556,6 @@ public class MainFrame extends JFrame {
 
 			e1.printStackTrace();
 		}
-		
-		
-
 	}
 	
 	/**
@@ -576,16 +569,10 @@ public class MainFrame extends JFrame {
 		for (int i = 0; i < graphIn.size(); i++) {
 
 			LinkedList<NodeAndWeight> vertexTmp = graphOut.get(i);
-			int d = ((vertexTmp.size() * 200) / graphOut.size())+5;
+			int d = ((vertexTmp.size() * 200) / graphOut.size()) + 5;
 
 			sVertex sv = new sVertex(i, new Random().nextInt(1000) + 100, new Random().nextInt((1000)) + 100, (d),
 					false);
-
-			
-			
-			
-			
-			
 
 			Iterator<NodeAndWeight> iterator = vertexTmp.iterator();
 			while (iterator.hasNext()) {
@@ -643,7 +630,6 @@ public class MainFrame extends JFrame {
 			setFileInfo(file);
 			
 			createSvertexArray();
-			
 			
 			setCursor(Cursor.getDefaultCursor());
 			consoleTextArea.setCursor(Cursor.getDefaultCursor());

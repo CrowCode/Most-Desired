@@ -289,9 +289,13 @@ public class DataReader {
 			
 			kMaxIds.add(ids[ids.length-i-1]);
 		}
-		
-		
+		/**	If K is well set for both max degree and most influential lists
+		 * then remove these lines:
+		 */
+		System.out.println("DataReader>>Number of nodes with max ID: \t" + k);
 		return kMaxIds;
+		
+		/************************************************/
 		
 	}
 	

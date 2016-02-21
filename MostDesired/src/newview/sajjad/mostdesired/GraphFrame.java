@@ -8,6 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
@@ -43,7 +44,6 @@ public class GraphFrame extends JFrame {
 		
 		this.sVertices = sVertices;
 		
-
 		/**
 		 * Prepare parameter dimension and sVertes array list in order to build
 		 * ViewGraphPanels. sVertices can be built from dataReader, rd d is just
@@ -96,9 +96,7 @@ public class GraphFrame extends JFrame {
 }
 
 class PopUpDemo extends JPopupMenu {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	JMenuItem anItem;
 
@@ -108,17 +106,58 @@ class PopUpDemo extends JPopupMenu {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+				
+				double a = 0;
+				double b = 0;
+				
 				System.out.println("Spreading the virus ...");
 				
 				
+				/******************** AZIM ***** For test ***********************/
+				/******** Generate a random set of nodes to carry the virus *****/
+				Random rn = new Random();
+				ArrayList<Integer> infectedSeedsList = new ArrayList<Integer>();
+				for(int i = 0; i < 10; i++){
+					infectedSeedsList.add(rn.nextInt((GraphFrame.sVertices.size()) + 1));
+				}
+				VirusSpread.spread("A", infectedSeedsList, MainFrame.graphOut, GraphFrame.sVertices, 1);
+				VirusSpread.spread("B", infectedSeedsList, MainFrame.graphOut, GraphFrame.sVertices, 1);
 				
-				VirusSpread.spread("A", MainFrame.solution, MainFrame.graphOut, GraphFrame.sVertices, 1);
-				VirusSpread.spread("B", MainFrame.solution, MainFrame.graphOut, GraphFrame.sVertices, 1);
 				
+				System.out.println("GraphFrame>>>>>InfectedSeeds: " + infectedSeedsList.toString());
+				System.out.println("GraphFrame>>>>>Solution: " + MainFrame.solution.toString());
+				/*****************************************************************/
+				
+				
+				
+				
+				
+				
+//				VirusSpread.spread("A", MainFrame.solution, MainFrame.graphOut, GraphFrame.sVertices, 1);
+//				VirusSpread.spread("B", MainFrame.solution, MainFrame.graphOut, GraphFrame.sVertices, 1);
 				
 				GraphFrame.graphPanelLeft.repaint();
 				GraphFrame.graphPanelRight.repaint();
-
+				
+				
+				
+				
+				/**			AZIM: REMOVE THIS LATER		**/
+				sVertex sv;
+				for(int i = 0; i < GraphFrame.sVertices.size(); i++){
+					sv = GraphFrame.sVertices.get(i);
+					if(sv.isInfectedA()){
+						a++;
+					}
+					if(sv.isInfectedB()){
+						b++;
+					}
+				}
+				System.out.println("Infected in A: " + a);
+				System.out.println("Infected in B: " + b);
+				System.out.println("Proportion of infected A: " + (a*100)/GraphFrame.sVertices.size());
+				System.out.println("Proportion of infected B: " + (b*100)/GraphFrame.sVertices.size());
+				/**	************************************ **/
 			}
 		});
 		add(anItem);

@@ -6,6 +6,7 @@ import java.util.Random;
 
 import model.sajjad.mostdesired.sVertex;
 import supplementaryClasses.azim.mostdesired.NodeAndWeight;
+import view.sajjad.mostdesired.MainFrame;
 
 
 /**
@@ -46,8 +47,24 @@ public abstract class VirusSpread {
 								ArrayList<sVertex> verticesProp,
 								double scale){
 		
+		System.out.println("VirusSperad>>>>>spread: 'seeds' in spread() are: \n" + seedsId.toString());
+		
 		if(!AorB.equalsIgnoreCase("A") && !AorB.equalsIgnoreCase("B")){
 			throw new IllegalArgumentException("AZIM: 'AorB' is neither 'A' nor 'B'!");
+		}
+		sVertex tempSVertex;
+		for(int i = 0; i < seedsId.size(); i++){
+			
+			tempSVertex = verticesProp.get(seedsId.get(i));
+			if(tempSVertex.isVaccinatedA()){
+				System.out.println(i + "\t VirusSpread: The seed with id " + tempSVertex.getId() +
+									" was already vaccinated!!!");
+			}
+			if(tempSVertex.isInfectedA()){
+				System.out.println(i + "\t VirusSpread: The seed with id " + tempSVertex.getId() +
+									" was already infected!!!");
+			}
+			
 		}
 		
 		sVertex s;
@@ -63,7 +80,7 @@ public abstract class VirusSpread {
 		if(AorB.equalsIgnoreCase("A")){
 			while(!infectedQueue.isEmpty()){
 				//take the first vertex out of the 'infectedQueue'
-				s = infectedQueue.removeFirst();									//or last ???
+				s = infectedQueue.removeFirst();									
 				
 				newInfectedNodes = findNewInfectedNodesA(s, nodesList_Out, verticesProp, scale);
 				if(!newInfectedNodes.isEmpty()){
@@ -88,13 +105,13 @@ public abstract class VirusSpread {
 			}
 		}
 		
-		for (sVertex s1: verticesProp){
-			if(s1.isInfectedA()) {
-				System.out.println("Infected Id:"+s1.getId());
-			}
-			
-			
-		}
+//		for (sVertex s1: verticesProp){
+//			if(s1.isInfectedA()) {
+//				System.out.println("Infected Id:"+s1.getId());
+//			}
+//			
+//			
+//		}
 		
 	}
 	
@@ -157,7 +174,6 @@ public abstract class VirusSpread {
 				}
 			}
 		}
-		
 		
 		return newInfectedNodes;
 	}
