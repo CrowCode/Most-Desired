@@ -466,6 +466,8 @@ public class MainFrame extends JFrame {
 			/**
 			 *  If the source of action is 'goInGraphicModeBtn'. It means if GRAPHIC MODE button clicked. 
 			 */
+			vaccinateSvertexArray();
+			
 			if (e.getSource() == goInGraphicModeBtn) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
@@ -607,8 +609,8 @@ public class MainFrame extends JFrame {
 	
 	private void runExperinment() {
 		vaccinateSvertexArray();
-		//VirusSpread.spread("A", solution, graphOut, sVertices, 1);
-		//VirusSpread.spread("B", solution, graphOut, sVertices, 1);
+		VirusSpread.spread("A", solution, graphOut, sVertices, 1);
+		VirusSpread.spread("B", solution, graphOut, sVertices, 1);
 	}
 	
 	

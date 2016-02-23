@@ -40,7 +40,7 @@ public class GraphFrame extends JFrame {
 		setSize(1300, 700);
 		
 		
-		
+		this.sVertices = sVertices;
 		
 		/**
 		 * Prepare parameter dimension and sVertes array list in order to build
