@@ -43,11 +43,11 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
-import InputData.azim.mostdesired.DataReader;
-import VirusSpread.azim.mostdesired.Vaccinate;
-import VirusSpread.azim.mostdesired.VirusSpread;
+import Virusspread.azim.mostdesired.Vaccinate;
+import Virusspread.azim.mostdesired.VirusSpread;
+import inputdata.azim.mostdesired.DataReader;
 import model.sajjad.mostdesired.sVertex;
-import supplementaryClasses.azim.mostdesired.NodeAndWeight;
+import supplementaryclasses.azim.mostdesired.NodeAndWeight;
 import task.sajjad.mostdesired.AlgorithmFinish;
 import task.sajjad.mostdesired.AlgorithmTask;
 
@@ -609,8 +609,13 @@ public class MainFrame extends JFrame {
 	
 	private void runExperinment() {
 		vaccinateSvertexArray();
-		VirusSpread.spread("A", solution, graphOut, sVertices, 1);
-		VirusSpread.spread("B", solution, graphOut, sVertices, 1);
+		Random rn = new Random();
+		ArrayList<Integer> infectedSeedsList = new ArrayList<Integer>();
+		for(int i = 0; i < 10; i++){
+			infectedSeedsList.add(rn.nextInt((sVertices.size()) + 1));
+		}
+		VirusSpread.spread("A", infectedSeedsList, graphOut, sVertices, 1);
+		VirusSpread.spread("B", infectedSeedsList, graphOut, sVertices, 1);
 	}
 	
 	

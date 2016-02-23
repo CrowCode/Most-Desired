@@ -7,7 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -16,9 +15,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
-import VirusSpread.azim.mostdesired.VirusSpread;
+import Virusspread.azim.mostdesired.VirusSpread;
 import model.sajjad.mostdesired.sVertex;
-import supplementaryClasses.azim.mostdesired.NodeAndWeight;
 
 public class GraphFrame extends JFrame {
 

@@ -18,10 +18,10 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 
-import InputData.azim.mostdesired.DataReader;
-import VirusSpread.azim.mostdesired.VirusSpread;
+import Virusspread.azim.mostdesired.VirusSpread;
+import inputdata.azim.mostdesired.DataReader;
 import model.sajjad.mostdesired.sVertex;
-import supplementaryClasses.azim.mostdesired.NodeAndWeight;
+import supplementaryclasses.azim.mostdesired.NodeAndWeight;
 import view.sajjad.mostdesired.CloseListener;
 import view.sajjad.mostdesired.ViewGraphPanelA;
 

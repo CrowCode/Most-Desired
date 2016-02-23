@@ -1,4 +1,4 @@
-package InputData.azim.mostdesired;
+package inputdata.azim.mostdesired;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import sortingClasses.azim.mostdesired.SyncHeapsort;
-import supplementaryClasses.azim.mostdesired.NodeAndWeight;
+import sortingclasses.azim.mostdesired.SyncHeapsort;
+import supplementaryclasses.azim.mostdesired.NodeAndWeight;
 
 /**
  * 

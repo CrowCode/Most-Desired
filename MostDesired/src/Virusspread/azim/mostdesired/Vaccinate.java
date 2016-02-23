@@ -1,4 +1,4 @@
-package VirusSpread.azim.mostdesired;
+package Virusspread.azim.mostdesired;
 
 import java.util.ArrayList;
 

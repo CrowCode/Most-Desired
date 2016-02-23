@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import InputData.azim.mostdesired.DataReader;
+import inputdata.azim.mostdesired.DataReader;
 
 public class DataReaderTest {
 

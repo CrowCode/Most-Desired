@@ -1,4 +1,4 @@
-package supplementaryClasses.azim.mostdesired;
+package supplementaryclasses.azim.mostdesired;
 
 public class NodeAndWeight {
 

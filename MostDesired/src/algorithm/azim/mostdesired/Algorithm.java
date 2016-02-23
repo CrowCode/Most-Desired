@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 
-import InputData.azim.mostdesired.DataReader;
-import sortingClasses.azim.mostdesired.InsertionSort;
-import supplementaryClasses.azim.mostdesired.NodeAndWeight;
+import inputdata.azim.mostdesired.DataReader;
+import sortingclasses.azim.mostdesired.InsertionSort;
+import supplementaryclasses.azim.mostdesired.NodeAndWeight;
 import task.sajjad.mostdesired.ProgressMonitor;
 
 /**

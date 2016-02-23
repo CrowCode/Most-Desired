@@ -1,11 +1,11 @@
-package VirusSpread.azim.mostdesired;
+package Virusspread.azim.mostdesired;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
 import model.sajjad.mostdesired.sVertex;
-import supplementaryClasses.azim.mostdesired.NodeAndWeight;
+import supplementaryclasses.azim.mostdesired.NodeAndWeight;
 import view.sajjad.mostdesired.MainFrame;
 
 

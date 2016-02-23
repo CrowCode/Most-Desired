@@ -1,4 +1,4 @@
-package InputData.azim.mostdesired;
+package inputdata.azim.mostdesired;
 
 
 
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
-import supplementaryClasses.azim.mostdesired.NodeAndWeight;
+import supplementaryclasses.azim.mostdesired.NodeAndWeight;
 
 /**
  * 
