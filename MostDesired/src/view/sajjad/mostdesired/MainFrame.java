@@ -472,7 +472,7 @@ public class MainFrame extends JFrame {
 					public void run() {
 
 						if (!fileNameLabel.getText().equals("") && !fileNameLabel.getText().equals("[...]")) {
-							
+
 							VisualGraph = new GraphFrame(sVertices);
 						} else {
 							JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "Dialog",
@@ -554,9 +554,6 @@ public class MainFrame extends JFrame {
 
 			e1.printStackTrace();
 		}
-		
-		
-
 	}
 	
 	/**
@@ -569,13 +566,16 @@ public class MainFrame extends JFrame {
 
 		for (int i = 0; i < graphIn.size(); i++) {
 
+
 			LinkedList<NodeAndWeight> tempList = graphOut.get(i);
 			int d = ((tempList.size() * 200) / graphOut.size())+5;
+
 
 			sVertex sv = new sVertex(i, new Random().nextInt(1000) + 100, new Random().nextInt((1000)) + 100, (d),
 					false);
 
 			Iterator<NodeAndWeight> iterator = tempList.iterator();
+
 			while (iterator.hasNext()) {
 
 				sv.addNeighbor((int) iterator.next().getAdjacentVertex());
@@ -622,7 +622,6 @@ public class MainFrame extends JFrame {
 			 * Get the input file properties and set the labels
 			 */
 			setFileInfo(file);
-			
 			
 			
 			

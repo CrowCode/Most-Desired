@@ -6,13 +6,14 @@ import java.util.Random;
 
 import model.sajjad.mostdesired.sVertex;
 import supplementaryClasses.azim.mostdesired.NodeAndWeight;
+import view.sajjad.mostdesired.MainFrame;
 
 
 /**
  * 
  * @author azim<br>
  * 
- * This is an abstract class which spread a virus to a graph, through the initially infected nodes which are called <b>seeds</b>.
+ * This is an abstract class which spreads a virus throughout a graph, starting from initially infected nodes which are called <b>seeds</b>.
  * To run the spread of virus, these pieces of information are needed:
  * <ul>
  * 	<li>seedsId:</li> an ArrayList of Integers containing the IDs of the initially infected nodes.
@@ -46,8 +47,24 @@ public class VirusSpread {
 								ArrayList<sVertex> verticesProp,
 								double scale){
 		
+		System.out.println("VirusSperad>>>>>spread: 'seeds' in spread() are: \n" + seedsId.toString());
+		
 		if(!AorB.equalsIgnoreCase("A") && !AorB.equalsIgnoreCase("B")){
 			throw new IllegalArgumentException("AZIM: 'AorB' is neither 'A' nor 'B'!");
+		}
+		sVertex tempSVertex;
+		for(int i = 0; i < seedsId.size(); i++){
+			
+			tempSVertex = verticesProp.get(seedsId.get(i));
+			if(tempSVertex.isVaccinatedA()){
+				System.out.println(i + "\t VirusSpread: The seed with id " + tempSVertex.getId() +
+									" was already vaccinated!!!");
+			}
+			if(tempSVertex.isInfectedA()){
+				System.out.println(i + "\t VirusSpread: The seed with id " + tempSVertex.getId() +
+									" was already infected!!!");
+			}
+			
 		}
 		
 		sVertex s;
@@ -63,7 +80,7 @@ public class VirusSpread {
 		if(AorB.equalsIgnoreCase("A")){
 			while(!infectedQueue.isEmpty()){
 				//take the first vertex out of the 'infectedQueue'
-				s = infectedQueue.removeFirst();									//or last ???
+				s = infectedQueue.removeFirst();									
 				
 				newInfectedNodes = findNewInfectedNodesA(s, nodesList_Out, verticesProp, scale);
 				if(!newInfectedNodes.isEmpty()){
@@ -88,13 +105,13 @@ public class VirusSpread {
 			}
 		}
 		
-		for (sVertex s1: verticesProp){
-			if(s1.isInfectedA()) {
-				System.out.println("Infected Id:"+s1.getId());
-			}
-			
-			
-		}
+//		for (sVertex s1: verticesProp){
+//			if(s1.isInfectedA()) {
+//				System.out.println("Infected Id:"+s1.getId());
+//			}
+//			
+//			
+//		}
 		
 	}
 	
@@ -134,7 +151,7 @@ public class VirusSpread {
 		int sourceId;												//id of the node which contains the virus
 		
 		sourceId = sourceVertex.getId();
-		neighbors = nodesList_Out.get(sourceId);				//nodes in touch with the source node
+		neighbors = nodesList_Out.get(sourceId);					//nodes in touch with the source node
 		Random rn = new Random();
 		//iterate over all neighbors of 'sourceVertex'
 		for(NodeAndWeight n : neighbors){
@@ -157,7 +174,6 @@ public class VirusSpread {
 				}
 			}
 		}
-		
 		
 		return newInfectedNodes;
 	}
