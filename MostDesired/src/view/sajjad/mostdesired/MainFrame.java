@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Random;
@@ -46,8 +45,8 @@ import javax.swing.text.DefaultCaret;
 
 import InputData.azim.mostdesired.DataReader;
 import VirusSpread.azim.mostdesired.Vaccinate;
+import VirusSpread.azim.mostdesired.VirusSpread;
 import model.sajjad.mostdesired.sVertex;
-import newview.sajjad.mostdesired.GraphFrame;
 import supplementaryClasses.azim.mostdesired.NodeAndWeight;
 import task.sajjad.mostdesired.AlgorithmFinish;
 import task.sajjad.mostdesired.AlgorithmTask;
@@ -84,7 +83,8 @@ public class MainFrame extends JFrame {
 	private JPanel bottomPanel;
 	private JButton browsBtn;
 	private JButton runAlgorithmBtn;
-	private JButton showGraphBtn;
+	private JButton goInGraphicModeBtn;
+	private JButton goInTxtModeBtn;
 	private JLabel inputFileLabel;
 	private JLabel fNameLabel;
 	private JLabel fileNameLabel;
@@ -120,25 +120,20 @@ public class MainFrame extends JFrame {
 	
 	private DataReader rd;
 	
-	public static ArrayList<Integer> solution;
+	
 	private ArrayList<sVertex> sVertices;
 	private ArrayList<Integer> maxDegrees;
+	public static ArrayList<Integer> solution;
 	
 	public static ArrayList<LinkedList<NodeAndWeight>> graphIn;
 	public static ArrayList<LinkedList<NodeAndWeight>> graphOut;
 	
-	
-	
-	/*
-	 * Necessary fields in order to convert a text area to console
-	 */
 
 
 	public MainFrame() {
+		
 		initializeBasics();
 		init();
-		
-		
 	}
 
 	void init() {
@@ -283,17 +278,28 @@ public class MainFrame extends JFrame {
 		addCompToLeftPanel(runAlgorithmBtn, 0, 7, 6, 1);
 
 		/** Row 8 **/
-		showGraphBtn = new JButton("SHOW GRAPH");
-		showGraphBtn.setFont(new Font("Arial", Font.BOLD, 10));
-		showGraphBtn.setBackground(myCyan);
-		showGraphBtn.setForeground(Color.white);
-		showGraphBtn.setBorderPainted(false);
-		showGraphBtn.setFocusPainted(false);
-		showGraphBtn.setPreferredSize(new Dimension(200, 20));
-		showGraphBtn.addActionListener(showGraphAct);
-		addCompToLeftPanel(showGraphBtn, 0, 8, 6, 1);
-
+		goInGraphicModeBtn = new JButton("GRAPHIC MODE");
+		goInGraphicModeBtn.setFont(new Font("Arial", Font.BOLD, 10));
+		goInGraphicModeBtn.setBackground(myCyan);
+		goInGraphicModeBtn.setForeground(Color.white);
+		goInGraphicModeBtn.setBorderPainted(false);
+		goInGraphicModeBtn.setFocusPainted(false);
+		goInGraphicModeBtn.setPreferredSize(new Dimension(200, 20));
+		goInGraphicModeBtn.addActionListener(showGraphAct);
+		addCompToLeftPanel(goInGraphicModeBtn, 0, 8, 6, 1);
+		
 		/** Row 9 **/
+		goInTxtModeBtn = new JButton("TEXT MODE");
+		goInTxtModeBtn.setFont(new Font("Arial", Font.BOLD, 10));
+		goInTxtModeBtn.setBackground(myCyan);
+		goInTxtModeBtn.setForeground(Color.white);
+		goInTxtModeBtn.setBorderPainted(false);
+		goInTxtModeBtn.setFocusPainted(false);
+		goInTxtModeBtn.setPreferredSize(new Dimension(200, 20));
+		goInTxtModeBtn.addActionListener(showGraphAct);
+		addCompToLeftPanel(goInTxtModeBtn, 0, 9, 6, 1);
+		
+		/** Row 10 **/
 		fKLabel = new JLabel("K:");
 		fKLabel.setPreferredSize(new Dimension(80, 20));
 		fKLabel.setForeground(Color.black);
@@ -307,13 +313,13 @@ public class MainFrame extends JFrame {
 		kSpinner.getComponent(0).setBackground(myOrange);
 		kSpinner.getComponent(1).setBackground(myOrange);
 		kSpinner.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		addCompToLeftPanel(kSpinner, 2, 9, 4, 1);
+		addCompToLeftPanel(kSpinner, 2, 10, 4, 1);
 
-		/** Row 10 **/
+		/** Row 11 **/
 		fErrorLabel = new JLabel("ERROR:");
 		fErrorLabel.setPreferredSize(new Dimension(80, 20));
 		fErrorLabel.setForeground(Color.black);
-		addCompToLeftPanel(fErrorLabel, 0, 10, 2, 1);
+		addCompToLeftPanel(fErrorLabel, 0, 11, 2, 1);
 
 		SpinnerModel errorSpinnerModel = new SpinnerNumberModel(10, 0, 100, 1);
 		errorSpinner = new JSpinner(errorSpinnerModel);
@@ -323,7 +329,7 @@ public class MainFrame extends JFrame {
 		errorSpinner.getComponent(0).setBackground(myOrange);
 		errorSpinner.getComponent(1).setBackground(myOrange);
 		errorSpinner.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-		addCompToLeftPanel(errorSpinner, 2, 10, 4, 1);
+		addCompToLeftPanel(errorSpinner, 2, 11, 4, 1);
 
 		addWindowListener(exitListener);
 
@@ -434,7 +440,7 @@ public class MainFrame extends JFrame {
 			if (e.getSource() == runAlgorithmBtn) {
 
 				setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-
+				consoleTextArea.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 				consoleTextArea.setText("\n\tOUTPUT:\n");
 				int k = Integer.parseInt(kSpinner.getValue().toString());
 				int error = Integer.parseInt(errorSpinner.getValue().toString());
@@ -447,6 +453,7 @@ public class MainFrame extends JFrame {
 					JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "Dialog",
 							JOptionPane.ERROR_MESSAGE);
 				}
+				createSvertexArray();
 			}
 
 		}
@@ -456,43 +463,30 @@ public class MainFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 
-			if (e.getSource() == showGraphBtn) {
+			/**
+			 *  If the source of action is 'goInGraphicModeBtn'. It means if GRAPHIC MODE button clicked. 
+			 */
+			if (e.getSource() == goInGraphicModeBtn) {
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
 
 						if (!fileNameLabel.getText().equals("") && !fileNameLabel.getText().equals("[...]")) {
 							
-							
-							
-							/**
-							 *  in case of testing uncomment this and comment line below (splitepane)
-							 */
-//							try {
-//									VisualGraph = new ViewGraphFrame(fileNameLabel.getText(), new CloseListener() {
-//									@Override
-//									public void doClose(JFrame frame) {
-//
-//										frame.dispose();
-//										dispose();
-//									}
-//								});
-//							} catch (IOException e) {
-//								// TODO Auto-generated catch block
-//								e.printStackTrace();
-//							}
-							/**
-							 *  comment the line below if you want test virus
-							 */
-							
 							VisualGraph = new GraphFrame(sVertices);
 						} else {
 							JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "Dialog",
 									JOptionPane.ERROR_MESSAGE);
 						}
-
 					}
 				});
+				
+			/**
+			 *  If the source of action is 'goInTxtModeBtn'. It means if TEXT MODE button clicked.
+			 */
+			} else if(e.getSource() == goInTxtModeBtn) {
+				
+				runExperinment();
 			}
 
 		}
@@ -524,7 +518,7 @@ public class MainFrame extends JFrame {
 
 	/**
 	 *  This is function in order to get input file size for showing in GUI
-	 * @param file
+	 * @param file input file from user
 	 */
 	private void getFileSize(File file) {
 
@@ -544,7 +538,7 @@ public class MainFrame extends JFrame {
 
 	/**
 	 *  This function set file information into GUI labels 
-	 * @param file 
+	 * @param file input file from user
 	 */
 	private void setFileInfo(File file) {
 
@@ -553,8 +547,8 @@ public class MainFrame extends JFrame {
 			fileLineLabel.setText(rd.getNumberOfLines() + "");
 			fileIdLabel.setText(rd.getMaxIndex() + "");
 			fileNodesLabel.setText(rd.getnNodes() + "");
-			this.graphIn = rd.getNodesList_In();
-			this.graphOut = rd.getNodesList_Out();
+			graphIn = rd.getNodesList_In();
+			graphOut = rd.getNodesList_Out();
 
 		} catch (IOException e1) {
 
@@ -575,19 +569,13 @@ public class MainFrame extends JFrame {
 
 		for (int i = 0; i < graphIn.size(); i++) {
 
-			LinkedList<NodeAndWeight> vertexTmp = graphOut.get(i);
-			int d = ((vertexTmp.size() * 200) / graphOut.size())+5;
+			LinkedList<NodeAndWeight> tempList = graphOut.get(i);
+			int d = ((tempList.size() * 200) / graphOut.size())+5;
 
 			sVertex sv = new sVertex(i, new Random().nextInt(1000) + 100, new Random().nextInt((1000)) + 100, (d),
 					false);
 
-			
-			
-			
-			
-			
-
-			Iterator<NodeAndWeight> iterator = vertexTmp.iterator();
+			Iterator<NodeAndWeight> iterator = tempList.iterator();
 			while (iterator.hasNext()) {
 
 				sv.addNeighbor((int) iterator.next().getAdjacentVertex());
@@ -596,20 +584,6 @@ public class MainFrame extends JFrame {
 		}
 		
 		maxDegrees = rd.findKMaxDegree(k);
-	
-//		System.out.println(">>>>"+solution.toString());
-//		
-//		for (sVertex s: sVertices) {
-//			if (maxDegrees!=null && maxDegrees.contains(s.getId())) {
-//				s.setInMax(true);
-//			}
-//			if ( solution != null && solution.contains(s.getId())) {
-//				s.setInK(true);
-//			}
-//		}
-//		
-//		Vaccinate.vaccinateMaxDegrees(sVertices);
-//		Vaccinate.vaccinateMostInfluentials(sVertices);
 	}
 	
 	private void vaccinateSvertexArray() {
@@ -628,6 +602,13 @@ public class MainFrame extends JFrame {
 		System.out.println(">>>>"+maxDegrees.toString());
 		Vaccinate.vaccinateMaxDegrees(sVertices);
 		Vaccinate.vaccinateMostInfluentials(sVertices);
+		
+	}
+	
+	private void runExperinment() {
+		vaccinateSvertexArray();
+		//VirusSpread.spread("A", solution, graphOut, sVertices, 1);
+		//VirusSpread.spread("B", solution, graphOut, sVertices, 1);
 	}
 	
 	
@@ -642,7 +623,7 @@ public class MainFrame extends JFrame {
 			 */
 			setFileInfo(file);
 			
-			createSvertexArray();
+			
 			
 			
 			setCursor(Cursor.getDefaultCursor());
@@ -663,9 +644,10 @@ public class MainFrame extends JFrame {
 		public void finish(ArrayList<Integer> s) {
 			
 			solution = s;
-			vaccinateSvertexArray();
+			//vaccinateSvertexArray();
 			
 			setCursor(Cursor.getDefaultCursor());
+			consoleTextArea.setCursor(Cursor.getDefaultCursor());
 
 		}
 	};

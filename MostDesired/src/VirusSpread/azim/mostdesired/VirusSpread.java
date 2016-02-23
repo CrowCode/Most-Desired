@@ -25,7 +25,7 @@ import supplementaryClasses.azim.mostdesired.NodeAndWeight;
  * </ul>
  *
  */
-public abstract class VirusSpread {
+public class VirusSpread {
 	
 	
 	/**

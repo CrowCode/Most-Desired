@@ -1,4 +1,4 @@
-package newview.sajjad.mostdesired;
+package view.sajjad.mostdesired;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -18,9 +18,6 @@ import javax.swing.JSplitPane;
 import VirusSpread.azim.mostdesired.VirusSpread;
 import model.sajjad.mostdesired.sVertex;
 import supplementaryClasses.azim.mostdesired.NodeAndWeight;
-import view.sajjad.mostdesired.MainFrame;
-import view.sajjad.mostdesired.ViewGraphPanelA;
-import view.sajjad.mostdesired.ViewGraphPanelB;
 
 public class GraphFrame extends JFrame {
 
@@ -41,7 +38,8 @@ public class GraphFrame extends JFrame {
 		setTitle("Show Graph In Comparison Mode");
 		setSize(1300, 700);
 		
-		this.sVertices = sVertices;
+		
+		
 		
 
 		/**

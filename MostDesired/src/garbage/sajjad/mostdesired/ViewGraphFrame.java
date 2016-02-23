@@ -1,4 +1,4 @@
-package view.sajjad.mostdesired;
+package garbage.sajjad.mostdesired;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -22,6 +22,8 @@ import InputData.azim.mostdesired.DataReader;
 import VirusSpread.azim.mostdesired.VirusSpread;
 import model.sajjad.mostdesired.sVertex;
 import supplementaryClasses.azim.mostdesired.NodeAndWeight;
+import view.sajjad.mostdesired.CloseListener;
+import view.sajjad.mostdesired.ViewGraphPanelA;
 
 	/**
 	 * 

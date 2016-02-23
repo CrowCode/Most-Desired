@@ -133,6 +133,8 @@ public class sVertex {
 	public void setInMax(boolean isInMax) {
 		this.isInMax = isInMax;
 	}
+	
+	
 
 
 	
