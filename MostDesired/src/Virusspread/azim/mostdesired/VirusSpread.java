@@ -40,13 +40,15 @@ public class VirusSpread {
 	 * than 1, would multiply the chance by that number.
 	 * 
 	 */
-	public static void spread( 	String AorB,
+	public static int spread( 	String AorB,
 								ArrayList<Integer> seedsId,
 								ArrayList<LinkedList<NodeAndWeight>> nodesList_Out,
 								ArrayList<sVertex> verticesProp,
 								double scale){
 		
 		System.out.println("VirusSperad>>>>>spread: 'seeds' in spread() are: \n" + seedsId.toString());
+		
+		int numberOfInfectedNodes = 0;
 		
 		if(!AorB.equalsIgnoreCase("A") && !AorB.equalsIgnoreCase("B")){
 			throw new IllegalArgumentException("AZIM: 'AorB' is neither 'A' nor 'B'!");
@@ -83,6 +85,9 @@ public class VirusSpread {
 				
 				newInfectedNodes = findNewInfectedNodesA(s, nodesList_Out, verticesProp, scale);
 				if(!newInfectedNodes.isEmpty()){
+					// The size of 'newInfectedNodes' is the no. of new infected nodes -> Total no. of 
+					// infected nodes increased by it.
+					numberOfInfectedNodes += newInfectedNodes.size();
 					//add new infected nodes to 'infectedQueue'
 					if((infectedQueue.addAll(newInfectedNodes)) == false)
 						System.out.println("Error in VirusSpread>>spread()>>if(B)>>While()!");
@@ -94,9 +99,12 @@ public class VirusSpread {
 			while(!infectedQueue.isEmpty()){
 				//take the first vertex out of the 'infectedQueue'
 				s = infectedQueue.removeFirst();									//or last ???
-				
+
 				newInfectedNodes = findNewInfectedNodesB(s, nodesList_Out, verticesProp, scale);
 				if(!newInfectedNodes.isEmpty()){
+					// The size of 'newInfectedNodes' is the no. of new infected nodes -> Total no. of 
+					// infected nodes increased by it.
+					numberOfInfectedNodes += newInfectedNodes.size();
 					//add new infected nodes to 'infectedQueue'
 					if((infectedQueue.addAll(newInfectedNodes)) == false)
 						System.out.println("Error in VirusSpread>>spread()>>if(B)>>While()!");
@@ -111,7 +119,7 @@ public class VirusSpread {
 //			
 //			
 //		}
-		
+		return numberOfInfectedNodes;
 	}
 	
 	/**
@@ -144,6 +152,8 @@ public class VirusSpread {
 		double rnW = 0.0;
 		
 		
+		
+		
 		sVertex nSVertex;
 		LinkedList<sVertex> newInfectedNodes = new LinkedList<sVertex>();
 		LinkedList<NodeAndWeight> neighbors;
@@ -168,6 +178,7 @@ public class VirusSpread {
 				rnW = Math.floor(rn.nextDouble() * 100) / 100;		//generate a random double in [0,1] with 2 decimal places
 				if(rnW <= scale * w){
 					//then n gets infected
+					
 					nSVertex.setIsInfcetedA(true);					//Does this affect 'verticesProp' as well ???
 					newInfectedNodes.add(nSVertex);
 				}

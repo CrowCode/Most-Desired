@@ -584,6 +584,7 @@ public class MainFrame extends JFrame {
 		}
 		
 		maxDegrees = rd.findKMaxDegree(k);
+		consoleTextArea.append("[>] THE MAXIMUM DEGREE NODES:\n"+maxDegrees.toString()+"\n");
 	}
 	/**
 	 *  The method to set vaccinate field (true, false) of sVertex according to Max degree or Most influential.
@@ -602,6 +603,9 @@ public class MainFrame extends JFrame {
 		}
 		System.out.println(">>>>"+solution.toString());
 		System.out.println(">>>>"+maxDegrees.toString());
+		
+		
+		
 		Vaccinate.vaccinateMaxDegrees(sVertices);
 		Vaccinate.vaccinateMostInfluentials(sVertices);
 		
@@ -617,8 +621,12 @@ public class MainFrame extends JFrame {
 		for(int i = 0; i < 10; i++){
 			infectedSeedsList.add(rn.nextInt((sVertices.size())));
 		}
-		VirusSpread.spread("A", infectedSeedsList, graphOut, sVertices, 1);
-		VirusSpread.spread("B", infectedSeedsList, graphOut, sVertices, 1);
+		int noOfInfectedA = VirusSpread.spread("A", infectedSeedsList, graphOut, sVertices, 1);
+		int noOfInfectedB = VirusSpread.spread("B", infectedSeedsList, graphOut, sVertices, 1);
+		consoleTextArea.append("[A]");
+		consoleTextArea.append("   Number of Infected Nodes After Vaccinate Most Influential Nodes:\t"+noOfInfectedA+"\n");
+		consoleTextArea.append("[B]");
+		consoleTextArea.append("   Number of Infected Nodes After Vaccinate Max Degree Nodes:\t"+noOfInfectedB+"\n");
 	}
 	
 	
