@@ -21,7 +21,12 @@ import model.sajjad.mostdesired.sVertex;
 public class GraphFrame extends JFrame {
 
 	/**
-	 *
+	 *		This is split pane frame to present double graph panel in same visual time to observe result of</br>
+	 *	virus spread experiment in two different type of k-vaccinated nodes.</br>
+	 *	<ul>
+	 *		<li>A:(what is shown in left side with ViewGraphPanelA) k nodes are vaccinated from most influential</br></li>
+	 *		<li>B:(what is shown in right side with viewGraphPanelB) k nodes are vaccinated from max degree</br></li>
+	 *	</ul>
 	 */
 	private static final long serialVersionUID = 1L;
 	public static ViewGraphPanelA graphPanelLeft;
@@ -38,7 +43,7 @@ public class GraphFrame extends JFrame {
 		setSize(1300, 700);
 		
 		
-		this.sVertices = sVertices;
+		GraphFrame.sVertices = sVertices;
 		
 		/**
 		 * Prepare parameter dimension and sVertes array list in order to build

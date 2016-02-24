@@ -55,22 +55,20 @@ import task.sajjad.mostdesired.AlgorithmTask;
  * 
  * @author sajjad
  * 
- *         This is the main frame of the application where user has access to
- *         choose different input file, control the error of algorithm, change
- *         the number of influential nodes and ...<br>
- *         =====================================================================
- *         ==============================Features :=============================
- *         =====================================================================
- *         <ul>
- *         <li>The right side of the window there exists a text area which is
- *         configured to be our Console. Despite it will behave like an visible
- *         log window to user and programmer which will show all errors and
- *         exceptions could possible be thrown during the compilation of
- *         application.</li>
- *         <li>All the error handled by the programmer to avoid unwelcome
- *         accident. They will be shown either in console of the application or
- *         by error dialog in application.</li>
- *         </ul>
+ * 		This the man view frame of the application. User can choose different path through of this 
+ * 	window into the application.</br>
+ * 		
+ * 		<ul>
+ * 				<li>The left side of window:</br>In this part is user controls of application. Top to 
+ * 				bottom, there is Brows button to choose different input file from hard disk. Text filed to
+ * 				show the file path. The information area to show input file information, size, no. of 
+ * 				line, no. of nodes, ... . The button to run the algorithm in order to find most influ_
+ * 				ential nodes. The button to run virus spread experiment in graphic mode. The button to
+ * 				run virus spread experiment in text mode. </li>
+ * 				<li>The right side of window:</br>In this area the log of application activity will be 
+ * 				presented to user.</li>
+ * 		</ul>
+ *         
  */
 
 public class MainFrame extends JFrame {
@@ -116,7 +114,7 @@ public class MainFrame extends JFrame {
 
 	private JFileChooser fc;
 	private File file;
-	private JFrame VisualGraph;
+	//private JFrame VisualGraph;
 	
 	private DataReader rd;
 	
@@ -475,7 +473,7 @@ public class MainFrame extends JFrame {
 
 						if (!fileNameLabel.getText().equals("") && !fileNameLabel.getText().equals("[...]")) {
 
-							VisualGraph = new GraphFrame(sVertices);
+							/*VisualGraph = */new GraphFrame(sVertices);
 						} else {
 							JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "Dialog",
 									JOptionPane.ERROR_MESSAGE);
@@ -587,7 +585,9 @@ public class MainFrame extends JFrame {
 		
 		maxDegrees = rd.findKMaxDegree(k);
 	}
-	
+	/**
+	 *  The method to set vaccinate field (true, false) of sVertex according to Max degree or Most influential.
+	 */
 	private void vaccinateSvertexArray() {
 		for (sVertex s: sVertices) {
 			
@@ -607,6 +607,9 @@ public class MainFrame extends JFrame {
 		
 	}
 	
+	/**
+	 *  The method to run virus spread experiment on current sample.
+	 */
 	private void runExperinment() {
 		vaccinateSvertexArray();
 		Random rn = new Random();
@@ -656,6 +659,4 @@ public class MainFrame extends JFrame {
 
 		}
 	};
-	
-
 }

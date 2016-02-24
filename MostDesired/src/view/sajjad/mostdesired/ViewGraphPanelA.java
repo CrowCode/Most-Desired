@@ -9,16 +9,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JViewport;
 
 import model.sajjad.mostdesired.sVertex;
@@ -46,7 +42,7 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 	private Color myCyan = new Color(60, 109, 130);
 	private Color darkGray = new Color(55, 55, 55);
 
-//	private int scale = 5;
+	// private int scale = 5;
 
 	private Point mouseStartPoint;
 
@@ -107,7 +103,7 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 
 			}
 		});
-		//addMouseListener(new PopClickListener());
+		// addMouseListener(new PopClickListener());
 	}
 
 	@Override
@@ -167,7 +163,7 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 	private int prepareVertices(ArrayList<sVertex> sVertices) {
 
 		for (sVertex sv : sVertices) {
-			
+
 			Vertex v = new Vertex(sv);
 			v.setVertexClickListener(this);
 			vertices.add(v);
@@ -262,48 +258,3 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 	}
 
 }
-
-//class PopUpDemo extends JPopupMenu {
-//	/**
-//	 * 
-//	 */
-//	private static final long serialVersionUID = 1L;
-//	JMenuItem anItem;
-//
-//	public PopUpDemo() {
-//		anItem = new JMenuItem("Run the ALGORITHM 999999999");
-//		anItem.addActionListener(new ActionListener() {
-//
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				System.out.println("I am CLICKED 999999999999");
-//				
-//
-//			}
-//		});
-//		add(anItem);
-//	}
-//}
-//
-//class PopClickListener extends MouseAdapter {
-//	public void mousePressed(MouseEvent e) {
-//		if (e.isPopupTrigger()) {
-//			doPop(e);
-//
-//		}
-//
-//	}
-//
-//	public void mouseReleased(MouseEvent e) {
-//		if (e.isPopupTrigger()) {
-//			doPop(e);
-//
-//		}
-//
-//	}
-//
-//	private void doPop(MouseEvent e) {
-//		PopUpDemo menu = new PopUpDemo();
-//		menu.show(e.getComponent(), e.getX(), e.getY());
-//	}
-//}

@@ -9,16 +9,12 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JViewport;
 
 import model.sajjad.mostdesired.sVertex;
@@ -46,7 +42,7 @@ public class ViewGraphPanelB extends JPanel implements VertexClickListener {
 	private Color myCyan = new Color(60, 109, 130);
 	private Color darkGray = new Color(55, 55, 55);
 
-//	private int scale = 5;
+	// private int scale = 5;
 
 	private Point mouseStartPoint;
 
@@ -107,7 +103,7 @@ public class ViewGraphPanelB extends JPanel implements VertexClickListener {
 
 			}
 		});
-		//addMouseListener(new PopClickListener());
+		// addMouseListener(new PopClickListener());
 	}
 
 	@Override
@@ -167,7 +163,7 @@ public class ViewGraphPanelB extends JPanel implements VertexClickListener {
 	private int prepareVertices(ArrayList<sVertex> sVertices) {
 
 		for (sVertex sv : sVertices) {
-			
+
 			Vertex v = new Vertex(sv);
 			v.setVertexClickListener(this);
 			vertices.add(v);
@@ -262,7 +258,3 @@ public class ViewGraphPanelB extends JPanel implements VertexClickListener {
 	}
 
 }
-
-
-
-

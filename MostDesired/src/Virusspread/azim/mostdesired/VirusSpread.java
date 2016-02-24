@@ -6,7 +6,6 @@ import java.util.Random;
 
 import model.sajjad.mostdesired.sVertex;
 import supplementaryclasses.azim.mostdesired.NodeAndWeight;
-import view.sajjad.mostdesired.MainFrame;
 
 
 /**
