@@ -612,7 +612,7 @@ public class MainFrame extends JFrame {
 		Random rn = new Random();
 		ArrayList<Integer> infectedSeedsList = new ArrayList<Integer>();
 		for(int i = 0; i < 10; i++){
-			infectedSeedsList.add(rn.nextInt((sVertices.size()) + 1));
+			infectedSeedsList.add(rn.nextInt((sVertices.size())));
 		}
 		VirusSpread.spread("A", infectedSeedsList, graphOut, sVertices, 1);
 		VirusSpread.spread("B", infectedSeedsList, graphOut, sVertices, 1);
@@ -650,7 +650,6 @@ public class MainFrame extends JFrame {
 		public void finish(ArrayList<Integer> s) {
 			
 			solution = s;
-			//vaccinateSvertexArray();
 			
 			setCursor(Cursor.getDefaultCursor());
 			consoleTextArea.setCursor(Cursor.getDefaultCursor());

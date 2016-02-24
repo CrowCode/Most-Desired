@@ -114,7 +114,11 @@ class PopUpDemo extends JPopupMenu {
 				Random rn = new Random();
 				ArrayList<Integer> infectedSeedsList = new ArrayList<Integer>();
 				for(int i = 0; i < 10; i++){
-					infectedSeedsList.add(rn.nextInt((GraphFrame.sVertices.size()) + 1));
+					
+					/* infectedSeedsList.add(rn.nextInt((GraphFrame.sVertices.size()) + 1));*/
+					/** Gives index out bound '+ 1' removed **/
+					
+					infectedSeedsList.add(rn.nextInt((GraphFrame.sVertices.size())));
 				}
 				VirusSpread.spread("A", infectedSeedsList, MainFrame.graphOut, GraphFrame.sVertices, 1);
 				VirusSpread.spread("B", infectedSeedsList, MainFrame.graphOut, GraphFrame.sVertices, 1);
