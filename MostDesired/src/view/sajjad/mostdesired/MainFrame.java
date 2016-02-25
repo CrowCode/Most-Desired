@@ -584,7 +584,7 @@ public class MainFrame extends JFrame {
 		}
 		
 		maxDegrees = rd.findKMaxDegree(k);
-		consoleTextArea.append("[>] THE MAXIMUM DEGREE NODES:\n"+maxDegrees.toString()+"\n");
+		consoleTextArea.append("[>] MAXIMUM DEGREE NODES ARE:\n"+maxDegrees.toString()+"\n");
 	}
 	/**
 	 *  The method to set vaccinate field (true, false) of sVertex according to Max degree or Most influential.
