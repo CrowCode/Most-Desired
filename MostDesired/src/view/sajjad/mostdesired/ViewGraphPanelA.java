@@ -36,7 +36,10 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 	private BufferedImage bimg;
 	private Graphics2D g2;
 	private ArrayList<Vertex> vertices = new ArrayList<>();
-	private ArrayList<sVertex> sVertices = new ArrayList<>();
+	private ArrayList<sVertex> sVertices;
+	
+	private ArrayList<Integer> vaccinatedNodes;
+	private ArrayList<Integer> infectedNodes;
 
 	private Color myOrange = new Color(240, 127, 7);
 	private Color myCyan = new Color(60, 109, 130);
@@ -193,6 +196,10 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 		VERTEX_HOVERED = vertexClickEvent.getVertexId();
 		repaint();
 	}
+	/* ============================================================================ */
+	/* ============= Following methods draw different type of vertex ============== */
+	/* ======================== Names are self explanatory ======================== */
+	/* ============================================================================ */
 
 	private void drawFrame() {
 
@@ -257,4 +264,41 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 		g2.draw(v);
 	}
 
+	// ============================================================================//
+
+	/* ============================================================================*/
+	/* ================= Discovery methods of sVertices array list=================*/
+	/* ============================================================================*/
+
+	public int getTotalNoOfNodes() {
+		
+		return sVertices.size();
+
+	}
+	
+	public void setVaccinatedAndInfectedNodes() {
+		
+		vaccinatedNodes = new ArrayList<>();
+		infectedNodes = new ArrayList<>();
+		
+		for (sVertex sV: sVertices) {
+			if (sV.isVaccinatedA()) {
+				vaccinatedNodes.add(sV.getId());
+			}
+			if (sV.isInfectedA()) {
+				infectedNodes.add(sV.getId());
+			}
+		}
+	}
+
+	public ArrayList<Integer> getVaccinatedNodes() {
+		return vaccinatedNodes;
+	}
+
+	public ArrayList<Integer> getInfectedNodes() {
+		return infectedNodes;
+	}
+	
+	/* ============================================================================ */
+	
 }

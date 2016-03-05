@@ -37,11 +37,11 @@ public class GraphFrame extends JFrame {
 	 * </li>
 	 * </ul>
 	 */
-	
+
 	private Color myOrange = new Color(240, 127, 7);
-//	private Color myCyan = new Color(60, 109, 130);
+	private Color myCyan = new Color(60, 109, 130);
 	private Color darkGray = new Color(55, 55, 55);
-	
+
 	private static final long serialVersionUID = 1L;
 	public static ViewGraphPanelA graphPanelLeft;
 	public static ViewGraphPanelB graphPanelRight;
@@ -50,19 +50,23 @@ public class GraphFrame extends JFrame {
 	public static JTextArea graphPanelInfoRight;
 	private Dimension ViewGraphPanelDim;
 
-	// private ArrayList<LinkedList<NodeAndWeight>> graphIn;
-
 	public static ArrayList<sVertex> sVertices;
+	public static ArrayList<Integer> infectedSeedsList;
+
+	public static ArrayList<Integer> infectedNodesA;
+	public static ArrayList<Integer> infectedNodesB;
 
 	public GraphFrame(ArrayList<sVertex> sVertices) {
 
 		setTitle("Show Graph In Comparison Mode");
-		setSize(1300, 700);
+		
+		Dimension frameSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+		setSize(frameSize.width, frameSize.height-20);
 		setLayout(new BorderLayout());
 
 		GraphFrame.sVertices = sVertices;
 
-		initializeBottonPanel();
+		initializeBottomPanel();
 
 		/**
 		 * Prepare parameter dimension and sVertes array list in order to build
@@ -101,40 +105,135 @@ public class GraphFrame extends JFrame {
 
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setResizeWeight(.5d);
+
 		getContentPane().add(splitPane, BorderLayout.CENTER);
-		
-		
 		getContentPane().add(textShowPanel, BorderLayout.SOUTH);
+
+		/*
+		 * Set the bottom panel text area's info before run virus spread.
+		 */
+		setInfoBottomPanel();
 
 		graphPanelRight.addMouseListener(new PopClickListener());
 		graphPanelLeft.addMouseListener(new PopClickListener());
 		setVisible(true);
 
 	}
-	
-	private void initializeBottonPanel() {
-		
+
+	private void initializeBottomPanel() {
+
 		textShowPanel = new JPanel();
 		textShowPanel.setPreferredSize(new Dimension(1300, 100));
 		textShowPanel.setBackground(Color.WHITE);
 		textShowPanel.setLayout(new FlowLayout());
-		
-		graphPanelInfoLeft = new JTextArea(6, 58);
+
+		graphPanelInfoLeft = new JTextArea(6, 60);
 		graphPanelInfoLeft.setSize(getContentPane().getPreferredSize());
-		graphPanelInfoLeft.setMinimumSize(new Dimension(100, 100));
+		graphPanelInfoLeft.setMinimumSize(new Dimension(220, 110));
 		graphPanelInfoLeft.setBackground(darkGray);
 		graphPanelInfoLeft.setForeground(myOrange);
-		
+
 		textShowPanel.add(graphPanelInfoLeft);
-		
-		graphPanelInfoRight = new JTextArea(6, 58);
+
+		graphPanelInfoRight = new JTextArea(6, 60);
 		graphPanelInfoRight.setSize(getContentPane().getPreferredSize());
-		graphPanelInfoRight.setMinimumSize(new Dimension(100, 100));
+		graphPanelInfoRight.setMinimumSize(new Dimension(220, 110));
 		graphPanelInfoRight.setBackground(darkGray);
 		graphPanelInfoRight.setForeground(myOrange);
-		
+
 		textShowPanel.add(graphPanelInfoRight);
-		
+
+	}
+
+	private void setInfoBottomPanel() {
+
+		/*
+		 * Get total number of nodes in each experiment
+		 */
+		int totalNoOfNodesA = graphPanelLeft.getTotalNoOfNodes();
+		int totalNoOfNodesB = graphPanelRight.getTotalNoOfNodes();
+
+		/*
+		 * Call the setVaccinatedAndInfectedNodes will set proper information of
+		 * sVertices in corresponding fields in order to get in next step.
+		 */
+		graphPanelLeft.setVaccinatedAndInfectedNodes();
+		graphPanelRight.setVaccinatedAndInfectedNodes();
+
+		/*
+		 * Get the vaccinated nodes from each experiment.
+		 */
+		ArrayList<Integer> vaccinatedNodesA = graphPanelLeft.getVaccinatedNodes();
+		ArrayList<Integer> vaccinatedNodesB = graphPanelRight.getVaccinatedNodes();
+
+		/*
+		 * The size of vaccinatedNode arrays are the the number of vaccinated
+		 * nodes.
+		 */
+		int noOfvaccinatedNodesA = vaccinatedNodesA.size();
+		int noOfvaccinatedNodesB = vaccinatedNodesB.size();
+
+		/*
+		 * This method will generate array of seed nodes for initial infection
+		 */
+		infectedSeedListCreate();
+
+		infectedNodesA = graphPanelLeft.getInfectedNodes();
+		infectedNodesB = graphPanelRight.getInfectedNodes();
+
+		GraphFrame.graphPanelLeft.repaint();
+		GraphFrame.graphPanelRight.repaint();
+
+		int noOfInfectedSeeds = infectedSeedsList.size();
+
+		/*
+		 * Set info about total number of nodes in each experiment text area.
+		 */
+		GraphFrame.graphPanelInfoLeft.append(" [>]  Tolal Number of Nodes In Most Influential Experiment:\t");
+		GraphFrame.graphPanelInfoLeft.append("[ " + totalNoOfNodesA + " ]\n");
+		GraphFrame.graphPanelInfoRight.append(" [>]  Total Number of Nodes In Max Degree Experiment:\t\t");
+		GraphFrame.graphPanelInfoRight.append("[ " + totalNoOfNodesB + " ]\n");
+		/*
+		 * Set information about vaccinated nodes for each experiment text area.
+		 */
+		GraphFrame.graphPanelInfoLeft.append(" [>]  Number of Vaccinated Nodes In Most Influential Experiment:\t");
+		GraphFrame.graphPanelInfoLeft.append("[ " + noOfvaccinatedNodesA + " ]\t" + vaccinatedNodesA.toString() + "\n");
+		GraphFrame.graphPanelInfoRight.append(" [>] Number of Vaccinated Nodes In Max Degree Experiment:\t");
+		GraphFrame.graphPanelInfoRight.append("[ " + noOfvaccinatedNodesB + " ]\t" + vaccinatedNodesB + "\n");
+
+		/*
+		 * Set information about infected nodes before virus spread experiment.
+		 */
+		GraphFrame.graphPanelInfoLeft
+				.append(" [>]  Number of Seeds In Most Influential Experiment Before Virus Spread:\t");
+		GraphFrame.graphPanelInfoLeft
+				.append("[ " + noOfInfectedSeeds + " ]\n\t\t" + infectedSeedsList.toString() + "\n");
+		GraphFrame.graphPanelInfoRight.append(" [>] Number of Seeds In Max Degree Experiment Before Virus Spread:\t");
+		GraphFrame.graphPanelInfoRight
+				.append("[ " + noOfInfectedSeeds + " ]\n\t\t" + infectedSeedsList.toString() + "\n");
+
+	}
+
+	/*
+	 * The method to create random integer as seed array for infecting nodes. If
+	 * the randomly selected node is vaccinated here we will try to find skip
+	 * and find not vaccinated.
+	 */
+	public void infectedSeedListCreate() {
+
+		infectedSeedsList = new ArrayList<Integer>();
+		Random rn = new Random();
+		for (int i = 0; i < 10; i++) {
+
+			int infectedIndex = rn.nextInt((GraphFrame.sVertices.size()));
+
+			if (!sVertices.get(infectedIndex).isVaccinatedA() && !sVertices.get(infectedIndex).isVaccinatedB()) {
+				infectedSeedsList.add(infectedIndex);
+			} else {
+				i--;
+			}
+		}
+
 	}
 
 }
@@ -156,61 +255,29 @@ class PopUpDemo extends JPopupMenu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				double a = 0;
-				double b = 0;
-
 				System.out.println("Spreading the virus ...");
 
-				/********************
-				 * AZIM ***** For test
-				 ***********************/
-				/********
-				 * Generate a random set of nodes to carry the virus
-				 *****/
-				Random rn = new Random();
-				ArrayList<Integer> infectedSeedsList = new ArrayList<Integer>();
-				for (int i = 0; i < 10; i++) {
+				int resultOfSpreadA = VirusSpread.spread("A", GraphFrame.infectedSeedsList, MainFrame.graphOut,
+						GraphFrame.sVertices, 1);
+				int resultOfSpreadB = VirusSpread.spread("B", GraphFrame.infectedSeedsList, MainFrame.graphOut,
+						GraphFrame.sVertices, 1);
 
-					/*
-					 * infectedSeedsList.add(rn.nextInt((GraphFrame.sVertices.
-					 * size()) + 1));
-					 */
-					/** Gives index out bound '+ 1' removed **/
-
-					infectedSeedsList.add(rn.nextInt((GraphFrame.sVertices.size())));
-				}
-				
-				int resultOfSpreadA = VirusSpread.spread("A", infectedSeedsList, MainFrame.graphOut, GraphFrame.sVertices, 1);
-				int resultOfSpreadB = VirusSpread.spread("B", infectedSeedsList, MainFrame.graphOut, GraphFrame.sVertices, 1);
-
-				System.out.println("GraphFrame>>>>>InfectedSeeds: " + infectedSeedsList.toString());
+				System.out.println("GraphFrame>>>>>InfectedSeeds: " + GraphFrame.infectedSeedsList.toString());
 				System.out.println("GraphFrame>>>>>Solution: " + MainFrame.solution.toString());
-				/*****************************************************************/
 				
-				GraphFrame.graphPanelInfoLeft.append(" [>]  Number of Infected Nodes After Vaccinate Most Influential Nodes:\n\t");
-				GraphFrame.graphPanelInfoLeft.append(resultOfSpreadA+"");
-				GraphFrame.graphPanelInfoRight.append(" [>]  Number of Infected Nodes After Vaccinate Max Degree Nodes:\n\t");
-				GraphFrame.graphPanelInfoRight.append(""+resultOfSpreadB);
-				
+
+				GraphFrame.graphPanelInfoLeft
+						.append(" [>]  Number of Infected Nodes After Vaccinate Most Influential Nodes:\t");
+				GraphFrame.graphPanelInfoLeft
+						.append("[ " + resultOfSpreadA + " ]\n\t\t" + GraphFrame.infectedNodesA.toString());
+				GraphFrame.graphPanelInfoRight
+						.append(" [>]  Number of Infected Nodes After Vaccinate Max Degree Nodes:\t");
+				GraphFrame.graphPanelInfoRight
+						.append("[ " + resultOfSpreadB + " ]\n\t\t" + GraphFrame.infectedNodesB.toString());
+
 				GraphFrame.graphPanelLeft.repaint();
 				GraphFrame.graphPanelRight.repaint();
 
-				/** AZIM: REMOVE THIS LATER **/
-				sVertex sv;
-				for (int i = 0; i < GraphFrame.sVertices.size(); i++) {
-					sv = GraphFrame.sVertices.get(i);
-					if (sv.isInfectedA()) {
-						a++;
-					}
-					if (sv.isInfectedB()) {
-						b++;
-					}
-				}
-				System.out.println("Infected in A: " + a);
-				System.out.println("Infected in B: " + b);
-				System.out.println("Proportion of infected A: " + (a * 100) / GraphFrame.sVertices.size());
-				System.out.println("Proportion of infected B: " + (b * 100) / GraphFrame.sVertices.size());
-				/** ************************************ **/
 			}
 		});
 		add(anItem);

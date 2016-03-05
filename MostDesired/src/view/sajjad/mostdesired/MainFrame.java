@@ -506,6 +506,9 @@ public class MainFrame extends JFrame {
 	};
 
 	
+	/**
+	 *  The custom WndowListener to make sure after closing the frame and threads are disposed.
+	 */
 	WindowListener exitListener = new WindowAdapter() {
 
 		public synchronized void windowClosing(WindowEvent evt) {
