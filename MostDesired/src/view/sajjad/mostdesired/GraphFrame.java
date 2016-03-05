@@ -60,8 +60,6 @@ public class GraphFrame extends JFrame {
 
 	public GraphFrame(ArrayList<sVertex> sVertices) {
 
-		
-
 		GraphFrame.sVertices = sVertices;
 
 		initializeBasics();
@@ -83,16 +81,16 @@ public class GraphFrame extends JFrame {
 		setVisible(true);
 
 	}
-	
+
 	private void initializeBasics() {
-		
+
 		Dimension frameSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		ViewGraphPanelDim = new Dimension(1000, 1000);
-		
+
 		setTitle("Show Graph In Comparison Mode");
 		setSize(frameSize.width, frameSize.height - 80);
 		setLayout(new BorderLayout());
-		
+
 	}
 
 	private void initializeTopPanel() {
@@ -230,10 +228,10 @@ public class GraphFrame extends JFrame {
 		 */
 		GraphFrame.graphPanelInfoLeft
 				.append(" [>]  Number of Seeds In Most Influential Experiment Before Virus Spread:\t");
-		GraphFrame.graphPanelInfoLeft.append("[ " + noOfInfectedSeeds + " ]\t\t" + infectedSeedsList.toString() + "\n");
+		GraphFrame.graphPanelInfoLeft.append("[ " + noOfInfectedSeeds + " ]\n\t\t" + infectedSeedsList.toString() + "\n");
 		GraphFrame.graphPanelInfoRight.append(" [>] Number of Seeds In Max Degree Experiment Before Virus Spread:\t");
 		GraphFrame.graphPanelInfoRight
-				.append("[ " + noOfInfectedSeeds + " ]\t\t" + infectedSeedsList.toString() + "\n");
+				.append("[ " + noOfInfectedSeeds + " ]\n\t\t" + infectedSeedsList.toString() + "\n");
 
 	}
 
@@ -286,17 +284,36 @@ class PopUpDemo extends JPopupMenu {
 				int resultOfSpreadB = VirusSpread.spread("B", GraphFrame.infectedSeedsList, MainFrame.graphOut,
 						GraphFrame.sVertices, 1);
 
+				int totalNoOfNodes = GraphFrame.sVertices.size();
+
 				System.out.println("GraphFrame>>>>>InfectedSeeds: " + GraphFrame.infectedSeedsList.toString());
 				System.out.println("GraphFrame>>>>>Solution: " + MainFrame.solution.toString());
 
+				/**
+				 * Set information to text area's of each experiment about virus
+				 * spread.
+				 */
 				GraphFrame.graphPanelInfoLeft
 						.append(" [>]  Number of Infected Nodes After Vaccinate Most Influential Nodes:\t");
 				GraphFrame.graphPanelInfoLeft
-						.append("[ " + resultOfSpreadA + " ]\n\t\t" + GraphFrame.infectedNodesA.toString());
+						.append("[ " + resultOfSpreadA + " ]\n\t\t" + GraphFrame.infectedNodesA.toString() + "\n");
 				GraphFrame.graphPanelInfoRight
 						.append(" [>]  Number of Infected Nodes After Vaccinate Max Degree Nodes:\t");
 				GraphFrame.graphPanelInfoRight
-						.append("[ " + resultOfSpreadB + " ]\n\t\t" + GraphFrame.infectedNodesB.toString());
+						.append("[ " + resultOfSpreadB + " ]\n\t\t" + GraphFrame.infectedNodesB.toString() + "\n");
+
+				/**
+				 * Find info about percentage of spread in each experiment
+				 */
+				double pResultA = (resultOfSpreadA * 100)/totalNoOfNodes;
+				double pResultB = (resultOfSpreadB * 100)/totalNoOfNodes;
+
+				GraphFrame.graphPanelInfoLeft
+						.append(" [>]  The Percentage of Infected Nodes After Vaccinate Most Influential Nodes:\t[ "
+								+ pResultA + " % ]");
+				GraphFrame.graphPanelInfoRight
+						.append(" [>]  The Percentage of Infected Nodes After Vaccinate Max Degree Nodes:\t[ "
+								+ pResultB + " % ]");
 
 				GraphFrame.graphPanelLeft.repaint();
 				GraphFrame.graphPanelRight.repaint();
