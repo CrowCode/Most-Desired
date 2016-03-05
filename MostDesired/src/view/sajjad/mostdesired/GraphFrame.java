@@ -3,7 +3,6 @@ package view.sajjad.mostdesired;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -13,9 +12,9 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
@@ -196,17 +195,15 @@ public class GraphFrame extends JFrame {
 		int noOfvaccinatedNodesB = vaccinatedNodesB.size();
 
 		/*
-		 * This method will generate array of seed nodes for initial infection
+		 * This method will initialize seed array only
 		 */
-		infectedSeedListCreate();
+		infectedSeedListCreate(0);
 
 		infectedNodesA = graphPanelLeft.getInfectedNodes();
 		infectedNodesB = graphPanelRight.getInfectedNodes();
 
 		GraphFrame.graphPanelLeft.repaint();
 		GraphFrame.graphPanelRight.repaint();
-
-		int noOfInfectedSeeds = infectedSeedsList.size();
 
 		/*
 		 * Set info about total number of nodes in each experiment text area.
@@ -223,16 +220,6 @@ public class GraphFrame extends JFrame {
 		GraphFrame.graphPanelInfoRight.append(" [>] Number of Vaccinated Nodes In Max Degree Experiment:\t");
 		GraphFrame.graphPanelInfoRight.append("[ " + noOfvaccinatedNodesB + " ]\t" + vaccinatedNodesB + "\n");
 
-		/*
-		 * Set information about infected nodes before virus spread experiment.
-		 */
-		GraphFrame.graphPanelInfoLeft
-				.append(" [>]  Number of Seeds In Most Influential Experiment Before Virus Spread:\t");
-		GraphFrame.graphPanelInfoLeft.append("[ " + noOfInfectedSeeds + " ]\n\t\t" + infectedSeedsList.toString() + "\n");
-		GraphFrame.graphPanelInfoRight.append(" [>] Number of Seeds In Max Degree Experiment Before Virus Spread:\t");
-		GraphFrame.graphPanelInfoRight
-				.append("[ " + noOfInfectedSeeds + " ]\n\t\t" + infectedSeedsList.toString() + "\n");
-
 	}
 
 	/*
@@ -240,11 +227,14 @@ public class GraphFrame extends JFrame {
 	 * the randomly selected node is vaccinated here we will try to find skip
 	 * and find not vaccinated.
 	 */
-	public void infectedSeedListCreate() {
+	public static void infectedSeedListCreate(int noOfSeeds) {
 
 		infectedSeedsList = new ArrayList<Integer>();
+
+		if (noOfSeeds == 0)
+			return;
 		Random rn = new Random();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < noOfSeeds; i++) {
 
 			int infectedIndex = rn.nextInt((GraphFrame.sVertices.size()));
 
@@ -277,6 +267,41 @@ class PopUpDemo extends JPopupMenu {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
+				int sizeOfSeedArray = 10; // Default size of seeds array
+
+				/**
+				 * Try block to be sure user will enter a number
+				 */
+				try {
+					sizeOfSeedArray = Integer.parseInt((String) JOptionPane.showInputDialog(getParent(),
+							"Enter AN INTEGER As Number of Seed Nods to Infect:", "Question",
+							JOptionPane.INFORMATION_MESSAGE, null, null, "10"));
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(getParent(), "The entered is not an integer.", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
+				int totalNoOfNodes = GraphFrame.sVertices.size();
+
+				/*
+				 * The condition to check user is not entering a number greater
+				 * than total number of nodes
+				 */
+				if (sizeOfSeedArray > totalNoOfNodes) {
+					JOptionPane.showMessageDialog(getParent(),
+							"The choosen number is greater than total number of nodes.", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+					sizeOfSeedArray = 10; // If user enter a big number we will
+											// use default
+				}
+
+				/*
+				 * Generate seed array with user request's size or default size
+				 */
+				GraphFrame.infectedSeedListCreate(sizeOfSeedArray);
+
+				System.out.println(" CHOOSEN NO IS: => " + sizeOfSeedArray);
+
 				System.out.println("Spreading the virus ...");
 
 				int resultOfSpreadA = VirusSpread.spread("A", GraphFrame.infectedSeedsList, MainFrame.graphOut,
@@ -284,10 +309,23 @@ class PopUpDemo extends JPopupMenu {
 				int resultOfSpreadB = VirusSpread.spread("B", GraphFrame.infectedSeedsList, MainFrame.graphOut,
 						GraphFrame.sVertices, 1);
 
-				int totalNoOfNodes = GraphFrame.sVertices.size();
+				int noOfInfectedSeeds = GraphFrame.infectedSeedsList.size();
 
 				System.out.println("GraphFrame>>>>>InfectedSeeds: " + GraphFrame.infectedSeedsList.toString());
 				System.out.println("GraphFrame>>>>>Solution: " + MainFrame.solution.toString());
+
+				/*
+				 * Set information about infected nodes before virus spread
+				 * experiment.
+				 */
+				GraphFrame.graphPanelInfoLeft
+						.append(" [>]  Number of Seeds In Most Influential Experiment Before Virus Spread:\t");
+				GraphFrame.graphPanelInfoLeft
+						.append("[ " + noOfInfectedSeeds + " ]\n\t\t" + GraphFrame.infectedSeedsList.toString() + "\n");
+				GraphFrame.graphPanelInfoRight
+						.append(" [>] Number of Seeds In Max Degree Experiment Before Virus Spread:\t");
+				GraphFrame.graphPanelInfoRight
+						.append("[ " + noOfInfectedSeeds + " ]\n\t\t" + GraphFrame.infectedSeedsList.toString() + "\n");
 
 				/**
 				 * Set information to text area's of each experiment about virus
@@ -305,8 +343,8 @@ class PopUpDemo extends JPopupMenu {
 				/**
 				 * Find info about percentage of spread in each experiment
 				 */
-				double pResultA = (resultOfSpreadA * 100)/totalNoOfNodes;
-				double pResultB = (resultOfSpreadB * 100)/totalNoOfNodes;
+				double pResultA = (resultOfSpreadA * 100) / totalNoOfNodes;
+				double pResultB = (resultOfSpreadB * 100) / totalNoOfNodes;
 
 				GraphFrame.graphPanelInfoLeft
 						.append(" [>]  The Percentage of Infected Nodes After Vaccinate Most Influential Nodes:\t[ "
