@@ -3,7 +3,6 @@ package view.sajjad.mostdesired;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -13,6 +12,7 @@ import java.util.Random;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -45,7 +45,8 @@ public class GraphFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	public static ViewGraphPanelA graphPanelLeft;
 	public static ViewGraphPanelB graphPanelRight;
-	private JPanel textShowPanel;
+	private JPanel textShowBottomPanel;
+	private JPanel graphShowTopPanel;
 	public static JTextArea graphPanelInfoLeft;
 	public static JTextArea graphPanelInfoRight;
 	private Dimension ViewGraphPanelDim;
@@ -58,47 +59,66 @@ public class GraphFrame extends JFrame {
 
 	public GraphFrame(ArrayList<sVertex> sVertices) {
 
-		setTitle("Show Graph In Comparison Mode");
-		
-		Dimension frameSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-		setSize(frameSize.width, frameSize.height-20);
-		setLayout(new BorderLayout());
-
 		GraphFrame.sVertices = sVertices;
 
+		initializeBasics();
+
+		initializeTopPanel();
 		initializeBottomPanel();
 
-		/**
-		 * Prepare parameter dimension and sVertes array list in order to build
-		 * ViewGraphPanels. sVertices can be built from dataReader, rd d is just
-		 * preferred dimension of GraphPanel
-		 */
+		JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, true, graphShowTopPanel, textShowBottomPanel);
 
+		splitPane.setResizeWeight(.8d);
+
+		add(splitPane, BorderLayout.CENTER);
+
+		/*
+		 * Set the bottom panel text area's info before run virus spread.
+		 */
+		setInfoBottomPanel();
+
+		setVisible(true);
+
+	}
+
+	private void initializeBasics() {
+
+		Dimension frameSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
 		ViewGraphPanelDim = new Dimension(1000, 1000);
+
+		setTitle("Show Graph In Comparison Mode");
+		setSize(frameSize.width, frameSize.height - 80);
+		setLayout(new BorderLayout());
+
+	}
+
+	private void initializeTopPanel() {
+
+		graphShowTopPanel = new JPanel();
+		graphShowTopPanel.setPreferredSize(new Dimension(1300, 500));
+		graphShowTopPanel.setBackground(Color.WHITE);
+		graphShowTopPanel.setLayout(new BorderLayout());
 
 		/**
 		 * Create left graphViewPanel
 		 * 
 		 */
-
 		graphPanelLeft = new ViewGraphPanelA(ViewGraphPanelDim, sVertices);
-
 		JScrollPane graphScrollPanelLeft = new JScrollPane(graphPanelLeft);
 		graphScrollPanelLeft.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
 		graphScrollPanelLeft.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
-		add(graphScrollPanelLeft, BorderLayout.CENTER);
 
 		/**
 		 * Create right graphViewPanel
 		 * 
 		 */
-
 		graphPanelRight = new ViewGraphPanelB(ViewGraphPanelDim, sVertices);
-
 		JScrollPane graphScrollPanelRight = new JScrollPane(graphPanelRight);
 		graphScrollPanelRight.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
 		graphScrollPanelRight.getHorizontalScrollBar().setPreferredSize(new Dimension(0, 0));
-		add(graphScrollPanelRight, BorderLayout.CENTER);
+
+		graphPanelRight.addMouseListener(new PopClickListener());
+		graphPanelLeft.addMouseListener(new PopClickListener());
 
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, graphScrollPanelLeft,
 				graphScrollPanelRight);
@@ -106,43 +126,44 @@ public class GraphFrame extends JFrame {
 		splitPane.setOneTouchExpandable(true);
 		splitPane.setResizeWeight(.5d);
 
-		getContentPane().add(splitPane, BorderLayout.CENTER);
-		getContentPane().add(textShowPanel, BorderLayout.SOUTH);
-
-		/*
-		 * Set the bottom panel text area's info before run virus spread.
-		 */
-		setInfoBottomPanel();
-
-		graphPanelRight.addMouseListener(new PopClickListener());
-		graphPanelLeft.addMouseListener(new PopClickListener());
-		setVisible(true);
-
+		graphShowTopPanel.add(splitPane, BorderLayout.CENTER);
 	}
 
 	private void initializeBottomPanel() {
 
-		textShowPanel = new JPanel();
-		textShowPanel.setPreferredSize(new Dimension(1300, 100));
-		textShowPanel.setBackground(Color.WHITE);
-		textShowPanel.setLayout(new FlowLayout());
+		textShowBottomPanel = new JPanel();
+		textShowBottomPanel.setPreferredSize(new Dimension(1300, 150));
+		textShowBottomPanel.setBackground(Color.WHITE);
+		textShowBottomPanel.setLayout(new BorderLayout());
 
-		graphPanelInfoLeft = new JTextArea(6, 60);
-		graphPanelInfoLeft.setSize(getContentPane().getPreferredSize());
-		graphPanelInfoLeft.setMinimumSize(new Dimension(220, 110));
+		/**
+		 * Setup the left text area
+		 */
+		graphPanelInfoLeft = new JTextArea(10, 60);
+		JScrollPane graphScrollPaneInfoLeft = new JScrollPane(graphPanelInfoLeft);
+		graphScrollPaneInfoLeft.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		graphScrollPaneInfoLeft.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		graphPanelInfoLeft.setSize(new Dimension(100, 100));
 		graphPanelInfoLeft.setBackground(darkGray);
 		graphPanelInfoLeft.setForeground(myOrange);
 
-		textShowPanel.add(graphPanelInfoLeft);
-
-		graphPanelInfoRight = new JTextArea(6, 60);
-		graphPanelInfoRight.setSize(getContentPane().getPreferredSize());
-		graphPanelInfoRight.setMinimumSize(new Dimension(220, 110));
+		/**
+		 * Setup the right text area
+		 */
+		graphPanelInfoRight = new JTextArea(10, 60);
+		JScrollPane graphScrollPaneInfoRight = new JScrollPane(graphPanelInfoRight);
+		graphScrollPaneInfoRight.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		graphScrollPaneInfoRight.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		graphPanelInfoRight.setSize(new Dimension(100, 100));
 		graphPanelInfoRight.setBackground(darkGray);
 		graphPanelInfoRight.setForeground(myOrange);
 
-		textShowPanel.add(graphPanelInfoRight);
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, true, graphScrollPaneInfoLeft,
+				graphScrollPaneInfoRight);
+		splitPane.setOneTouchExpandable(true);
+		splitPane.setResizeWeight(.5d);
 
+		textShowBottomPanel.add(splitPane, BorderLayout.CENTER);
 	}
 
 	private void setInfoBottomPanel() {
@@ -174,17 +195,15 @@ public class GraphFrame extends JFrame {
 		int noOfvaccinatedNodesB = vaccinatedNodesB.size();
 
 		/*
-		 * This method will generate array of seed nodes for initial infection
+		 * This method will initialize seed array only
 		 */
-		infectedSeedListCreate();
+		infectedSeedListCreate(0);
 
 		infectedNodesA = graphPanelLeft.getInfectedNodes();
 		infectedNodesB = graphPanelRight.getInfectedNodes();
 
 		GraphFrame.graphPanelLeft.repaint();
 		GraphFrame.graphPanelRight.repaint();
-
-		int noOfInfectedSeeds = infectedSeedsList.size();
 
 		/*
 		 * Set info about total number of nodes in each experiment text area.
@@ -201,17 +220,6 @@ public class GraphFrame extends JFrame {
 		GraphFrame.graphPanelInfoRight.append(" [>] Number of Vaccinated Nodes In Max Degree Experiment:\t");
 		GraphFrame.graphPanelInfoRight.append("[ " + noOfvaccinatedNodesB + " ]\t" + vaccinatedNodesB + "\n");
 
-		/*
-		 * Set information about infected nodes before virus spread experiment.
-		 */
-		GraphFrame.graphPanelInfoLeft
-				.append(" [>]  Number of Seeds In Most Influential Experiment Before Virus Spread:\t");
-		GraphFrame.graphPanelInfoLeft
-				.append("[ " + noOfInfectedSeeds + " ]\n\t\t" + infectedSeedsList.toString() + "\n");
-		GraphFrame.graphPanelInfoRight.append(" [>] Number of Seeds In Max Degree Experiment Before Virus Spread:\t");
-		GraphFrame.graphPanelInfoRight
-				.append("[ " + noOfInfectedSeeds + " ]\n\t\t" + infectedSeedsList.toString() + "\n");
-
 	}
 
 	/*
@@ -219,11 +227,14 @@ public class GraphFrame extends JFrame {
 	 * the randomly selected node is vaccinated here we will try to find skip
 	 * and find not vaccinated.
 	 */
-	public void infectedSeedListCreate() {
+	public static void infectedSeedListCreate(int noOfSeeds) {
 
 		infectedSeedsList = new ArrayList<Integer>();
+
+		if (noOfSeeds == 0)
+			return;
 		Random rn = new Random();
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < noOfSeeds; i++) {
 
 			int infectedIndex = rn.nextInt((GraphFrame.sVertices.size()));
 
@@ -245,14 +256,50 @@ public class GraphFrame extends JFrame {
 class PopUpDemo extends JPopupMenu {
 
 	private static final long serialVersionUID = 1L;
-	JMenuItem anItem;
+	JMenuItem spreadVirus;
 
 	public PopUpDemo() {
-		anItem = new JMenuItem("Spread The Virus!");
-		anItem.addActionListener(new ActionListener() {
+		spreadVirus = new JMenuItem("Spread The Virus!");
+
+		spreadVirus.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
+
+				int sizeOfSeedArray = 10; // Default size of seeds array
+
+				/**
+				 * Try block to be sure user will enter a number
+				 */
+				try {
+					sizeOfSeedArray = Integer.parseInt((String) JOptionPane.showInputDialog(getParent(),
+							"Enter AN INTEGER As Number of Seed Nods to Infect:", "Question",
+							JOptionPane.INFORMATION_MESSAGE, null, null, "10"));
+				} catch (NumberFormatException ex) {
+					JOptionPane.showMessageDialog(getParent(), "The entered is not an integer.", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
+				int totalNoOfNodes = GraphFrame.sVertices.size();
+
+				/*
+				 * The condition to check user is not entering a number greater
+				 * than total number of nodes
+				 */
+				if (sizeOfSeedArray > totalNoOfNodes) {
+					JOptionPane.showMessageDialog(getParent(),
+							"The choosen number is greater than total number of nodes.", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+					sizeOfSeedArray = 10; // If user enter a big number we will
+											// use default
+				}
+
+				/*
+				 * Generate seed array with user request's size or default size
+				 */
+				GraphFrame.infectedSeedListCreate(sizeOfSeedArray);
+
+				System.out.println(" CHOOSEN NO IS: => " + sizeOfSeedArray);
 
 				System.out.println("Spreading the virus ...");
 
@@ -261,25 +308,56 @@ class PopUpDemo extends JPopupMenu {
 				int resultOfSpreadB = VirusSpread.spread("B", GraphFrame.infectedSeedsList, MainFrame.graphOut,
 						GraphFrame.sVertices, 1);
 
+				int noOfInfectedSeeds = GraphFrame.infectedSeedsList.size();
+
 				System.out.println("GraphFrame>>>>>InfectedSeeds: " + GraphFrame.infectedSeedsList.toString());
 				System.out.println("GraphFrame>>>>>Solution: " + MainFrame.solution.toString());
-				
 
+				/*
+				 * Set information about infected nodes before virus spread
+				 * experiment.
+				 */
+				GraphFrame.graphPanelInfoLeft
+						.append(" [>]  Number of Seeds In Most Influential Experiment Before Virus Spread:\t");
+				GraphFrame.graphPanelInfoLeft
+						.append("[ " + noOfInfectedSeeds + " ]\n\t\t" + GraphFrame.infectedSeedsList.toString() + "\n");
+				GraphFrame.graphPanelInfoRight
+						.append(" [>] Number of Seeds In Max Degree Experiment Before Virus Spread:\t");
+				GraphFrame.graphPanelInfoRight
+						.append("[ " + noOfInfectedSeeds + " ]\n\t\t" + GraphFrame.infectedSeedsList.toString() + "\n");
+
+				/**
+				 * Set information to text area's of each experiment about virus
+				 * spread.
+				 */
 				GraphFrame.graphPanelInfoLeft
 						.append(" [>]  Number of Infected Nodes After Vaccinate Most Influential Nodes:\t");
 				GraphFrame.graphPanelInfoLeft
-						.append("[ " + resultOfSpreadA + " ]\n\t\t" + GraphFrame.infectedNodesA.toString());
+						.append("[ " + resultOfSpreadA + " ]\n\t\t" + GraphFrame.infectedNodesA.toString() + "\n");
 				GraphFrame.graphPanelInfoRight
 						.append(" [>]  Number of Infected Nodes After Vaccinate Max Degree Nodes:\t");
 				GraphFrame.graphPanelInfoRight
-						.append("[ " + resultOfSpreadB + " ]\n\t\t" + GraphFrame.infectedNodesB.toString());
+						.append("[ " + resultOfSpreadB + " ]\n\t\t" + GraphFrame.infectedNodesB.toString() + "\n");
+
+				/**
+				 * Find info about percentage of spread in each experiment
+				 */
+				double pResultA = (resultOfSpreadA * 100) / totalNoOfNodes;
+				double pResultB = (resultOfSpreadB * 100) / totalNoOfNodes;
+
+				GraphFrame.graphPanelInfoLeft
+						.append(" [>]  The Percentage of Infected Nodes After Vaccinate Most Influential Nodes:\t[ "
+								+ pResultA + " % ]");
+				GraphFrame.graphPanelInfoRight
+						.append(" [>]  The Percentage of Infected Nodes After Vaccinate Max Degree Nodes:\t[ "
+								+ pResultB + " % ]");
 
 				GraphFrame.graphPanelLeft.repaint();
 				GraphFrame.graphPanelRight.repaint();
 
 			}
 		});
-		add(anItem);
+		add(spreadVirus);
 	}
 }
 

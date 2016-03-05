@@ -55,20 +55,23 @@ import task.sajjad.mostdesired.AlgorithmTask;
  * 
  * @author sajjad
  * 
- * 		This the man view frame of the application. User can choose different path through of this 
- * 	window into the application.</br>
- * 		
- * 		<ul>
- * 				<li>The left side of window:</br>In this part is user controls of application. Top to 
- * 				bottom, there is Brows button to choose different input file from hard disk. Text filed to
- * 				show the file path. The information area to show input file information, size, no. of 
- * 				line, no. of nodes, ... . The button to run the algorithm in order to find most influ_
- * 				ential nodes. The button to run virus spread experiment in graphic mode. The button to
- * 				run virus spread experiment in text mode. </li>
- * 				<li>The right side of window:</br>In this area the log of application activity will be 
- * 				presented to user.</li>
- * 		</ul>
- *         
+ *         This the man view frame of the application. User can choose different
+ *         path through of this window into the application.</br>
+ * 
+ *         <ul>
+ *         <li>The left side of window:</br>
+ *         In this part is user controls of application. Top to bottom, there is
+ *         Brows button to choose different input file from hard disk. Text
+ *         filed to show the file path. The information area to show input file
+ *         information, size, no. of line, no. of nodes, ... . The button to run
+ *         the algorithm in order to find most influ_ ential nodes. The button
+ *         to run virus spread experiment in graphic mode. The button to run
+ *         virus spread experiment in text mode.</li>
+ *         <li>The right side of window:</br>
+ *         In this area the log of application activity will be presented to
+ *         user.</li>
+ *         </ul>
+ * 
  */
 
 public class MainFrame extends JFrame {
@@ -114,22 +117,22 @@ public class MainFrame extends JFrame {
 
 	private JFileChooser fc;
 	private File file;
-	//private JFrame VisualGraph;
-	
+	// private JFrame VisualGraph;
+
 	private DataReader rd;
-	
-	
+
 	private ArrayList<sVertex> sVertices;
 	private ArrayList<Integer> maxDegrees;
 	public static ArrayList<Integer> solution;
-	
+	private ArrayList<Integer> infectedSeedsList;
+	private ArrayList<Integer> vaccinatedNodes;
+	private ArrayList<Integer> infectedNodes;
+
 	public static ArrayList<LinkedList<NodeAndWeight>> graphIn;
 	public static ArrayList<LinkedList<NodeAndWeight>> graphOut;
-	
-
 
 	public MainFrame() {
-		
+
 		initializeBasics();
 		init();
 	}
@@ -285,7 +288,7 @@ public class MainFrame extends JFrame {
 		goInGraphicModeBtn.setPreferredSize(new Dimension(200, 20));
 		goInGraphicModeBtn.addActionListener(showGraphAct);
 		addCompToLeftPanel(goInGraphicModeBtn, 0, 8, 6, 1);
-		
+
 		/** Row 9 **/
 		goInTxtModeBtn = new JButton("TEXT MODE");
 		goInTxtModeBtn.setFont(new Font("Arial", Font.BOLD, 10));
@@ -296,7 +299,7 @@ public class MainFrame extends JFrame {
 		goInTxtModeBtn.setPreferredSize(new Dimension(200, 20));
 		goInTxtModeBtn.addActionListener(showGraphAct);
 		addCompToLeftPanel(goInTxtModeBtn, 0, 9, 6, 1);
-		
+
 		/** Row 10 **/
 		fKLabel = new JLabel("K:");
 		fKLabel.setPreferredSize(new Dimension(80, 20));
@@ -346,7 +349,7 @@ public class MainFrame extends JFrame {
 		pBar.setString("PROGRESS");
 		pBar.setBackground(myCyan);
 		pBar.setForeground(myOrange);
-		pBar.setPreferredSize(new Dimension(getContentPane().getWidth()-50, 20));
+		pBar.setPreferredSize(new Dimension(getContentPane().getWidth() - 50, 20));
 		UIManager.put("pBar.selectionBackground", myOrange);
 		UIManager.put("pBar.selectionBackground", Color.white);
 		addCompToBottomPanel(pBar, 0, 0, 1, 1);
@@ -426,7 +429,6 @@ public class MainFrame extends JFrame {
 
 				}
 			}
-			
 
 		}
 	};
@@ -447,11 +449,15 @@ public class MainFrame extends JFrame {
 
 					task.addPropertyChangeListener(PropertyChangeListener);
 					task.execute();
+					createSvertexArray();
 				} else {
 					JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "Dialog",
 							JOptionPane.ERROR_MESSAGE);
+					setCursor(Cursor.getDefaultCursor());
+					consoleTextArea.setCursor(Cursor.getDefaultCursor());
+
 				}
-				createSvertexArray();
+
 			}
 
 		}
@@ -462,31 +468,51 @@ public class MainFrame extends JFrame {
 		public void actionPerformed(ActionEvent e) {
 
 			/**
-			 *  If the source of action is 'goInGraphicModeBtn'. It means if GRAPHIC MODE button clicked. 
+			 * If the source of action is 'goInGraphicModeBtn'. It means if
+			 * GRAPHIC MODE button clicked.
 			 */
-			vaccinateSvertexArray();
-			
+
 			if (e.getSource() == goInGraphicModeBtn) {
+
 				SwingUtilities.invokeLater(new Runnable() {
 					@Override
 					public void run() {
 
 						if (!fileNameLabel.getText().equals("") && !fileNameLabel.getText().equals("[...]")) {
 
-							/*VisualGraph = */new GraphFrame(sVertices);
+							if (sVertices == null) {
+								JOptionPane.showMessageDialog(new JFrame(), "Please run the algorithm at first",
+										"ERROR", JOptionPane.ERROR_MESSAGE);
+							} else {
+								vaccinateSvertexArray();
+								/* VisualGraph = */new GraphFrame(sVertices);
+							}
 						} else {
-							JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "Dialog",
+							JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "ERROR",
 									JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				});
-				
-			/**
-			 *  If the source of action is 'goInTxtModeBtn'. It means if TEXT MODE button clicked.
-			 */
-			} else if(e.getSource() == goInTxtModeBtn) {
-				
-				runExperinment();
+
+				/**
+				 * If the source of action is 'goInTxtModeBtn'. It means if TEXT
+				 * MODE button clicked.
+				 */
+			} else if (e.getSource() == goInTxtModeBtn) {
+
+				if (!fileNameLabel.getText().equals("") && !fileNameLabel.getText().equals("[...]")) {
+					if (sVertices == null) {
+						JOptionPane.showMessageDialog(new JFrame(), "Please run the algorithm at first", "ERROR",
+								JOptionPane.ERROR_MESSAGE);
+					} else {
+						vaccinateSvertexArray();
+						runExperinment();
+					}
+				} else {
+					JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "ERROR",
+							JOptionPane.ERROR_MESSAGE);
+				}
+
 			}
 
 		}
@@ -505,23 +531,25 @@ public class MainFrame extends JFrame {
 		}
 	};
 
-	
 	/**
-	 *  The custom WndowListener to make sure after closing the frame and threads are disposed.
+	 * The custom WndowListener to make sure after closing the frame and threads
+	 * are disposed.
 	 */
 	WindowListener exitListener = new WindowAdapter() {
 
 		public synchronized void windowClosing(WindowEvent evt) {
 			setVisible(false); // default behavior of JFrame
 			dispose();
-			
+
 		}
 
 	};
 
 	/**
-	 *  This is function in order to get input file size for showing in GUI
-	 * @param file input file from user
+	 * This is function in order to get input file size for showing in GUI
+	 * 
+	 * @param file
+	 *            input file from user
 	 */
 	private void getFileSize(File file) {
 
@@ -540,8 +568,10 @@ public class MainFrame extends JFrame {
 	}
 
 	/**
-	 *  This function set file information into GUI labels 
-	 * @param file input file from user
+	 * This function set file information into GUI labels
+	 * 
+	 * @param file
+	 *            input file from user
 	 */
 	private void setFileInfo(File file) {
 
@@ -558,7 +588,7 @@ public class MainFrame extends JFrame {
 			e1.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * The method to create sVertices from rd of type dataReader.
 	 */
@@ -569,10 +599,8 @@ public class MainFrame extends JFrame {
 
 		for (int i = 0; i < graphIn.size(); i++) {
 
-
 			LinkedList<NodeAndWeight> tempList = graphOut.get(i);
-			int d = ((tempList.size() * 200) / graphOut.size())+5;
-
+			int d = ((tempList.size() * 200) / graphOut.size()) + 5;
 
 			sVertex sv = new sVertex(i, new Random().nextInt(1000) + 100, new Random().nextInt((1000)) + 100, (d),
 					false);
@@ -585,54 +613,105 @@ public class MainFrame extends JFrame {
 			}
 			sVertices.add(sv);
 		}
-		
+
 		maxDegrees = rd.findKMaxDegree(k);
-		consoleTextArea.append("[>] MAXIMUM DEGREE NODES ARE:\n"+maxDegrees.toString()+"\n");
+		consoleTextArea.append("[>] MAXIMUM DEGREE NODES ARE:\n" + maxDegrees.toString() + "\n");
 	}
+
 	/**
-	 *  The method to set vaccinate field (true, false) of sVertex according to Max degree or Most influential.
+	 * The method to set vaccinate field (true, false) of sVertex according to
+	 * Max degree or Most influential.
 	 */
 	private void vaccinateSvertexArray() {
-		for (sVertex s: sVertices) {
-			
-			if (maxDegrees!=null)
-			if (maxDegrees.contains(s.getId())) {
-				s.setInMax(true);
-			}
+		for (sVertex s : sVertices) {
+
+			if (maxDegrees != null)
+				if (maxDegrees.contains(s.getId())) {
+					s.setInMax(true);
+				}
 			if (solution != null)
-			if (solution.contains(s.getId())) {
-				s.setInK(true);
-			}
+				if (solution.contains(s.getId())) {
+					s.setInK(true);
+				}
 		}
-		System.out.println(">>>>"+solution.toString());
-		System.out.println(">>>>"+maxDegrees.toString());
-		
-		
-		
+		System.out.println(">>>>" + solution.toString());
+		System.out.println(">>>>" + maxDegrees.toString());
+
 		Vaccinate.vaccinateMaxDegrees(sVertices);
 		Vaccinate.vaccinateMostInfluentials(sVertices);
-		
+
 	}
-	
+
+	/*
+	 * The method to create random integer as seed array for infecting nodes. If
+	 * the randomly selected node is vaccinated here we will try to find skip
+	 * and find not vaccinated.
+	 */
+	private void infectedSeedListCreate(ArrayList<sVertex> sVertices) {
+
+		infectedSeedsList = new ArrayList<Integer>();
+		int sizeOfSeedArray = 10;
+		int totalNoOfNodes = sVertices.size();
+
+		try {
+			sizeOfSeedArray = Integer.parseInt(
+					(String) JOptionPane.showInputDialog(this, "Enter AN INTEGER As Number of Seed Nods to Infect:",
+							"Question", JOptionPane.INFORMATION_MESSAGE, null, null, "10"));
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(this, "The entered is not an integer.", "ERROR", JOptionPane.ERROR_MESSAGE);
+		}
+
+		if (sizeOfSeedArray > totalNoOfNodes) {
+			JOptionPane.showMessageDialog(getParent(), "The choosen number is greater than total number of nodes.",
+					"ERROR", JOptionPane.ERROR_MESSAGE);
+			sizeOfSeedArray = 0; // If user enter a big number we will
+									// use default
+		}
+
+		Random rn = new Random();
+		for (int i = 0; i < sizeOfSeedArray; i++) {
+
+			int infectedIndex = rn.nextInt(totalNoOfNodes);
+
+			if (!sVertices.get(infectedIndex).isVaccinatedA() && !sVertices.get(infectedIndex).isVaccinatedB()) {
+				infectedSeedsList.add(infectedIndex);
+			} else {
+				i--;
+			}
+		}
+
+	}
+
 	/**
-	 *  The method to run virus spread experiment on current sample.
+	 * The method to run virus spread experiment on current sample.
 	 */
 	private void runExperinment() {
+
 		vaccinateSvertexArray();
-		Random rn = new Random();
-		ArrayList<Integer> infectedSeedsList = new ArrayList<Integer>();
-		for(int i = 0; i < 10; i++){
-			infectedSeedsList.add(rn.nextInt((sVertices.size())));
-		}
+		infectedSeedListCreate(sVertices);
+
+		int totalNoOfNodes = sVertices.size();
+
 		int noOfInfectedA = VirusSpread.spread("A", infectedSeedsList, graphOut, sVertices, 1);
 		int noOfInfectedB = VirusSpread.spread("B", infectedSeedsList, graphOut, sVertices, 1);
+
+		setVaccinatedAndInfectedNodes();
+
+		consoleTextArea.append("[A B]");
+		consoleTextArea.append("   Total Number of Nodes in Both of Experiments:\t" + totalNoOfNodes + "\n");
+
+		consoleTextArea.append("[A B]");
+		consoleTextArea.append("   Number of Infected Nodes in Both of Experiments:\t" + infectedSeedsList.size()
+				+ "\n\t" + infectedSeedsList.toString() + "\n");
+
 		consoleTextArea.append("[A]");
-		consoleTextArea.append("   Number of Infected Nodes After Vaccinate Most Influential Nodes:\t"+noOfInfectedA+"\n");
+		consoleTextArea
+				.append("   Number of Infected Nodes After Vaccinate Most Influential Nodes:\t" + noOfInfectedA + "\n");
 		consoleTextArea.append("[B]");
-		consoleTextArea.append("   Number of Infected Nodes After Vaccinate Max Degree Nodes:\t"+noOfInfectedB+"\n");
+		consoleTextArea
+				.append("   Number of Infected Nodes After Vaccinate Max Degree Nodes:\t" + noOfInfectedB + "\n");
+
 	}
-	
-	
 
 	FilePropertyGetter fp = new FilePropertyGetter() {
 
@@ -643,28 +722,43 @@ public class MainFrame extends JFrame {
 			 * Get the input file properties and set the labels
 			 */
 			setFileInfo(file);
-			
-			
-			
+
 			setCursor(Cursor.getDefaultCursor());
 			consoleTextArea.setCursor(Cursor.getDefaultCursor());
 		}
 	};
-	
+
+	public void setVaccinatedAndInfectedNodes() {
+
+		vaccinatedNodes = new ArrayList<>();
+		infectedNodes = new ArrayList<>();
+
+		for (sVertex sV : sVertices) {
+			if (sV.isVaccinatedB()) {
+				vaccinatedNodes.add(sV.getId());
+			}
+			if (sV.isInfectedB()) {
+				infectedNodes.add(sV.getId());
+			}
+		}
+	}
+
 	/**
-	 *  	Since we are using SwingWorker in order to run algorithm in background. We need to some changes in GUI 
-	 *  get cursor back from waiting state get answer of algorithm to problem and show to user ... . 
-	 *  	
-	 *  The AlgorithmFfinish interface will do abstraction of all we need to do in GUI when algorithm finish. 
+	 * Since we are using SwingWorker in order to run algorithm in background.
+	 * We need to some changes in GUI get cursor back from waiting state get
+	 * answer of algorithm to problem and show to user ... .
+	 * 
+	 * The AlgorithmFfinish interface will do abstraction of all we need to do
+	 * in GUI when algorithm finish.
 	 */
 
 	AlgorithmFinish af = new AlgorithmFinish() {
-		
+
 		@Override
 		public void finish(ArrayList<Integer> s) {
-			
+
 			solution = s;
-			
+
 			setCursor(Cursor.getDefaultCursor());
 			consoleTextArea.setCursor(Cursor.getDefaultCursor());
 
