@@ -124,6 +124,9 @@ public class MainFrame extends JFrame {
 	private ArrayList<sVertex> sVertices;
 	private ArrayList<Integer> maxDegrees;
 	public static ArrayList<Integer> solution;
+	private ArrayList<Integer> infectedSeedsList;
+	private ArrayList<Integer> vaccinatedNodes;
+	private ArrayList<Integer> infectedNodes;
 
 	public static ArrayList<LinkedList<NodeAndWeight>> graphIn;
 	public static ArrayList<LinkedList<NodeAndWeight>> graphOut;
@@ -639,24 +642,75 @@ public class MainFrame extends JFrame {
 
 	}
 
+	/*
+	 * The method to create random integer as seed array for infecting nodes. If
+	 * the randomly selected node is vaccinated here we will try to find skip
+	 * and find not vaccinated.
+	 */
+	private void infectedSeedListCreate(ArrayList<sVertex> sVertices) {
+
+		infectedSeedsList = new ArrayList<Integer>();
+		int sizeOfSeedArray = 10;
+		int totalNoOfNodes = sVertices.size();
+
+		try {
+			sizeOfSeedArray = Integer.parseInt(
+					(String) JOptionPane.showInputDialog(this, "Enter AN INTEGER As Number of Seed Nods to Infect:",
+							"Question", JOptionPane.INFORMATION_MESSAGE, null, null, "10"));
+		} catch (NumberFormatException ex) {
+			JOptionPane.showMessageDialog(this, "The entered is not an integer.", "ERROR", JOptionPane.ERROR_MESSAGE);
+		}
+
+		if (sizeOfSeedArray > totalNoOfNodes) {
+			JOptionPane.showMessageDialog(getParent(), "The choosen number is greater than total number of nodes.",
+					"ERROR", JOptionPane.ERROR_MESSAGE);
+			sizeOfSeedArray = 0; // If user enter a big number we will
+									// use default
+		}
+
+		Random rn = new Random();
+		for (int i = 0; i < sizeOfSeedArray; i++) {
+
+			int infectedIndex = rn.nextInt(totalNoOfNodes);
+
+			if (!sVertices.get(infectedIndex).isVaccinatedA() && !sVertices.get(infectedIndex).isVaccinatedB()) {
+				infectedSeedsList.add(infectedIndex);
+			} else {
+				i--;
+			}
+		}
+
+	}
+
 	/**
 	 * The method to run virus spread experiment on current sample.
 	 */
 	private void runExperinment() {
+
 		vaccinateSvertexArray();
-		Random rn = new Random();
-		ArrayList<Integer> infectedSeedsList = new ArrayList<Integer>();
-		for (int i = 0; i < 10; i++) {
-			infectedSeedsList.add(rn.nextInt((sVertices.size())));
-		}
+		infectedSeedListCreate(sVertices);
+
+		int totalNoOfNodes = sVertices.size();
+
 		int noOfInfectedA = VirusSpread.spread("A", infectedSeedsList, graphOut, sVertices, 1);
 		int noOfInfectedB = VirusSpread.spread("B", infectedSeedsList, graphOut, sVertices, 1);
+
+		setVaccinatedAndInfectedNodes();
+
+		consoleTextArea.append("[A B]");
+		consoleTextArea.append("   Total Number of Nodes in Both of Experiments:\t" + totalNoOfNodes + "\n");
+
+		consoleTextArea.append("[A B]");
+		consoleTextArea.append("   Number of Infected Nodes in Both of Experiments:\t" + infectedSeedsList.size()
+				+ "\n\t" + infectedSeedsList.toString() + "\n");
+
 		consoleTextArea.append("[A]");
 		consoleTextArea
 				.append("   Number of Infected Nodes After Vaccinate Most Influential Nodes:\t" + noOfInfectedA + "\n");
 		consoleTextArea.append("[B]");
 		consoleTextArea
 				.append("   Number of Infected Nodes After Vaccinate Max Degree Nodes:\t" + noOfInfectedB + "\n");
+
 	}
 
 	FilePropertyGetter fp = new FilePropertyGetter() {
@@ -673,6 +727,21 @@ public class MainFrame extends JFrame {
 			consoleTextArea.setCursor(Cursor.getDefaultCursor());
 		}
 	};
+
+	public void setVaccinatedAndInfectedNodes() {
+
+		vaccinatedNodes = new ArrayList<>();
+		infectedNodes = new ArrayList<>();
+
+		for (sVertex sV : sVertices) {
+			if (sV.isVaccinatedB()) {
+				vaccinatedNodes.add(sV.getId());
+			}
+			if (sV.isInfectedB()) {
+				infectedNodes.add(sV.getId());
+			}
+		}
+	}
 
 	/**
 	 * Since we are using SwingWorker in order to run algorithm in background.
