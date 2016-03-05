@@ -57,8 +57,8 @@ public class AlgorithmTask extends SwingWorker<Integer, String> {
 		});
 		
 		setProgress(100);
-		publish("[>] MOST INFLUENTIAL NODES ARE:");
-		publish(solution.toString());
+		publish("[>] THE " + k + " MOST INFLUENTIAL NODES ARE:");
+		publish("\t" + solution.toString());
 
 		return null;
 	}

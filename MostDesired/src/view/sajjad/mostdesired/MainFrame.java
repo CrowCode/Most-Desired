@@ -365,7 +365,7 @@ public class MainFrame extends JFrame {
 		consoleTextArea.setMinimumSize(new Dimension(100, 100));
 		consoleTextArea.setBackground(darkGray);
 		consoleTextArea.setForeground(myOrange);
-		consoleTextArea.setText("\n\tOUTPUT:");
+		consoleTextArea.setText("\n\tOUTPUT:\n\n");
 
 		DefaultCaret caret = (DefaultCaret) consoleTextArea.getCaret();
 		caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -615,7 +615,7 @@ public class MainFrame extends JFrame {
 		}
 
 		maxDegrees = rd.findKMaxDegree(k);
-		consoleTextArea.append("[>] MAXIMUM DEGREE NODES ARE:\n" + maxDegrees.toString() + "\n");
+		consoleTextArea.append("[>] THE " + k + " MAXIMUM DEGREE NODES ARE:\n\t" + maxDegrees.toString() + "\n");
 	}
 
 	/**
@@ -697,19 +697,19 @@ public class MainFrame extends JFrame {
 
 		setVaccinatedAndInfectedNodes();
 
-		consoleTextArea.append("[A B]");
-		consoleTextArea.append("   Total Number of Nodes in Both of Experiments:\t" + totalNoOfNodes + "\n");
+		consoleTextArea.append("[A:B]");
+		consoleTextArea.append("   Total Number of Nodes:\t" + totalNoOfNodes + "\n");
 
-		consoleTextArea.append("[A B]");
-		consoleTextArea.append("   Number of Infected Nodes in Both of Experiments:\t" + infectedSeedsList.size()
+		consoleTextArea.append("[A:B]");
+		consoleTextArea.append("   Number of Initially-Infected Nodes:\t" + infectedSeedsList.size()
 				+ "\n\t" + infectedSeedsList.toString() + "\n");
 
 		consoleTextArea.append("[A]");
 		consoleTextArea
-				.append("   Number of Infected Nodes After Vaccinate Most Influential Nodes:\t" + noOfInfectedA + "\n");
+				.append("   Number of Infected Nodes After Virus Spread:\t" + noOfInfectedA + "\n");
 		consoleTextArea.append("[B]");
 		consoleTextArea
-				.append("   Number of Infected Nodes After Vaccinate Max Degree Nodes:\t" + noOfInfectedB + "\n");
+				.append("   Number of Infected Nodes After Virus Spread:\t" + noOfInfectedB + "\n");
 
 	}
 

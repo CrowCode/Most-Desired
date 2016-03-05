@@ -55,7 +55,7 @@ public abstract class Algorithm {
 	public static ArrayList<Integer> runAlgorithm(String fileName, int k, int error, Double[] sssResult, ProgressMonitor progressMonitor) throws IOException{
 		
 		
-		progressMonitor.logUpdate("Start ...");
+		//progressMonitor.logUpdate("Start ...");
 		maxUselessIterations = error;
 		DataReader dr = new DataReader(fileName);
 		
@@ -82,7 +82,7 @@ public abstract class Algorithm {
 			System.out.println(i + ": " + s.get(i));
 		}
 		
-		progressMonitor.logUpdate("End ...");
+		//progressMonitor.logUpdate("End ...");
 		return s;
 	}
 	
@@ -108,7 +108,6 @@ public abstract class Algorithm {
 		Double[] q = new Double[nodes_In.size()]; 	//is the probability of assimilation of data by each node
 		Double[] q_ = new Double[nodes_In.size()];	//is the same as 'q' but in the next iteration
 		
-		System.out.println("...");
 		
 		//iterate over all nodes and initialize their assimilation probability by either 1 or 0.
 		// 1 means this node was mentioned in s
@@ -183,7 +182,7 @@ public abstract class Algorithm {
 //		System.out.println("Final assimilation:");
 //		System.out.println(Arrays.toString(q));
 		
-		System.out.println(".");
+		//System.out.println(".");
 		
 		
 		return sumOfArray(q, s);
