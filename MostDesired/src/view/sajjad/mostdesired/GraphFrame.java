@@ -235,7 +235,6 @@ public class GraphFrame extends JFrame {
 		}
 
 	}
-
 }
 
 /**
