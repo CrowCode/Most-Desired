@@ -77,6 +77,7 @@ import task.sajjad.mostdesired.AlgorithmTask;
 public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	private int spreadScale = 2;
 	// private JPanel mainPanel;
 	private JPanel contentPane;
 	private JPanel leftPanel;
@@ -692,8 +693,8 @@ public class MainFrame extends JFrame {
 
 		int totalNoOfNodes = sVertices.size();
 
-		int noOfInfectedA = VirusSpread.spread("A", infectedSeedsList, graphOut, sVertices, 1);
-		int noOfInfectedB = VirusSpread.spread("B", infectedSeedsList, graphOut, sVertices, 1);
+		int noOfInfectedA = VirusSpread.spread("A", infectedSeedsList, graphOut, sVertices, spreadScale);
+		int noOfInfectedB = VirusSpread.spread("B", infectedSeedsList, graphOut, sVertices, spreadScale);
 
 		setVaccinatedAndInfectedNodes();
 

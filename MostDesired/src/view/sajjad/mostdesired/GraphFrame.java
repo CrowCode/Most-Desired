@@ -263,6 +263,7 @@ public class GraphFrame extends JFrame {
 class PopUpDemo extends JPopupMenu {
 
 	private static final long serialVersionUID = 1L;
+	private int spreadScale = 2;
 	JMenuItem spreadVirus;
 
 	public PopUpDemo() {
@@ -311,9 +312,9 @@ class PopUpDemo extends JPopupMenu {
 				System.out.println("Spreading the virus ...");
 
 				int resultOfSpreadA = VirusSpread.spread("A", GraphFrame.infectedSeedsList, MainFrame.graphOut,
-						GraphFrame.sVertices, 1);
+						GraphFrame.sVertices, spreadScale);
 				int resultOfSpreadB = VirusSpread.spread("B", GraphFrame.infectedSeedsList, MainFrame.graphOut,
-						GraphFrame.sVertices, 1);
+						GraphFrame.sVertices, spreadScale);
 
 				int noOfInfectedSeeds = GraphFrame.infectedSeedsList.size();
 
