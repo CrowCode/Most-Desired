@@ -267,7 +267,7 @@ public class ViewGraphPanelB extends JPanel implements VertexClickListener {
 
 	/* ============================================================================ */
 	
-public int getTotalNoOfNodes() {
+	public int getTotalNoOfNodes() {
 		
 		return sVertices.size();
 

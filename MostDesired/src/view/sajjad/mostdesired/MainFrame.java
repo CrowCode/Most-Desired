@@ -695,6 +695,9 @@ public class MainFrame extends JFrame {
 
 		int noOfInfectedA = VirusSpread.spread("A", infectedSeedsList, graphOut, sVertices, spreadScale);
 		int noOfInfectedB = VirusSpread.spread("B", infectedSeedsList, graphOut, sVertices, spreadScale);
+		
+		double resultPercentA = (noOfInfectedA * 100) / totalNoOfNodes;
+		double resultPercentB = (noOfInfectedB * 100) / totalNoOfNodes;
 
 		setVaccinatedAndInfectedNodes();
 
@@ -711,6 +714,13 @@ public class MainFrame extends JFrame {
 		consoleTextArea.append("[B]");
 		consoleTextArea
 				.append("   Number of Infected Nodes After Virus Spread:\t" + noOfInfectedB + "\n");
+		
+		consoleTextArea.append("[A]");
+		consoleTextArea
+				.append("   Percentage of Infected Nodes After Virus Spread:\t" + resultPercentA + " %\n");
+		consoleTextArea.append("[B]");
+		consoleTextArea
+				.append("   Percentage of Infected Nodes After Virus Spread:\t" + resultPercentB + " %\n");
 
 	}
 
