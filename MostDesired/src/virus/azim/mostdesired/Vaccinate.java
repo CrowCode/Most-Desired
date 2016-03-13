@@ -2,7 +2,7 @@ package virus.azim.mostdesired;
 
 import java.util.ArrayList;
 
-import model.sajjad.mostdesired.sVertex;
+import supplementaryclasses.azim.mostdesired.sVertex;
 
 
 /**

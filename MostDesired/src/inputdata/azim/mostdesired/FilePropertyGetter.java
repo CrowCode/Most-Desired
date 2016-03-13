@@ -1,4 +1,4 @@
-package view.sajjad.mostdesired;
+package inputdata.azim.mostdesired;
 
 public interface FilePropertyGetter {
 	

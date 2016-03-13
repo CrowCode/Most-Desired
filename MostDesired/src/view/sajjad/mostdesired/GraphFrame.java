@@ -19,7 +19,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 
-import model.sajjad.mostdesired.sVertex;
+import supplementaryclasses.azim.mostdesired.sVertex;
 import virus.azim.mostdesired.VirusSpread;
 
 public class GraphFrame extends JFrame {

@@ -47,8 +47,10 @@ import algorithm.azim.mostdesired.Algorithm;
 import algorithm.azim.mostdesired.AlgorithmFinishMonitor;
 import algorithm.azim.mostdesired.AlgorithmTask;
 import inputdata.azim.mostdesired.DataReader;
-import model.sajjad.mostdesired.sVertex;
+import inputdata.azim.mostdesired.FileInfoReaderTask;
+import inputdata.azim.mostdesired.FilePropertyGetter;
 import supplementaryclasses.azim.mostdesired.NodeAndWeight;
+import supplementaryclasses.azim.mostdesired.sVertex;
 import virus.azim.mostdesired.Vaccinate;
 import virus.azim.mostdesired.VirusSpread;
 

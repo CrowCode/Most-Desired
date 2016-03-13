@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.JViewport;
 
-import model.sajjad.mostdesired.sVertex;
+import supplementaryclasses.azim.mostdesired.sVertex;
 
 public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 

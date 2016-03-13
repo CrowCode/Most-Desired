@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
-import model.sajjad.mostdesired.sVertex;
 import supplementaryclasses.azim.mostdesired.NodeAndWeight;
+import supplementaryclasses.azim.mostdesired.sVertex;
 
 
 /**

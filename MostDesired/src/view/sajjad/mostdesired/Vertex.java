@@ -2,7 +2,7 @@ package view.sajjad.mostdesired;
 
 import java.awt.geom.Ellipse2D;
 
-import model.sajjad.mostdesired.sVertex;
+import supplementaryclasses.azim.mostdesired.sVertex;
 
 public class Vertex extends Ellipse2D.Double {
 
