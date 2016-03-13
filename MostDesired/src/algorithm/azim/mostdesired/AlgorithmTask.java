@@ -1,12 +1,10 @@
-package task.sajjad.mostdesired;
+package algorithm.azim.mostdesired;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
-
-import algorithm.azim.mostdesired.Algorithm;
 
 /**
  * 
@@ -20,13 +18,13 @@ public class AlgorithmTask extends SwingWorker<Integer, String> {
 	private int k;
 	private int error;
 	private Double[] sssResult;
-	private AlgorithmFinish finish;
+	private AlgorithmFinishMonitor finish;
 	private ArrayList<Integer> solution;
 	private JTextArea consoleTextArea;
 	
 
 
-	public AlgorithmTask(AlgorithmFinish finish, String filename, int k, int error, JTextArea consoleTextArea) {
+	public AlgorithmTask(AlgorithmFinishMonitor finish, String filename, int k, int error, JTextArea consoleTextArea) {
 		this.filename = filename;
 		this.k = k;
 		this.error = error;
@@ -41,7 +39,7 @@ public class AlgorithmTask extends SwingWorker<Integer, String> {
 		setProgress(0);
 		
 
-		solution = Algorithm.runAlgorithm(filename, k, error, sssResult, new ProgressMonitor() {
+		solution = Algorithm.runAlgorithm(filename, k, error, sssResult, new AlgorithmProgressMonitor() {
 
 			@Override
 			public void progressUpdated(int progress) {

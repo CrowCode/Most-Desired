@@ -1,6 +1,6 @@
-package task.sajjad.mostdesired;
+package algorithm.azim.mostdesired;
 
-public interface ProgressMonitor {
+public interface AlgorithmProgressMonitor {
 	
 	public void progressUpdated(int progress);
 	public void logUpdate(String log);

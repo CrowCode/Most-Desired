@@ -43,13 +43,13 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
-import Virusspread.azim.mostdesired.Vaccinate;
-import Virusspread.azim.mostdesired.VirusSpread;
+import algorithm.azim.mostdesired.AlgorithmFinishMonitor;
+import algorithm.azim.mostdesired.AlgorithmTask;
 import inputdata.azim.mostdesired.DataReader;
 import model.sajjad.mostdesired.sVertex;
 import supplementaryclasses.azim.mostdesired.NodeAndWeight;
-import task.sajjad.mostdesired.AlgorithmFinish;
-import task.sajjad.mostdesired.AlgorithmTask;
+import virus.azim.mostdesired.Vaccinate;
+import virus.azim.mostdesired.VirusSpread;
 
 /***
  * 
@@ -763,7 +763,7 @@ public class MainFrame extends JFrame {
 	 * in GUI when algorithm finish.
 	 */
 
-	AlgorithmFinish af = new AlgorithmFinish() {
+	AlgorithmFinishMonitor af = new AlgorithmFinishMonitor() {
 
 		@Override
 		public void finish(ArrayList<Integer> s) {

@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import inputdata.azim.mostdesired.DataReader;
 import sortingclasses.azim.mostdesired.InsertionSort;
 import supplementaryclasses.azim.mostdesired.NodeAndWeight;
-import task.sajjad.mostdesired.ProgressMonitor;
 
 /**
  * 
@@ -52,7 +51,7 @@ public abstract class Algorithm {
 	 * @param error is a number of ineffective iterations after which the loop stops.
 	 * @throws IOException
 	 */
-	public static ArrayList<Integer> runAlgorithm(String fileName, int k, int error, Double[] sssResult, ProgressMonitor progressMonitor) throws IOException{
+	public static ArrayList<Integer> runAlgorithm(String fileName, int k, int error, Double[] sssResult, AlgorithmProgressMonitor progressMonitor) throws IOException{
 		
 		
 		//progressMonitor.logUpdate("Start ...");
@@ -76,6 +75,7 @@ public abstract class Algorithm {
 		}
 		s = rankedReplace(nodesList_In, k, progressMonitor);
 		sssResult[0] = steadyStateSpread(s, nodesList_In);
+		progressMonitor.logUpdate("[A]: SSS:\n\t" + sssResult[0]);
 		
 		System.out.println("[>] " + k + " MOST INFLUENTIAL NODES ARE:");
 		for(int i = 0 ; i < s.size(); i++){
@@ -189,7 +189,7 @@ public abstract class Algorithm {
 	}
 	
 	
-	public static ArrayList<Integer> rankedReplace(ArrayList<LinkedList<NodeAndWeight>> nodes_In, int k, ProgressMonitor progressMonitor){
+	public static ArrayList<Integer> rankedReplace(ArrayList<LinkedList<NodeAndWeight>> nodes_In, int k, AlgorithmProgressMonitor progressMonitor){
 		
 		/**
 		 * We keep values in 'sss' and their indices in 'indices'.
