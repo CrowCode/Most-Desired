@@ -43,6 +43,7 @@ import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.DefaultCaret;
 
+import algorithm.azim.mostdesired.Algorithm;
 import algorithm.azim.mostdesired.AlgorithmFinishMonitor;
 import algorithm.azim.mostdesired.AlgorithmTask;
 import inputdata.azim.mostdesired.DataReader;
@@ -172,7 +173,7 @@ public class MainFrame extends JFrame {
 	}
 
 	public void initializeBasics() {
-		setSize(800, 420);
+		setSize(800, 430);
 		setTitle("MOST DESIRED");
 		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -617,7 +618,10 @@ public class MainFrame extends JFrame {
 		}
 
 		maxDegrees = rd.findKMaxDegree(k);
+		Double sss = Algorithm.steadyStateSpread(maxDegrees, rd.getNodesList_In());
+		DecimalFormat df = new DecimalFormat("####0.00");
 		consoleTextArea.append("[>] THE " + k + " MAXIMUM DEGREE NODES ARE:\n\t" + maxDegrees.toString() + "\n");
+		consoleTextArea.append("[B]: SSS:\n\t" + df.format(sss)+"\n");
 	}
 
 	/**
@@ -770,7 +774,9 @@ public class MainFrame extends JFrame {
 		public void finish(ArrayList<Integer> s) {
 
 			solution = s;
-
+			Double sss = Algorithm.steadyStateSpread(solution, rd.getNodesList_In());
+			DecimalFormat df = new DecimalFormat("####0.00");
+			consoleTextArea.append("[A]: SSS:\n\t" + df.format(sss)+ "\n");
 			setCursor(Cursor.getDefaultCursor());
 			consoleTextArea.setCursor(Cursor.getDefaultCursor());
 

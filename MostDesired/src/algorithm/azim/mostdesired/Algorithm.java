@@ -73,9 +73,10 @@ public abstract class Algorithm {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		progressMonitor.progressUpdated(50);
 		s = rankedReplace(nodesList_In, k, progressMonitor);
 		sssResult[0] = steadyStateSpread(s, nodesList_In);
-		progressMonitor.logUpdate("[A]: SSS:\n\t" + sssResult[0]);
+		//progressMonitor.logUpdate("[A]: SSS:\n\t" + sssResult[0]);
 		
 		System.out.println("[>] " + k + " MOST INFLUENTIAL NODES ARE:");
 		for(int i = 0 ; i < s.size(); i++){
@@ -126,6 +127,7 @@ public abstract class Algorithm {
 		
 		
 		while(doContinue){
+			
 			
 			//iterate over all nodes and update q_[i] for all i's.
 			for(int i = 0; i < q.length; i++){
@@ -263,6 +265,7 @@ public abstract class Algorithm {
 			
 			
 			//sort s if any of its nodes was replaces in previous iterations
+			progressMonitor.progressUpdated(10);
 			if(anyChangesOnS)
 				InsertionSort.sort(s_values, s_indices);
 			
