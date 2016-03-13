@@ -172,8 +172,9 @@ public class MainFrame extends JFrame {
 	}
 
 	public void initializeBasics() {
-		setSize(800, 400);
+		setSize(800, 420);
 		setTitle("MOST DESIRED");
+		setResizable(false);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setLocationRelativeTo(null);
 		setVisible(true);
