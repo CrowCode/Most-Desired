@@ -210,7 +210,7 @@ public abstract class Algorithm {
 		 * 		B'(in the same order) ---> s_indices
 		 */
 		
-		int progress = 0;
+		//int progress = 0;
 		
 		
 		
@@ -284,7 +284,7 @@ public abstract class Algorithm {
 			
 			for(int j = 0; j < s_indices.size(); j++){
 				
-				progress += (100 / u_s_indices.size()*s_indices.size());
+				//progress += (100 / u_s_indices.size()*s_indices.size());
 				
 				
 				candidateFromS = s_indices.get(j);

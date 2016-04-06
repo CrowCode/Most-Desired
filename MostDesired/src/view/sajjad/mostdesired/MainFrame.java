@@ -544,6 +544,7 @@ public class MainFrame extends JFrame {
 
 		public synchronized void windowClosing(WindowEvent evt) {
 			setVisible(false); // default behavior of JFrame
+			System.out.println("Exiting!");
 			dispose();
 
 		}
@@ -699,10 +700,15 @@ public class MainFrame extends JFrame {
 		infectedSeedListCreate(sVertices);
 
 		int totalNoOfNodes = sVertices.size();
-
-		int noOfInfectedA = VirusSpread.spread("A", infectedSeedsList, graphOut, sVertices, spreadScale);
-		int noOfInfectedB = VirusSpread.spread("B", infectedSeedsList, graphOut, sVertices, spreadScale);
 		
+		int noOfInfectedA = infectedSeedsList.size();
+		int noOfInfectedB = infectedSeedsList.size();
+
+		noOfInfectedA += VirusSpread.spread("A", infectedSeedsList, graphOut, sVertices, spreadScale);
+		noOfInfectedB += VirusSpread.spread("B", infectedSeedsList, graphOut, sVertices, spreadScale);
+		
+		 
+				
 		double resultPercentA = (noOfInfectedA * 100) / totalNoOfNodes;
 		double resultPercentB = (noOfInfectedB * 100) / totalNoOfNodes;
 

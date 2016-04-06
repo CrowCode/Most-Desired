@@ -153,13 +153,36 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 
 	private void popup(Graphics2D g, int x, int y) {
 
-		g.setColor(Color.YELLOW);
-		g.fill(new Rectangle(x - 50, y - 30, 50, 30));
 		g.setColor(Color.WHITE);
+		g.fill(new Rectangle(x - 50, y - 30, 50, 30));
+		g.setColor(myCyan);
+		g2.setStroke(new BasicStroke(2));
 		g.draw(new Rectangle(x - 50, y - 30, 50, 30));
-		g.setColor(Color.BLACK);
+		g.setColor(myOrange);
 		g.setFont(new Font("Dialog", Font.PLAIN, 20));
-		g.drawString(VERTEX_CLICKED + "", x - 35, y - 8);
+		
+		int length = (int)(Math.log10(VERTEX_CLICKED)+1);
+		int xpos = 0;
+		
+		switch (length) {
+			
+		case 1:
+			xpos = x - 31;
+			break;
+			
+		case 2:
+			xpos = x - 37;
+			break;
+			
+		case 3:
+			xpos = x - 44;
+			break;
+			
+		default:
+			xpos = x - 50;
+			
+		}
+		g.drawString(VERTEX_CLICKED + "", xpos, y - 8);
 
 	}
 

@@ -2,6 +2,7 @@ package main.sajjad.mostdesired;
 
 import javax.swing.SwingUtilities;
 
+import view.sajjad.mostdesired.Intro;
 import view.sajjad.mostdesired.MainFrame;
 
 public class Main {
@@ -12,8 +13,9 @@ public class Main {
 
 			@Override
 			public void run() {
-
-				new MainFrame();
+				
+				new Intro();
+				//new MainFrame();
 
 			}
 		});
