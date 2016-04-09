@@ -607,9 +607,18 @@ public class MainFrame extends JFrame {
 
 			LinkedList<NodeAndWeight> tempList = graphOut.get(i);
 			int d = ((tempList.size() * 200) / graphOut.size()) + 5;
+			
+			int x = new Random().nextInt(1000) + 30;
+			int y = new Random().nextInt(1000) + 30;
+			
+			if (x + 2*d > 1000) {
+				x = x - 2*d -30;
+			}
+			if (y + d > 1000) {
+				y = y - 2*d -30;
+			}
 
-			sVertex sv = new sVertex(i, new Random().nextInt(1000) + 100, new Random().nextInt((1000)) + 100, (d),
-					false);
+			sVertex sv = new sVertex(i, x, y, d, false);
 
 			Iterator<NodeAndWeight> iterator = tempList.iterator();
 
