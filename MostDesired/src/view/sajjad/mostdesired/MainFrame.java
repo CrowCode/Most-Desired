@@ -125,7 +125,7 @@ public class MainFrame extends JFrame {
 
 	private DataReader rd;
 
-	private ArrayList<sVertex> sVertices;
+	public static ArrayList<sVertex> sVertices;
 	private ArrayList<Integer> maxDegrees;
 	public static ArrayList<Integer> solution;
 	private ArrayList<Integer> infectedSeedsList;
@@ -480,6 +480,8 @@ public class MainFrame extends JFrame {
 			if (e.getSource() == goInGraphicModeBtn) {
 
 				SwingUtilities.invokeLater(new Runnable() {
+					private GraphFrame VisualGraph;
+
 					@Override
 					public void run() {
 
@@ -490,7 +492,8 @@ public class MainFrame extends JFrame {
 										"ERROR", JOptionPane.ERROR_MESSAGE);
 							} else {
 								vaccinateSvertexArray();
-								/* VisualGraph = */new GraphFrame(sVertices);
+								
+								VisualGraph=GraphFrame.gr;
 							}
 						} else {
 							JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "ERROR",
@@ -630,10 +633,7 @@ public class MainFrame extends JFrame {
 		}
 
 		maxDegrees = rd.findKMaxDegree(k);
-		Double sss = Algorithm.steadyStateSpread(maxDegrees, rd.getNodesList_In());
-		DecimalFormat df = new DecimalFormat("####0.00");
-		consoleTextArea.append("[>] THE " + k + " MAXIMUM DEGREE NODES ARE:\n\t" + maxDegrees.toString() + "\n");
-		consoleTextArea.append("[B]: SSS:\n\t" + df.format(sss)+"\n");
+		
 	}
 
 	/**
@@ -790,10 +790,15 @@ public class MainFrame extends JFrame {
 		@Override
 		public void finish(ArrayList<Integer> s) {
 
+			DecimalFormat df = new DecimalFormat("####0.00");
 			solution = s;
 			Double sss = Algorithm.steadyStateSpread(solution, rd.getNodesList_In());
-			DecimalFormat df = new DecimalFormat("####0.00");
 			consoleTextArea.append("[A]: SSS:\n\t" + df.format(sss)+ "\n");
+			
+			int k = Integer.parseInt(kSpinner.getValue().toString());
+			sss = Algorithm.steadyStateSpread(maxDegrees, rd.getNodesList_In());
+			consoleTextArea.append("[>] THE " + k + " MAXIMUM DEGREE NODES ARE:\n\t" + maxDegrees.toString() + "\n");
+			consoleTextArea.append("[B]: SSS:\n\t" + df.format(sss)+"\n");
 			setCursor(Cursor.getDefaultCursor());
 			consoleTextArea.setCursor(Cursor.getDefaultCursor());
 

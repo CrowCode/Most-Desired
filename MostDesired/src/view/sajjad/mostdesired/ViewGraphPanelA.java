@@ -138,7 +138,7 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 			Vertex v = vertices.get(VERTEX_CLICKED);
 			sVertex sv = sVertices.get(VERTEX_CLICKED);
 			drawClicked(v);
-			popup(g2, (int) v.getX(), (int) v.getY());
+			popup(g2, (int) v.getX(), (int) v.getY(), (int) v.getCenterX(), (int) v.getCenterY());
 
 			g2.setColor(Color.GREEN);
 			for (Integer svid : sv.getNeibors()) {
@@ -151,9 +151,19 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 
 	}
 
-	private void popup(Graphics2D g, int x, int y) {
+	private void popup(Graphics2D g, int x, int y, int cx, int cy) {
 
 		g.setColor(Color.WHITE);
+		
+		int r = cx - x;
+		
+		if (x -50 < 0) {
+			
+		}
+		if (y - 30 < 0) {
+			
+		}
+			
 		g.fill(new Rectangle(x - 50, y - 30, 50, 30));
 		g.setColor(myCyan);
 		g2.setStroke(new BasicStroke(2));
@@ -166,6 +176,7 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 		
 		switch (length) {
 			
+		case -2147483648: 
 		case 1:
 			xpos = x - 31;
 			break;
@@ -238,7 +249,6 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 		g2.setStroke(new BasicStroke((float) ((v.getHeight() * 15) / 100)));
 		g2.setColor(myOrange);
 		g2.draw(v);
-
 	}
 
 	private void drawInfected(Vertex v) {

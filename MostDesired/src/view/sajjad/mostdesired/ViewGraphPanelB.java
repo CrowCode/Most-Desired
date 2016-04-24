@@ -138,7 +138,7 @@ public class ViewGraphPanelB extends JPanel implements VertexClickListener {
 			Vertex v = vertices.get(VERTEX_CLICKED);
 			sVertex sv = sVertices.get(VERTEX_CLICKED);
 			drawClicked(v);
-			popup(g2, (int) v.getX(), (int) v.getY());
+			popup(g2, (int) v.getX(), (int) v.getY(), (int) v.getCenterX(), (int) v.getCenterY());
 
 			g2.setColor(Color.GREEN);
 			for (Integer svid : sv.getNeibors()) {
@@ -151,15 +151,49 @@ public class ViewGraphPanelB extends JPanel implements VertexClickListener {
 
 	}
 
-	private void popup(Graphics2D g, int x, int y) {
+	private void popup(Graphics2D g, int x, int y, int cx, int cy) {
 
-		g.setColor(Color.YELLOW);
-		g.fill(new Rectangle(x - 50, y - 30, 50, 30));
 		g.setColor(Color.WHITE);
+		
+		int r = cx - x;
+		
+		if (x -50 < 0) {
+			
+		}
+		if (y - 30 < 0) {
+			
+		}
+			
+		g.fill(new Rectangle(x - 50, y - 30, 50, 30));
+		g.setColor(myCyan);
+		g2.setStroke(new BasicStroke(2));
 		g.draw(new Rectangle(x - 50, y - 30, 50, 30));
-		g.setColor(Color.BLACK);
+		g.setColor(myOrange);
 		g.setFont(new Font("Dialog", Font.PLAIN, 20));
-		g.drawString(VERTEX_CLICKED + "", x - 35, y - 8);
+		
+		int length = (int)(Math.log10(VERTEX_CLICKED)+1);
+		int xpos = 0;
+		
+		switch (length) {
+			
+		case -2147483648: 
+		case 1:
+			xpos = x - 31;
+			break;
+			
+		case 2:
+			xpos = x - 37;
+			break;
+			
+		case 3:
+			xpos = x - 44;
+			break;
+			
+		default:
+			xpos = x - 50;
+			
+		}
+		g.drawString(VERTEX_CLICKED + "", xpos, y - 8);
 
 	}
 

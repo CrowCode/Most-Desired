@@ -40,6 +40,8 @@ public class GraphFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
+	public static GraphFrame gr = new GraphFrame(MainFrame.sVertices);
+	
 	private Color myOrange = new Color(240, 127, 7);
 	//private Color myCyan = new Color(60, 109, 130);
 	private Color darkGray = new Color(55, 55, 55);
