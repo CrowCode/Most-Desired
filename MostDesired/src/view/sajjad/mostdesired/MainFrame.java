@@ -309,7 +309,7 @@ public class MainFrame extends JFrame {
 		fKLabel = new JLabel("K:");
 		fKLabel.setPreferredSize(new Dimension(80, 20));
 		fKLabel.setForeground(Color.black);
-		addCompToLeftPanel(fKLabel, 0, 9, 2, 1);
+		addCompToLeftPanel(fKLabel, 0, 10, 2, 1);
 
 		SpinnerModel kSpinnerModel = new SpinnerNumberModel(3, 0, 100, 1);
 		kSpinner = new JSpinner(kSpinnerModel);
