@@ -22,7 +22,7 @@ import javax.swing.JTextArea;
 import supplementaryclasses.azim.mostdesired.sVertex;
 import virus.azim.mostdesired.VirusSpread;
 
-public class GraphFrame extends JFrame {
+public class GraphFrame extends JFrame  {
 
 	/**
 	 * This is split pane frame to present double graph panel in same visual
@@ -40,7 +40,7 @@ public class GraphFrame extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	
-	public static GraphFrame gr = new GraphFrame(MainFrame.sVertices);
+	public static GraphFrame gr;
 	
 	private Color myOrange = new Color(240, 127, 7);
 	//private Color myCyan = new Color(60, 109, 130);
@@ -62,6 +62,11 @@ public class GraphFrame extends JFrame {
 
 	public static ArrayList<Integer> infectedNodesA;
 	public static ArrayList<Integer> infectedNodesB;
+	
+	public static GraphFrame CreateGraphFrame() {
+		
+		 return new GraphFrame(MainFrame.sVertices);
+	}
 
 	
 	
@@ -80,8 +85,7 @@ public class GraphFrame extends JFrame {
 		 * Set the bottom panel text area's info before run virus spread.
 		 */
 		setInfoBottomPanel();
-
-		setVisible(true);
+		
 	}
 
 	private void initializeBasics() {
@@ -427,4 +431,6 @@ class PopClickListener extends MouseAdapter {
 		PopUpDemo menu = new PopUpDemo();
 		menu.show(e.getComponent(), e.getX(), e.getY());
 	}
+	
+	
 }

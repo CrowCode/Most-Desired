@@ -134,6 +134,8 @@ public class MainFrame extends JFrame {
 
 	public static ArrayList<LinkedList<NodeAndWeight>> graphIn;
 	public static ArrayList<LinkedList<NodeAndWeight>> graphOut;
+	
+	private GraphFrame VisualGraph;
 
 	public MainFrame() {
 
@@ -480,7 +482,7 @@ public class MainFrame extends JFrame {
 			if (e.getSource() == goInGraphicModeBtn) {
 
 				SwingUtilities.invokeLater(new Runnable() {
-					private GraphFrame VisualGraph;
+					
 
 					@Override
 					public void run() {
@@ -493,7 +495,16 @@ public class MainFrame extends JFrame {
 							} else {
 								vaccinateSvertexArray();
 								
-								VisualGraph=GraphFrame.gr;
+								if (VisualGraph != null) {
+									VisualGraph.setVisible(false);
+									VisualGraph = null;
+								}
+								
+								VisualGraph = GraphFrame.CreateGraphFrame();
+								VisualGraph.setVisible(true);
+								
+									
+								
 							}
 						} else {
 							JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "ERROR",
@@ -776,6 +787,8 @@ public class MainFrame extends JFrame {
 		}
 	}
 
+
+	
 	/**
 	 * Since we are using SwingWorker in order to run algorithm in background.
 	 * We need to some changes in GUI get cursor back from waiting state get
@@ -784,7 +797,10 @@ public class MainFrame extends JFrame {
 	 * The AlgorithmFfinish interface will do abstraction of all we need to do
 	 * in GUI when algorithm finish.
 	 */
-
+	
+	
+	
+	
 	AlgorithmFinishMonitor af = new AlgorithmFinishMonitor() {
 
 		@Override
