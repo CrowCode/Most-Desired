@@ -37,15 +37,13 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 	private Graphics2D g2;
 	private ArrayList<Vertex> vertices = new ArrayList<>();
 	private ArrayList<sVertex> sVertices;
-	
+
 	private ArrayList<Integer> vaccinatedNodes;
 	private ArrayList<Integer> infectedNodes;
 
 	private Color myOrange = new Color(240, 127, 7);
 	private Color myCyan = new Color(60, 109, 130);
 	private Color darkGray = new Color(55, 55, 55);
-
-	// private int scale = 5;
 
 	private Point mouseStartPoint;
 
@@ -54,7 +52,6 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 		this.sVertices = sVertices;
 
 		mouseStartPoint = new Point();
-		// setPreferredSize(new Dimension(1200, 1200));
 		setPreferredSize(d);
 		prepareVertices(sVertices);
 
@@ -106,7 +103,6 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 
 			}
 		});
-		// addMouseListener(new PopClickListener());
 	}
 
 	@Override
@@ -154,44 +150,34 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 	private void popup(Graphics2D g, int x, int y, int cx, int cy) {
 
 		g.setColor(Color.WHITE);
-		
-		int r = cx - x;
-		
-		if (x -50 < 0) {
-			
-		}
-		if (y - 30 < 0) {
-			
-		}
-			
 		g.fill(new Rectangle(x - 50, y - 30, 50, 30));
 		g.setColor(myCyan);
 		g2.setStroke(new BasicStroke(2));
 		g.draw(new Rectangle(x - 50, y - 30, 50, 30));
 		g.setColor(myOrange);
 		g.setFont(new Font("Dialog", Font.PLAIN, 20));
-		
-		int length = (int)(Math.log10(VERTEX_CLICKED)+1);
+
+		int length = (int) (Math.log10(VERTEX_CLICKED) + 1);
 		int xpos = 0;
-		
+
 		switch (length) {
-			
-		case -2147483648: 
+
+		case -2147483648:
 		case 1:
 			xpos = x - 31;
 			break;
-			
+
 		case 2:
 			xpos = x - 37;
 			break;
-			
+
 		case 3:
 			xpos = x - 44;
 			break;
-			
+
 		default:
 			xpos = x - 50;
-			
+
 		}
 		g.drawString(VERTEX_CLICKED + "", xpos, y - 8);
 
@@ -230,10 +216,12 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 		VERTEX_HOVERED = vertexClickEvent.getVertexId();
 		repaint();
 	}
-	/* ============================================================================ */
-	/* ============= Following methods draw different type of vertex ============== */
-	/* ======================== Names are self explanatory ======================== */
-	/* ============================================================================ */
+	/*
+	 * =========================================================================
+	 * ============= Following methods draw different type of vertex
+	 * ======================== Names are self explanatory
+	 * =========================================================================
+	 */
 
 	private void drawFrame() {
 
@@ -297,24 +285,24 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 		g2.draw(v);
 	}
 
-	// ============================================================================//
-
-	/* ============================================================================*/
-	/* ================= Discovery methods of sVertices array list=================*/
-	/* ============================================================================*/
+	/*
+	 * =========================================================================
+	 * = ================= Discovery methods of sVertices array list
+	 * =========================================================================
+	 */
 
 	public int getTotalNoOfNodes() {
-		
+
 		return sVertices.size();
 
 	}
-	
+
 	public void setVaccinatedAndInfectedNodes() {
-		
+
 		vaccinatedNodes = new ArrayList<>();
 		infectedNodes = new ArrayList<>();
-		
-		for (sVertex sV: sVertices) {
+
+		for (sVertex sV : sVertices) {
 			if (sV.isVaccinatedA()) {
 				vaccinatedNodes.add(sV.getId());
 			}
@@ -331,7 +319,9 @@ public class ViewGraphPanelA extends JPanel implements VertexClickListener {
 	public ArrayList<Integer> getInfectedNodes() {
 		return infectedNodes;
 	}
-	
-	/* ============================================================================ */
-	
+
+	/*
+	 * =========================================================================
+	 */
+
 }

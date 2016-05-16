@@ -111,9 +111,6 @@ public class MainFrame extends JFrame {
 	private BorderLayout bl;
 	private GridBagConstraints GBC_left;
 	private GridBagConstraints GBC_bottom;
-	// private GridBagConstraints GBC_center;
-	//
-	// private GridBagConstraints constraints = new GridBagConstraints();
 
 	private Color myOrange = new Color(240, 127, 7);
 	private Color myCyan = new Color(60, 109, 130);
@@ -121,7 +118,6 @@ public class MainFrame extends JFrame {
 
 	private JFileChooser fc;
 	private File file;
-	// private JFrame VisualGraph;
 
 	private DataReader rd;
 
@@ -134,7 +130,7 @@ public class MainFrame extends JFrame {
 
 	public static ArrayList<LinkedList<NodeAndWeight>> graphIn;
 	public static ArrayList<LinkedList<NodeAndWeight>> graphOut;
-	
+
 	private GraphFrame VisualGraph;
 
 	public MainFrame() {
@@ -149,9 +145,6 @@ public class MainFrame extends JFrame {
 
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-		// gl = new GridLayout(1, 2);
-		// gl.setHgap(5);
-		// contentPane.setLayout(gl);
 		contentPane.setBackground(Color.BLACK);
 
 		bl = new BorderLayout(5, 5);
@@ -482,7 +475,6 @@ public class MainFrame extends JFrame {
 			if (e.getSource() == goInGraphicModeBtn) {
 
 				SwingUtilities.invokeLater(new Runnable() {
-					
 
 					@Override
 					public void run() {
@@ -494,17 +486,15 @@ public class MainFrame extends JFrame {
 										"ERROR", JOptionPane.ERROR_MESSAGE);
 							} else {
 								vaccinateSvertexArray();
-								
+
 								if (VisualGraph != null) {
 									VisualGraph.setVisible(false);
 									VisualGraph = null;
 								}
-								
+
 								VisualGraph = GraphFrame.CreateGraphFrame();
 								VisualGraph.setVisible(true);
-								
-									
-								
+
 							}
 						} else {
 							JOptionPane.showMessageDialog(new JFrame(), "Please choose a file first!", "ERROR",
@@ -621,15 +611,15 @@ public class MainFrame extends JFrame {
 
 			LinkedList<NodeAndWeight> tempList = graphOut.get(i);
 			int d = ((tempList.size() * 200) / graphOut.size()) + 5;
-			
+
 			int x = new Random().nextInt(1000) + 30;
 			int y = new Random().nextInt(1000) + 30;
-			
-			if (x + 2*d > 1000) {
-				x = x - 2*d -30;
+
+			if (x + 2 * d > 1000) {
+				x = x - 2 * d - 30;
 			}
 			if (y + d > 1000) {
-				y = y - 2*d -30;
+				y = y - 2 * d - 30;
 			}
 
 			sVertex sv = new sVertex(i, x, y, d, false);
@@ -644,7 +634,7 @@ public class MainFrame extends JFrame {
 		}
 
 		maxDegrees = rd.findKMaxDegree(k);
-		
+
 	}
 
 	/**
@@ -720,15 +710,13 @@ public class MainFrame extends JFrame {
 		infectedSeedListCreate(sVertices);
 
 		int totalNoOfNodes = sVertices.size();
-		
+
 		int noOfInfectedA = infectedSeedsList.size();
 		int noOfInfectedB = infectedSeedsList.size();
 
 		noOfInfectedA += VirusSpread.spread("A", infectedSeedsList, graphOut, sVertices, spreadScale);
 		noOfInfectedB += VirusSpread.spread("B", infectedSeedsList, graphOut, sVertices, spreadScale);
-		
-		 
-				
+
 		double resultPercentA = (noOfInfectedA * 100) / totalNoOfNodes;
 		double resultPercentB = (noOfInfectedB * 100) / totalNoOfNodes;
 
@@ -738,22 +726,18 @@ public class MainFrame extends JFrame {
 		consoleTextArea.append("   Total Number of Nodes:\t" + totalNoOfNodes + "\n");
 
 		consoleTextArea.append("[A:B]");
-		consoleTextArea.append("   Number of Initially-Infected Nodes:\t" + infectedSeedsList.size()
-				+ "\n\t" + infectedSeedsList.toString() + "\n");
+		consoleTextArea.append("   Number of Initially-Infected Nodes:\t" + infectedSeedsList.size() + "\n\t"
+				+ infectedSeedsList.toString() + "\n");
 
 		consoleTextArea.append("[A]");
-		consoleTextArea
-				.append("   Number of Infected Nodes After Virus Spread:\t" + noOfInfectedA + "\n");
+		consoleTextArea.append("   Number of Infected Nodes After Virus Spread:\t" + noOfInfectedA + "\n");
 		consoleTextArea.append("[B]");
-		consoleTextArea
-				.append("   Number of Infected Nodes After Virus Spread:\t" + noOfInfectedB + "\n");
-		
+		consoleTextArea.append("   Number of Infected Nodes After Virus Spread:\t" + noOfInfectedB + "\n");
+
 		consoleTextArea.append("[A]");
-		consoleTextArea
-				.append("   Percentage of Infected Nodes After Virus Spread:\t" + resultPercentA + " %\n");
+		consoleTextArea.append("   Percentage of Infected Nodes After Virus Spread:\t" + resultPercentA + " %\n");
 		consoleTextArea.append("[B]");
-		consoleTextArea
-				.append("   Percentage of Infected Nodes After Virus Spread:\t" + resultPercentB + " %\n");
+		consoleTextArea.append("   Percentage of Infected Nodes After Virus Spread:\t" + resultPercentB + " %\n");
 
 	}
 
@@ -787,8 +771,6 @@ public class MainFrame extends JFrame {
 		}
 	}
 
-
-	
 	/**
 	 * Since we are using SwingWorker in order to run algorithm in background.
 	 * We need to some changes in GUI get cursor back from waiting state get
@@ -797,10 +779,7 @@ public class MainFrame extends JFrame {
 	 * The AlgorithmFfinish interface will do abstraction of all we need to do
 	 * in GUI when algorithm finish.
 	 */
-	
-	
-	
-	
+
 	AlgorithmFinishMonitor af = new AlgorithmFinishMonitor() {
 
 		@Override
@@ -809,12 +788,12 @@ public class MainFrame extends JFrame {
 			DecimalFormat df = new DecimalFormat("####0.00");
 			solution = s;
 			Double sss = Algorithm.steadyStateSpread(solution, rd.getNodesList_In());
-			consoleTextArea.append("[A]: SSS:\n\t" + df.format(sss)+ "\n");
-			
+			consoleTextArea.append("[A]: SSS:\n\t" + df.format(sss) + "\n");
+
 			int k = Integer.parseInt(kSpinner.getValue().toString());
 			sss = Algorithm.steadyStateSpread(maxDegrees, rd.getNodesList_In());
 			consoleTextArea.append("[>] THE " + k + " MAXIMUM DEGREE NODES ARE:\n\t" + maxDegrees.toString() + "\n");
-			consoleTextArea.append("[B]: SSS:\n\t" + df.format(sss)+"\n");
+			consoleTextArea.append("[B]: SSS:\n\t" + df.format(sss) + "\n");
 			setCursor(Cursor.getDefaultCursor());
 			consoleTextArea.setCursor(Cursor.getDefaultCursor());
 

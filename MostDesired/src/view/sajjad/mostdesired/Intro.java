@@ -20,6 +20,10 @@ import javax.swing.UIManager;
 
 public class Intro extends JFrame {
 
+	/**
+	 * The Introduction panel
+	 */
+	private static final long serialVersionUID = 1L;
 	private Color myOrange = new Color(240, 127, 7);
 	private Color myCyan = new Color(60, 109, 130);
 
@@ -35,10 +39,9 @@ public class Intro extends JFrame {
 
 		setupTimer();
 		setupProgressBar();
-		
+
 		IntroPanel p = new IntroPanel();
 		add(p);
-		
 
 		setVisible(true);
 	}
@@ -79,27 +82,25 @@ public class Intro extends JFrame {
 }
 
 class IntroPanel extends JPanel {
-	
+
 	/**
-	 * 
+	 * Image panel of introduction frame
 	 */
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	public void paint(Graphics g) {
-		
+
 		BufferedImage img;
 		try {
 			img = ImageIO.read(new File("Thesis_App_startup.jpg"));
 			g.drawImage(img, 0, 0, null);
-			
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-		
+		}
+
 	}
-	
-	
-	
+
 }
