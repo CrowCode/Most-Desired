@@ -321,14 +321,6 @@ class PopUpDemo extends JPopupMenu {
 				GraphFrame.graphPanelLeft.setVaccinatedAndInfectedNodes();
 				GraphFrame.graphPanelRight.setVaccinatedAndInfectedNodes();
 
-				// =============================================
-				for (sVertex tm : GraphFrame.sVertices) {
-					if (tm.isInfectedA()) {
-						System.out.println("OOOOOOOOOOOOO" + tm.getId());
-					}
-				}
-				// =============================================
-
 				System.out.println(" CHOOSEN NO IS: => " + sizeOfSeedArray);
 
 				System.out.println("Spreading the virus ...");
@@ -345,14 +337,6 @@ class PopUpDemo extends JPopupMenu {
 				ArrayList<Integer> resultOfSpreadB = GraphFrame.graphPanelRight.getInfectedNodes();
 
 				int noOfInfectedSeeds = GraphFrame.infectedSeedsList.size();
-
-				// =============================================
-				for (sVertex tm : GraphFrame.sVertices) {
-					if (tm.isInfectedA()) {
-						System.out.println("WWWWWWWWWWWWWW" + tm.getId());
-					}
-				}
-				// =============================================
 
 				System.out.println("GraphFrame>>>>>InfectedSeeds: " + GraphFrame.infectedSeedsList.toString());
 				System.out.println("GraphFrame>>>>>Solution: " + MainFrame.solution.toString());

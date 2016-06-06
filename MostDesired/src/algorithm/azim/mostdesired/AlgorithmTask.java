@@ -6,6 +6,8 @@ import java.util.List;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
 
+import view.sajjad.mostdesired.MainFrame;
+
 /**
  * 
  * @author sajjad This is a swing worker class in order to run the procedure of
@@ -22,7 +24,8 @@ public class AlgorithmTask extends SwingWorker<Integer, String> {
 	private ArrayList<Integer> solution;
 	private JTextArea consoleTextArea;
 	
-
+	long beginE;
+	long endE;
 
 	public AlgorithmTask(AlgorithmFinishMonitor finish, String filename, int k, int error, JTextArea consoleTextArea) {
 		this.filename = filename;
@@ -38,9 +41,9 @@ public class AlgorithmTask extends SwingWorker<Integer, String> {
 		
 		setProgress(0);
 		
-
+		beginE = System.currentTimeMillis();
 		solution = Algorithm.runAlgorithm(filename, k, error, sssResult, new AlgorithmProgressMonitor() {
-
+		
 			@Override
 			public void progressUpdated(int progress) {
 				setProgress(progress);
@@ -53,14 +56,16 @@ public class AlgorithmTask extends SwingWorker<Integer, String> {
 			
 			
 		});
-	
+		
 		
 		
 		
 		setProgress(100);
 		publish("[>] THE " + k + " MOST INFLUENTIAL NODES ARE:");
 		publish("\t" + solution.toString());
-
+	
+		endE = System.currentTimeMillis();
+		MainFrame.executionTime = endE - beginE;
 		return null;
 	}
 

@@ -132,6 +132,7 @@ public class MainFrame extends JFrame {
 	public static ArrayList<LinkedList<NodeAndWeight>> graphOut;
 
 	private GraphFrame VisualGraph;
+	public static float executionTime;
 
 	public MainFrame() {
 
@@ -727,12 +728,12 @@ public class MainFrame extends JFrame {
 
 		consoleTextArea.append("[A:B]");
 		consoleTextArea.append("   Number of Initially-Infected Nodes:\t" + infectedSeedsList.size() + "\n\t"
-				+ infectedSeedsList.toString() + "\n");
+				+ infectedSeedsList.toString() + "\n\n");
 
 		consoleTextArea.append("[A]");
 		consoleTextArea.append("   Number of Infected Nodes After Virus Spread:\t" + noOfInfectedA + "\n");
 		consoleTextArea.append("[B]");
-		consoleTextArea.append("   Number of Infected Nodes After Virus Spread:\t" + noOfInfectedB + "\n");
+		consoleTextArea.append("   Number of Infected Nodes After Virus Spread:\t" + noOfInfectedB + "\n\n");
 
 		consoleTextArea.append("[A]");
 		consoleTextArea.append("   Percentage of Infected Nodes After Virus Spread:\t" + resultPercentA + " %\n");
@@ -789,11 +790,14 @@ public class MainFrame extends JFrame {
 			solution = s;
 			Double sss = Algorithm.steadyStateSpread(solution, rd.getNodesList_In());
 			consoleTextArea.append("[A]: SSS:\n\t" + df.format(sss) + "\n");
-
+			consoleTextArea.append("____________________________________________________\n\n");
 			int k = Integer.parseInt(kSpinner.getValue().toString());
 			sss = Algorithm.steadyStateSpread(maxDegrees, rd.getNodesList_In());
 			consoleTextArea.append("[>] THE " + k + " MAXIMUM DEGREE NODES ARE:\n\t" + maxDegrees.toString() + "\n");
 			consoleTextArea.append("[B]: SSS:\n\t" + df.format(sss) + "\n");
+			consoleTextArea.append("____________________________________________________\n\n");
+			consoleTextArea.append("[>] THE EXECUTION TIME OF ALGORITHM: "+ df.format(executionTime/1000) +" Sec\n");
+			consoleTextArea.append("____________________________________________________\n\n");
 			setCursor(Cursor.getDefaultCursor());
 			consoleTextArea.setCursor(Cursor.getDefaultCursor());
 

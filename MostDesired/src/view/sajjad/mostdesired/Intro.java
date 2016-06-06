@@ -32,7 +32,7 @@ public class Intro extends JFrame {
 
 	public Intro() throws HeadlessException {
 
-		setSize(620, 300);
+		setSize(620, 305);
 		setLayout(new BorderLayout());
 		setUndecorated(true);
 		setLocationRelativeTo(null);
