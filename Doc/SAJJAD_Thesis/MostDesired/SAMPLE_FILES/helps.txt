@@ -1,0 +1,8 @@
+Random Access File:
+http://www.javacodegeeks.com/2012/01/using-memory-mapped-file-for-huge.html
+
+Efficinet File Reading
+http://www.baeldung.com/java-read-lines-large-file
+
+To prepare DBLP_Graph, I used this line to replace _ with space:
+sed 's/_/ /g' <DBLP_Graph> DBLP_Graph1
